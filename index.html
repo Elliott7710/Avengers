@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlowGuard</title>
+<script src="script.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrapper">
+<div class="app">
+
+  <nav class="nav" aria-label="Pages">
+    <button type="button" class="nav-btn active" data-view="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Dashboard
+    </button>
+    <button type="button" class="nav-btn" data-view="invoices">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.6 2.8H6.9A2.4 2.4 0 0 0 4.5 5.2v13.6a2.4 2.4 0 0 0 2.4 2.4h10.2a2.4 2.4 0 0 0 2.4-2.4V8.4Z"/><path d="M13.6 2.8v5.6h5.5"/></svg>Invoices<span class="count" id="navCount" hidden></span>
+    </button>
+    <button type="button" class="nav-btn" data-view="orders">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5Z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9"/></svg>Orders
+    </button>
+    <button type="button" class="nav-btn" data-view="audit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.4"/><path d="M9 4V3h6v1M9 13l2.2 2.2L15 11"/></svg>Audit log
+    </button>
+    <button type="button" class="btn-ghost" id="clearBtn">Clear data</button>
+  </nav>
+
+  <section class="panel main">
+    <div class="chat-header"><span>FlowGuard</span></div>
+    <div class="panel-bar">
+      <span id="title">Dashboard</span>
+      <div class="bar-actions" id="barActions"></div>
+    </div>
+    <div class="scroll" id="content"></div>
+  </section>
+
+</div>
+</div>
+
+<aside class="panel drawer" id="drawer" aria-label="Details"></aside>
+<div class="toast" id="toast"></div>
+
+</body>
+</html>
