@@ -1,46 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FlowGuard</title>
-<script src="script.js"></script>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2b2b2b">
+  <meta name="description" content="FlowGuard brings travel requests and team insights together in one workspace.">
+  <title>FlowGuard — Work, in better flow</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="wrapper">
-<div class="app">
+<body class="landing-page">
+  <header class="landing-header">
+    <a class="brand" href="index.html" aria-label="FlowGuard home">
+      <span class="brand-mark">FG</span>
+      <span>FlowGuard</span>
+    </a>
+    <nav class="landing-nav" aria-label="Main navigation">
+      <a href="#features">Features</a>
+      <a class="btn-ghost landing-register" href="registration.html">Create account</a>
+      <a class="run-btn" href="registration.html">Sign in</a>
+    </nav>
+  </header>
 
-  <nav class="nav" aria-label="Pages">
-    <button type="button" class="nav-btn active" data-view="dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Dashboard
-    </button>
-    <button type="button" class="nav-btn" data-view="invoices">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.6 2.8H6.9A2.4 2.4 0 0 0 4.5 5.2v13.6a2.4 2.4 0 0 0 2.4 2.4h10.2a2.4 2.4 0 0 0 2.4-2.4V8.4Z"/><path d="M13.6 2.8v5.6h5.5"/></svg>Invoices<span class="count" id="navCount" hidden></span>
-    </button>
-    <button type="button" class="nav-btn" data-view="orders">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5Z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9"/></svg>Orders
-    </button>
-    <button type="button" class="nav-btn" data-view="audit">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.4"/><path d="M9 4V3h6v1M9 13l2.2 2.2L15 11"/></svg>Audit log
-    </button>
-    <button type="button" class="btn-ghost" id="clearBtn">Clear data</button>
-  </nav>
+  <main class="landing-main">
+    <section class="landing-hero">
+      <div class="landing-copy">
+        <div class="eyebrow">A clearer way to work</div>
+        <h1>Keep your work<br>moving forward.</h1>
+        <p>Bring travel requests, approvals and team insights together in one calm, connected workspace.</p>
+        <div class="landing-actions">
+          <a class="run-btn" href="registration.html">Sign in to FlowGuard</a>
+          <a class="landing-secondary" href="#features">Explore features <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="landing-note">Already have an account? Sign in to open your workspace.</p>
+      </div>
 
-  <section class="panel main">
-    <div class="chat-header"><span>FlowGuard</span></div>
-    <div class="panel-bar">
-      <span id="title">Dashboard</span>
-      <div class="bar-actions" id="barActions"></div>
-    </div>
-    <div class="scroll" id="content"></div>
-  </section>
+      <div class="landing-preview" aria-label="FlowGuard workspace preview">
+        <div class="preview-top">
+          <div class="preview-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span>Workspace overview</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-greeting">
+            <span class="preview-kicker">YOUR WORKSPACE</span>
+            <strong>Everything in flow.</strong>
+            <span>Travel and insights, together.</span>
+          </div>
+          <div class="preview-items">
+            <div class="preview-item">
+              <span class="preview-icon" aria-hidden="true">↗</span>
+              <span><strong>Travel</strong><small>Requests and approvals</small></span>
+              <span class="preview-arrow" aria-hidden="true">→</span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-icon" aria-hidden="true">▥</span>
+              <span><strong>Insights</strong><small>Team trends and coaching</small></span>
+              <span class="preview-arrow" aria-hidden="true">→</span>
+            </div>
+          </div>
+          <div class="preview-foot"><span></span> A more connected workspace</div>
+        </div>
+      </div>
+    </section>
 
-</div>
-</div>
+    <section class="landing-features" id="features">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">One workspace, clear direction</div>
+          <h2>Tools that work better together.</h2>
+          <p>Start with the essentials and grow your workspace as your team needs more.</p>
+        </div>
+      </div>
+      <div class="landing-feature-grid">
+        <article class="landing-feature">
+          <span class="card-icon" aria-hidden="true">↗</span>
+          <h3>Travel, made clearer</h3>
+          <p>Keep requests, approvals and bookings organized, with a place to link related claims.</p>
+        </article>
+        <article class="landing-feature">
+          <span class="card-icon" aria-hidden="true">▥</span>
+          <h3>Insights with context</h3>
+          <p>See team-level trends and coaching prompts that support better conversations.</p>
+        </article>
+        <article class="landing-feature">
+          <span class="card-icon" aria-hidden="true">◇</span>
+          <h3>One connected view</h3>
+          <p>Move between the work that needs action and the information that helps guide it.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
-<aside class="panel drawer" id="drawer" aria-label="Details"></aside>
-<div class="toast" id="toast"></div>
-
+  <footer class="landing-footer">
+    <a class="brand" href="index.html"><span class="brand-mark">FG</span><span>FlowGuard</span></a>
+    <span>Travel and team insights, in one workspace.</span>
+  </footer>
 </body>
 </html>
