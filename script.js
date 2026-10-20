@@ -21,6 +21,18 @@
    ===================================================================== */
 
 const CURRENCY = "MYR"; // change to "USD", "SGD", etc.
+const COUNTRY_NAMES = (() => {
+  const displayNames = new Intl.DisplayNames(["en"], {type: "region"});
+  const names = [];
+  for (let first = 65; first <= 90; first++) {
+    for (let second = 65; second <= 90; second++) {
+      const code = String.fromCharCode(first, second);
+      const name = displayNames.of(code);
+      if (name && name !== code) names.push(name);
+    }
+  }
+  return [...new Set(names)].sort((a, b) => a.localeCompare(b));
+})();
 
 const MODULES = [
   {
@@ -32,7 +44,7 @@ const MODULES = [
     filter: "status",
     fields: [
       {key: "traveller", label: "Traveller", type: "text", required: true, placeholder: "Full name"},
-      {key: "destination", label: "Destination", type: "text", required: true, placeholder: "City or country"},
+      {key: "destination", label: "Destination", type: "text", required: true, placeholder: "City or country", suggestions: "countries"},
       {key: "start", label: "Departure", type: "date", required: true},
       {key: "end", label: "Return", type: "date", required: true},
       {key: "cost", label: "Estimated cost", type: "number", required: true, placeholder: "0.00"},
@@ -164,21 +176,24 @@ function renderPage() {
 
 function inputFor(f, value) {
   const v = value ?? "";
-  const common = `data-k="${f.key}" ${f.placeholder ? `placeholder="${esc(f.placeholder)}"` : ""}`;
+  const list = f.suggestions === "countries" ? 'list="countrySuggestions"' : "";
+  const common = `data-k="${f.key}" ${list} ${f.placeholder ? `placeholder="${esc(f.placeholder)}"` : ""}`;
   if (f.type === "textarea") return `<textarea ${common}>${esc(v)}</textarea>`;
   if (f.type === "select") return `<select ${common}>${f.options.map(o => `<option ${o === v ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
   return `<input ${common} type="${f.type}" ${f.type === "number" ? 'step="0.01" min="0"' : ""} value="${esc(v)}">`;
 }
 
-function renderDrawer() {
-  const el = $("#drawer");
-  if (!S.edit) { el.classList.remove("open"); el.innerHTML = ""; return; }
+function renderEntryPanel() {
+  const el = $("#entryPanel");
+  if (!S.edit) { el.classList.remove("open"); el.hidden = true; el.innerHTML = ""; return; }
   const m = mod();
   const rec = S.edit.id ? rows().find(r => r.id === S.edit.id) : null;
+  el.hidden = false;
   el.innerHTML = `
     <div class="d-head"><h2>${rec ? esc(rec.id) : `New ${esc(m.singular)}`}</h2><button type="button" class="x-btn" data-close aria-label="Close">&times;</button></div>
     <div class="d-body">
-      ${m.fields.map(f => `<div class="field"><label>${esc(f.label)}</label>${inputFor(f, rec ? rec[f.key] : "")}</div>`).join("")}
+      ${m.fields.map(f => `<div class="field${f.type === "textarea" ? " field-wide" : ""}"><label>${esc(f.label)}</label>${inputFor(f, rec ? rec[f.key] : "")}</div>`).join("")}
+      ${m.id === "travel" ? `<datalist id="countrySuggestions">${COUNTRY_NAMES.map(country => `<option value="${esc(country)}"></option>`).join("")}</datalist>` : ""}
       <div class="err" id="err"></div>
     </div>
     <div class="d-foot">
@@ -186,14 +201,23 @@ function renderDrawer() {
       <button type="button" class="run-btn" data-save>${rec ? "Save changes" : `Add ${esc(m.singular)}`}</button>
     </div>`;
   el.classList.add("open");
+  if (m.id === "travel") updateCountryOptions(rec ? rec.destination : "");
   const first = el.querySelector("input, select, textarea");
   if (first && !rec) first.focus();
+}
+
+function updateCountryOptions(query) {
+  const list = $("#countrySuggestions");
+  if (!list) return;
+  const search = query.trim().toLowerCase();
+  const matches = COUNTRY_NAMES.filter(country => !search || country.toLowerCase().includes(search));
+  list.innerHTML = matches.map(country => `<option value="${esc(country)}"></option>`).join("");
 }
 
 function saveRecord() {
   const m = mod(), vals = {};
   for (const f of m.fields) {
-    const raw = document.querySelector(`#drawer [data-k="${f.key}"]`).value.trim();
+    const raw = document.querySelector(`#entryPanel [data-k="${f.key}"]`).value.trim();
     if (f.required && !raw) return ($("#err").textContent = `${f.label} is required.`);
     if (f.type === "number" && raw !== "" && !(parseFloat(raw) >= 0)) return ($("#err").textContent = `${f.label} must be a number.`);
     vals[f.key] = f.type === "number" && raw !== "" ? parseFloat(raw) : raw;
@@ -207,7 +231,7 @@ function saveRecord() {
   render();
 }
 
-function render() { renderPage(); renderDrawer(); }
+function render() { renderPage(); renderEntryPanel(); }
 
 /* ---------- events ---------- */
 
@@ -225,6 +249,10 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
+  if (e.target.matches('[data-k="destination"]')) {
+    updateCountryOptions(e.target.value);
+    return;
+  }
   if (e.target.id === "q") {
     S.q = e.target.value;
     const p = e.target.selectionStart;

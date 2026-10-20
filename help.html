@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2b2b2b">
+  <title>FlowGuard — Help</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="help">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="overview.html" aria-label="FlowGuard overview"><span class="brand-mark">FG</span><span>FlowGuard</span></a>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-btn" href="overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"/></svg>Overview</a>
+        <a class="nav-btn" href="travel.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 13.5 21 4l-4 16-5.5-5-3 3-.5-5Z"/><path d="m11.5 15 9.5-11"/></svg>Travel</a>
+        <a class="nav-btn" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Insights</a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-note"><strong>Workspace preview</strong>Your travel and insights tools are taking shape.</div>
+      <a class="profile profile-button" href="profile.html"><span class="avatar" aria-hidden="true">U</span><span class="profile-name">User<span>Workspace</span></span></a>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumb"><a href="overview.html">Workspace</a> <span aria-hidden="true">/</span> Help</div>
+        <div class="topbar-actions"><a class="help-link" href="help.html" aria-current="page">Help</a><a class="account-button" href="profile.html" aria-label="Open User's profile"><span class="avatar" aria-hidden="true">U</span><span>User</span></a></div>
+      </header>
+      <div class="page-content">
+        <section aria-labelledby="help-title">
+          <div class="overview-heading help-heading">
+            <div class="eyebrow">Support</div>
+            <h1 id="help-title">How can we help?</h1>
+            <p>Answers about travel requests, team insights, and your FlowGuard workspace.</p>
+            <div class="help-shortcuts" aria-label="Help topics">
+              <a href="#travel-help">Travel</a>
+              <a href="#insights-help">Insights</a>
+              <a href="#workspace-help">Workspace and data</a>
+            </div>
+          </div>
+
+          <div class="help-search-row">
+            <label class="help-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>
+              <input id="faqSearch" type="search" placeholder="Search FAQs" aria-label="Search frequently asked questions">
+            </label>
+            <p class="help-results" id="faqResults" role="status" aria-live="polite">8 answers</p>
+          </div>
+
+          <div class="help-empty" id="faqEmpty" role="status" hidden>No answers found. Try another search.</div>
+
+          <div class="help-groups">
+            <section class="help-group" id="travel-help" aria-labelledby="travel-help-title">
+              <div class="section-heading"><div><h2 id="travel-help-title">Travel</h2><p>Requests, destinations, and approvals</p></div><a class="help-module-link" href="travel.html">Open Travel</a></div>
+              <div class="help-faqs">
+                <details class="help-faq">
+                  <summary>How do I create a travel request?</summary>
+                  <div class="help-answer"><p>Open Travel, select <strong>New request</strong>, fill in the required fields, then choose <strong>Add request</strong>. Your request will appear in the list below the summary boxes.</p></div>
+                </details>
+                <details class="help-faq">
+                  <summary>Can I enter a city or a custom destination?</summary>
+                  <div class="help-answer"><p>Yes. Start typing to see matching country suggestions, or enter any city, region, or other destination. Suggestions do not restrict what you can save.</p></div>
+                </details>
+                <details class="help-faq">
+                  <summary>How do I update a request or its status?</summary>
+                  <div class="help-answer"><p>Select a request row to edit it. Change its details or status, then save. To remove a request, open it and choose <strong>Delete</strong>.</p></div>
+                </details>
+              </div>
+            </section>
+
+            <section class="help-group" id="insights-help" aria-labelledby="insights-help-title">
+              <div class="section-heading"><div><h2 id="insights-help-title">Insights</h2><p>Team trends and coaching context</p></div><a class="help-module-link" href="insights.html">Open Insights</a></div>
+              <div class="help-faqs">
+                <details class="help-faq">
+                  <summary>What should an Insights entry contain?</summary>
+                  <div class="help-answer"><p>Choose a team, add the person or team name, period, metric, and value. A coaching note is optional and can provide context for a conversation.</p></div>
+                </details>
+                <details class="help-faq">
+                  <summary>Can I edit or remove an Insights entry?</summary>
+                  <div class="help-answer"><p>Select its row to open the entry. From there you can save changes or delete it.</p></div>
+                </details>
+                <details class="help-faq">
+                  <summary>Are Insights individual performance scores?</summary>
+                  <div class="help-answer"><p>No. The module is intended for team-level work trends and coaching prompts, not surveillance scores.</p></div>
+                </details>
+              </div>
+            </section>
+
+            <section class="help-group" id="workspace-help" aria-labelledby="workspace-help-title">
+              <div class="section-heading"><div><h2 id="workspace-help-title">Workspace and data</h2><p>What this preview currently supports</p></div></div>
+              <div class="help-faqs">
+                <details class="help-faq">
+                  <summary>Where is my data saved?</summary>
+                  <div class="help-answer"><p>Travel requests and Insights entries are saved in this browser on this device. They are not synced to an account or shared with other users. Clearing browser site data may remove them.</p></div>
+                </details>
+                <details class="help-faq">
+                  <summary>Does Create account or Sign in create an account?</summary>
+                  <div class="help-answer"><p>Not yet. Those screens are visual previews; there is no account service or server connection in this version.</p></div>
+                </details>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    const faqSearch = document.querySelector("#faqSearch");
+    const faqResults = document.querySelector("#faqResults");
+    const faqEmpty = document.querySelector("#faqEmpty");
+    const faqGroups = [...document.querySelectorAll(".help-group")];
+
+    function filterFaqs() {
+      const query = faqSearch.value.trim().toLowerCase();
+      let count = 0;
+
+      faqGroups.forEach(group => {
+        let groupCount = 0;
+        group.querySelectorAll(".help-faq").forEach(faq => {
+          const matches = !query || faq.textContent.toLowerCase().includes(query);
+          faq.hidden = !matches;
+          if (matches) groupCount++;
+        });
+        group.hidden = groupCount === 0;
+        count += groupCount;
+      });
+
+      faqResults.textContent = `${count} ${count === 1 ? "answer" : "answers"}`;
+      faqEmpty.hidden = count !== 0;
+    }
+
+    faqSearch.addEventListener("input", filterFaqs);
+    faqSearch.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        faqSearch.value = "";
+        filterFaqs();
+        faqSearch.blur();
+      }
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "/" && !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) {
+        event.preventDefault();
+        faqSearch.focus();
+      }
+    });
+  </script>
+</body>
+</html>
