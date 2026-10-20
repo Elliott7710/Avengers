@@ -1,63 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#2b2b2b">
-  <meta name="description" content="Create a FlowGuard workspace account.">
-  <title>FlowGuard — Create account</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="auth-page">
-  <main class="auth-wrapper">
-    <a class="auth-brand brand" href="index.html" aria-label="FlowGuard home">
-      <span class="brand-mark">FG</span>
-      <span>FlowGuard</span>
-    </a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2b2b2b" />
+    <meta name="description" content="Create a FlowGuard workspace account." />
+    <title>FlowGuard — Create account</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-wrapper">
+      <a class="auth-brand brand" href="index.html" aria-label="FlowGuard home">
+        <span class="brand-mark">FG</span>
+        <span>FlowGuard</span>
+      </a>
 
-    <section class="auth-box" aria-labelledby="registration-title">
-      <div class="auth-header">
-        <span id="registration-title">Create account</span>
-      </div>
-      <p class="auth-intro">Set up your account to get started with FlowGuard.</p>
-
-      <form class="auth-form">
-        <div class="auth-field">
-          <label for="full-name">Full name</label>
-          <input id="full-name" name="fullName" type="text" autocomplete="name" placeholder="Your name" required>
+      <section class="auth-box" aria-labelledby="registration-title">
+        <div class="auth-header">
+          <span id="registration-title">Create account</span>
         </div>
+        <p class="auth-intro">
+          Set up your account to get started with FlowGuard.
+        </p>
 
-        <div class="auth-field">
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-        </div>
+        <form class="auth-form" id="registerForm">
+          <div class="auth-field">
+            <label for="full-name">Full name</label>
+            <input
+              id="full-name"
+              name="fullName"
+              type="text"
+              autocomplete="name"
+              placeholder="Your name"
+              required
+            />
+          </div>
 
-        <div class="auth-field">
-          <label for="username">Username</label>
-          <input id="username" name="username" type="text" autocomplete="username" placeholder="Choose a username" required>
-        </div>
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
 
-        <div class="auth-field">
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Create a password" required>
-        </div>
+          <div class="auth-field">
+            <label for="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              autocomplete="username"
+              placeholder="Choose a username"
+              required
+            />
+          </div>
 
-        <div class="auth-field">
-          <label for="confirm-password">Confirm password</label>
-          <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Enter your password again" required>
-        </div>
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Create a password"
+              required
+            />
+          </div>
 
-        <label class="auth-terms">
-          <input type="checkbox" name="terms" required>
-          <span>I agree to the terms and privacy policy.</span>
-        </label>
+          <div class="auth-field">
+            <label for="confirm-password">Confirm password</label>
+            <input
+              id="confirm-password"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Enter your password again"
+              required
+            />
+          </div>
 
-        <button class="auth-submit" type="button">Create account</button>
-      </form>
+          <label class="auth-terms">
+            <input type="checkbox" name="terms" required />
+            <span>I agree to the terms and privacy policy.</span>
+          </label>
 
-      <p class="auth-demo-note">Registration is a visual preview and does not create or save an account yet.</p>
-      <p class="auth-switch">Already have an account? <a href="index.html">Return to FlowGuard</a></p>
-    </section>
-  </main>
-</body>
+          <button class="auth-submit" type="submit">Create account</button>
+        </form>
+
+        <p class="auth-demo-note">
+          Registration is a visual preview and does not create or save an
+          account yet.
+        </p>
+        <p class="auth-switch">
+          Already have an account? <a href="index.html">Return to FlowGuard</a>
+        </p>
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
 </html>
