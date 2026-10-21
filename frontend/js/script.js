@@ -22,6 +22,19 @@
 
 const CURRENCY = "MYR"; // change to "USD", "SGD", etc.
 
+const CITIES_BY_COUNTRY = {
+  Australia: ["Melbourne", "Perth", "Sydney"],
+  China: ["Beijing", "Shanghai", "Shenzhen"],
+  Indonesia: ["Denpasar", "Jakarta", "Surabaya"],
+  Japan: ["Kyoto", "Osaka", "Tokyo"],
+  Malaysia: ["George Town", "Johor Bahru", "Kota Kinabalu", "Kuala Lumpur", "Kuching", "Malacca City", "Shah Alam"],
+  "South Korea": ["Busan", "Seoul"],
+  Singapore: ["Singapore"],
+  Thailand: ["Bangkok", "Chiang Mai", "Phuket"],
+  "United Kingdom": ["Edinburgh", "London", "Manchester"],
+  "United States": ["Los Angeles", "New York", "San Francisco"]
+};
+
 const MODULES = [
   {
     id: "travel",
@@ -32,18 +45,19 @@ const MODULES = [
     filter: "status",
     fields: [
       {key: "traveller", label: "Traveller", type: "text", required: true, placeholder: "Full name"},
-      {key: "destination", label: "Destination", type: "text", required: true, placeholder: "City or country"},
+      {key: "country", label: "Country", type: "country", required: true},
+      {key: "city", label: "City", type: "city", required: true},
       {key: "start", label: "Departure", type: "date", required: true},
       {key: "end", label: "Return", type: "date", required: true},
       {key: "cost", label: "Estimated cost", type: "number", required: true, placeholder: "0.00"},
       {key: "claim", label: "Linked claim (optional)", type: "text", placeholder: "e.g. CLM-001"},
-      {key: "status", label: "Status", type: "select", options: ["Requested", "Approved", "Booked", "Rejected"]},
       {key: "purpose", label: "Purpose", type: "textarea", placeholder: "Why is this trip needed?"}
     ],
     columns: [
       {key: "id", label: "Request"},
       {key: "traveller", label: "Traveller"},
-      {key: "destination", label: "Destination"},
+      {key: "country", label: "Country"},
+      {key: "city", label: "City"},
       {key: "start", label: "Departure", type: "date"},
       {key: "cost", label: "Cost", type: "money"},
       {key: "claim", label: "Claim"},
@@ -117,7 +131,7 @@ function toast(msg) {
 }
 
 function cell(col, row) {
-  const v = row[col.key];
+  const v = col.key === "city" ? row.city || row.destination : row[col.key];
   if (v === undefined || v === "") return "—";
   if (col.type === "money") return money(parseFloat(v));
   if (col.type === "date") return fdate(v);
@@ -137,10 +151,13 @@ function renderPage() {
 
   $("#stats").innerHTML = m.stats.map(s => `<div class="stat"><b>${esc(s.fn(all))}</b><span>${esc(s.label)}</span></div>`).join("");
 
-  const f = m.filter && m.fields.find(x => x.key === m.filter);
+  const filterField = m.filter && m.fields.find(x => x.key === m.filter);
+  const filterOptions = m.filter === "status"
+    ? ["Requested", "Approved", "Booked", "Rejected"]
+    : filterField?.options;
   $("#toolbar").innerHTML = all.length ? `
     <input id="q" placeholder="Search ${esc(m.label.toLowerCase())}…" value="${esc(S.q)}">
-    ${f ? `<select id="filter"><option value="all">All ${esc(f.label.toLowerCase())}</option>${f.options.map(o => `<option ${S.filter === o ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>` : ""}` : "";
+    ${filterOptions ? `<select id="filter"><option value="all">All ${esc(m.filter)}</option>${filterOptions.map(o => `<option ${S.filter === o ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>` : ""}` : "";
 
   if (!all.length) {
     $("#table").innerHTML = `<div class="card"><div class="empty">No ${esc(m.label.toLowerCase())} ${esc(m.singular)}s yet.<br>Add your first one to get started.<br><button type="button" class="run-btn" data-new>+ New ${esc(m.singular)}</button></div></div>`;
@@ -149,7 +166,7 @@ function renderPage() {
 
   const q = S.q.trim().toLowerCase();
   const shown = all.filter(r =>
-    (!f || S.filter === "all" || r[f.key] === S.filter) &&
+    (!m.filter || S.filter === "all" || r[m.filter] === S.filter) &&
     (!q || Object.values(r).join(" ").toLowerCase().includes(q)));
 
   $("#table").innerHTML = `
@@ -162,10 +179,18 @@ function renderPage() {
 
 /* ---------- drawer form ---------- */
 
-function inputFor(f, value) {
+function inputFor(f, value, country) {
   const v = value ?? "";
   const common = `data-k="${f.key}" ${f.placeholder ? `placeholder="${esc(f.placeholder)}"` : ""}`;
   if (f.type === "textarea") return `<textarea ${common}>${esc(v)}</textarea>`;
+  if (f.type === "country") {
+    const countries = Object.keys(CITIES_BY_COUNTRY).sort();
+    return `<select ${common} required><option value="">Select a country</option>${countries.map(country => `<option value="${esc(country)}" ${country === v ? "selected" : ""}>${esc(country)}</option>`).join("")}</select>`;
+  }
+  if (f.type === "city") {
+    const cities = CITIES_BY_COUNTRY[country] || [];
+    return `<select ${common} required ${cities.length ? "" : "disabled"}><option value="">${cities.length ? "Select a city" : "Choose a country first"}</option>${cities.map(city => `<option value="${esc(city)}" ${city === v ? "selected" : ""}>${esc(city)}</option>`).join("")}</select>`;
+  }
   if (f.type === "select") return `<select ${common}>${f.options.map(o => `<option ${o === v ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
   return `<input ${common} type="${f.type}" ${f.type === "number" ? 'step="0.01" min="0"' : ""} value="${esc(v)}">`;
 }
@@ -178,7 +203,7 @@ function renderDrawer() {
   el.innerHTML = `
     <div class="d-head"><h2>${rec ? esc(rec.id) : `New ${esc(m.singular)}`}</h2><button type="button" class="x-btn" data-close aria-label="Close">&times;</button></div>
     <div class="d-body">
-      ${m.fields.map(f => `<div class="field"><label>${esc(f.label)}</label>${inputFor(f, rec ? rec[f.key] : "")}</div>`).join("")}
+      ${m.fields.map(f => `<div class="field"><label>${esc(f.label)}</label>${inputFor(f, rec ? rec[f.key] : "", rec?.country)}</div>`).join("")}
       <div class="err" id="err"></div>
     </div>
     <div class="d-foot">
@@ -200,7 +225,11 @@ function saveRecord() {
   }
   const rec = S.edit.id ? rows().find(r => r.id === S.edit.id) : null;
   if (rec) Object.assign(rec, vals);
-  else DB[m.id].unshift({id: nextId(m), ...vals});
+  else {
+    const newRecord = {id: nextId(m), ...vals};
+    if (m.id === "travel") newRecord.status = "Requested";
+    DB[m.id].unshift(newRecord);
+  }
   save();
   toast(rec ? "Changes saved" : `${m.label}: ${m.singular} added`);
   S.edit = null;
@@ -235,6 +264,12 @@ document.addEventListener("input", e => {
 
 document.addEventListener("change", e => {
   if (e.target.id === "filter") { S.filter = e.target.value; renderPage(); }
+  if (e.target.matches('#drawer [data-k="country"]')) {
+    const citySelect = document.querySelector('#drawer [data-k="city"]');
+    const cities = CITIES_BY_COUNTRY[e.target.value] || [];
+    citySelect.innerHTML = `<option value="">${cities.length ? "Select a city" : "Choose a country first"}</option>${cities.map(city => `<option value="${esc(city)}">${esc(city)}</option>`).join("")}`;
+    citySelect.disabled = !cities.length;
+  }
 });
 
 document.addEventListener("keydown", e => {
