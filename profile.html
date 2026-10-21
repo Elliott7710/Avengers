@@ -53,7 +53,11 @@
             Travel
           </a>
 
-          <a class="nav-btn" href="insights.html">
+          <a
+            class="nav-btn manager-only"
+            href="insights.html"
+            data-role-required="manager"
+          >
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -188,6 +192,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
+    <script src="js/roles.js"></script>
     <script src="js/profile.js"></script>
   </body>
 </html>

@@ -37,6 +37,13 @@ async function loadProfile() {
     const username = profile.username || user.user_metadata?.username || "—";
 
     const role = profile.role || "employee";
+    // Normalize the role for consistent comparisons.
+    const normalizedRole = role.toLowerCase().trim();
+
+    document.body.dataset.role = normalizedRole;
+
+    console.log("Current user role:", normalizedRole);
+
     const initial = name.trim().charAt(0).toUpperCase() || "U";
 
     // 5. Update the profile card.
