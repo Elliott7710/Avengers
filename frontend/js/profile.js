@@ -14,7 +14,7 @@ async function loadProfile() {
 
     // 2. Redirect to login if no user is signed in.
     if (!user) {
-      window.location.replace("login.html");
+      window.location.replace("signin.html");
       return;
     }
 
