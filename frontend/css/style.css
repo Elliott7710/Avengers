@@ -61,6 +61,7 @@ a {
   background: rgba(18, 18, 18, 0.52);
   -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
+  transition: width 180ms ease, padding 180ms ease;
 }
 
 .brand {
@@ -86,6 +87,33 @@ a {
   color: #fff;
   font-size: 15px;
   letter-spacing: -0.06em;
+}
+
+.sidebar-toggle {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 2px 0;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.86);
+  cursor: pointer;
+  font-size: 11px;
+  text-align: left;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.sidebar-toggle-icon {
+  width: 18px;
+  font-size: 21px;
+  line-height: 1;
+  text-align: center;
 }
 
 .nav-label {
@@ -207,6 +235,54 @@ a {
   min-width: 0;
   min-height: 100vh;
   margin-left: 248px;
+  transition: width 180ms ease, margin-left 180ms ease;
+}
+
+.app-shell.sidebar-collapsed .sidebar {
+  width: 76px;
+  align-items: center;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.app-shell.sidebar-collapsed .brand {
+  padding: 0;
+}
+
+.app-shell.sidebar-collapsed .brand > span:last-child,
+.app-shell.sidebar-collapsed .sidebar-toggle-label,
+.app-shell.sidebar-collapsed .nav-label,
+.app-shell.sidebar-collapsed .nav-btn > span,
+.app-shell.sidebar-collapsed .sidebar-note,
+.app-shell.sidebar-collapsed .profile-name {
+  display: none;
+}
+
+.app-shell.sidebar-collapsed .sidebar-toggle {
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
+
+.app-shell.sidebar-collapsed .nav,
+.app-shell.sidebar-collapsed .profile-button {
+  width: 100%;
+}
+
+.app-shell.sidebar-collapsed .nav-btn {
+  justify-content: center;
+  padding: 0;
+}
+
+.app-shell.sidebar-collapsed .profile-button {
+  justify-content: center;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.app-shell.sidebar-collapsed .main-area {
+  width: calc(100% - 76px);
+  margin-left: 76px;
 }
 
 .topbar {
@@ -497,6 +573,58 @@ textarea:focus-visible {
   flex-wrap: wrap;
   gap: 9px;
   margin-bottom: 14px;
+}
+
+.admin-notice {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 214, 102, 0.42);
+  border-radius: 9px;
+  background: rgba(255, 214, 102, 0.1);
+  color: rgba(255, 244, 208, 0.94);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.admin-toolbar {
+  margin-top: 16px;
+}
+
+.admin-toolbar input {
+  max-width: 360px;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+}
+
+.admin-table-wrap table {
+  min-width: 900px;
+}
+
+.admin-purpose {
+  max-width: 220px;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-action {
+  min-height: 32px;
+  padding: 0 9px;
+  font-size: 11px;
+}
+
+.admin-status {
+  min-width: 112px;
+  max-width: 130px;
 }
 
 .toolbar input {
@@ -1375,6 +1503,21 @@ a:active {
     border-bottom: 1px solid var(--line);
   }
 
+  .sidebar-toggle {
+    position: absolute;
+    top: 13px;
+    right: 14px;
+    width: 38px;
+    min-height: 32px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar-toggle-label {
+    display: none;
+  }
+
   .brand {
     padding: 0 2px 9px;
     font-size: 17px;
@@ -1391,6 +1534,31 @@ a:active {
   .sidebar-note,
   .profile {
     display: none;
+  }
+
+  .app-shell.sidebar-collapsed .sidebar {
+    width: 100%;
+    align-items: stretch;
+    padding: 12px 15px 9px;
+  }
+
+  .app-shell.sidebar-collapsed .brand {
+    padding: 0 2px 9px;
+  }
+
+  .app-shell.sidebar-collapsed .brand > span:last-child,
+  .app-shell.sidebar-collapsed .nav {
+    display: none;
+  }
+
+  .app-shell.sidebar-collapsed .nav-btn {
+    justify-content: center;
+    padding: 0 11px;
+  }
+
+  .app-shell.sidebar-collapsed .main-area {
+    width: 100%;
+    margin-left: 0;
   }
 
   .nav {

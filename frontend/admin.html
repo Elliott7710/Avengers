@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2b2b2b">
+  <title>FlowGuard — Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="admin">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="overview.html" aria-label="FlowGuard overview"><span class="brand-mark">FG</span><span>FlowGuard</span></a>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-btn" href="overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"/></svg><span>Overview</span></a>
+        <a class="nav-btn" href="travel.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 13.5 21 4l-4 16-5.5-5-3 3-.5-5Z"/><path d="m11.5 15 9.5-11"/></svg><span>Travel</span></a>
+        <a class="nav-btn" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><span>Insights</span></a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-note"><strong>Workspace preview</strong>Your travel and insights tools are taking shape.</div>
+      <a class="profile profile-button" href="profile.html"><span class="avatar" aria-hidden="true">U</span><span class="profile-name">User<span>Workspace</span></span></a>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumb"><a href="overview.html">Workspace</a> <span aria-hidden="true">/</span> Admin</div>
+        <div class="topbar-actions"><a class="account-button" href="profile.html" aria-label="Open profile"><span class="avatar" aria-hidden="true">U</span><span>User</span></a></div>
+      </header>
+      <div class="page-content">
+        <section class="main">
+          <div class="module-heading">
+            <div><div class="eyebrow">Workspace tools</div><h1>Travel requests</h1><p class="module-description">Review requests and update their status.</p></div>
+          </div>
+          <p class="admin-notice" id="admin-message" role="status" aria-live="polite"></p>
+          <div class="stats" id="admin-stats"></div>
+          <div class="toolbar admin-toolbar">
+            <input id="admin-search" type="search" placeholder="Search requests" aria-label="Search travel requests">
+            <select id="admin-filter" aria-label="Filter by request status">
+              <option value="all">All statuses</option>
+              <option>Requested</option>
+              <option>Approved</option>
+              <option>Booked</option>
+              <option>Rejected</option>
+            </select>
+          </div>
+          <div id="admin-table"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="js/sidebar.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
