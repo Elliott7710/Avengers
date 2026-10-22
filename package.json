@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "node server.cjs",
-    "start": "node server.cjs"
+    "start": "node server.cjs",
+    "test": "node --test"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0"

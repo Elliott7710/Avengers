@@ -10,7 +10,7 @@ This is a working product checklist based on the current repository review. It i
 - **Database and files:** The app currently uses Supabase Auth and reads profile roles from `profiles`. Travel and Insights records are also stored in Supabase PostgreSQL tables. No Replit App Storage integration or user file-upload feature was found. Do not describe the database as registration-only.
 - **Browser-stored data:** The app still reads legacy Travel and Insights records from `localStorage` and keeps the source copy plus a migration marker after import. Account deletion must account for those copies on the user's browsers.
 - **Security and domain:** The frontend contains a Supabase publishable key, which is intended for browser use; private/service-role keys must never be exposed there. No custom domain is set up, so Cloudflare cannot yet be checked for domain/zone security configuration.
-- **Calculations:** Travel spend is currently the sum of all request costs, including rejected requests. Values are parsed as JavaScript floating-point numbers. The display currency is MYR, while dates and currency formatting use `en-US` locale settings. Product owners still need to confirm the intended rules.
+- **Calculations:** Estimated spend now includes requested, approved, and booked trips and excludes rejected trips. Totals are accumulated in cents; invalid active costs produce a visible warning. Currency is currently MYR, while dates and currency formatting use `en-US` locale settings; these settings still need product confirmation.
 - **Assets and cookies:** No local image or font files were found. The stylesheet loads a remote background image from an external website; its reuse rights are not documented. Inter is named as a font with system fallbacks, but no Inter font file is bundled. No analytics or tracking-cookie code was found in the repository; verify the deployed app and Supabase auth behavior before making a public cookie statement.
 
 ## 1. Product, legal, and privacy decisions
@@ -18,8 +18,10 @@ This is a working product checklist based on the current repository review. It i
 - [ ] Decide who will operate FlowGuard and register the legal entity before publication; provide its exact legal name, country, and public-facing brand name.
 - [ ] Confirm Malaysia as the first operating country and identify which additional jurisdictions to support. The intended market is small businesses worldwide; obtain jurisdiction-specific review before offering globally.
 - [ ] Provide a public support contact.
-- [x] Choose an in-app form as the privacy/data-request channel; implement it and ensure requests reach authorized company management.
-- [ ] Adopt 16+ as the intended age floor, subject to checking applicable laws in each supported market; decide how reports of underage accounts will be handled.
+- [x] Choose an in-app form as the privacy/data-request channel.
+- [ ] Implement the form and ensure requests reach only authorized company management.
+- [x] Set 16+ as the intended minimum age.
+- [ ] Verify that age requirement against applicable laws in each supported market and decide how reports of underage accounts will be handled.
 - [x] Current product is planned to be free, with no subscription, paid tier, checkout, or in-app purchase.
 - [ ] List the data FlowGuard collects and why: account details, profile/role, travel requests, costs, destinations, dates, insights, coaching notes, and any operational logs.
 - [ ] Confirm retention periods for account, travel, insight, and security data.
@@ -45,13 +47,13 @@ This is a working product checklist based on the current repository review. It i
 
 ## 4. Correct and test calculations
 
-- [ ] Define “Estimated spend”: choose which of requested, approved, booked, rejected, and cancelled travel requests count.
-- [ ] Define whether totals are estimates or actuals, whether costs may be zero/negative, and how missing or invalid values are handled.
+- [x] Estimated spend includes requested, approved, and booked requests; rejected requests are excluded. There is no separate cancelled status in the current form.
+- [x] Costs are estimates, zero is allowed, and negative or non-numeric entry is rejected. Invalid stored active costs show a warning instead of being silently counted as zero.
 - [ ] Confirm the business currency (currently MYR) and expected display locale, decimal precision, rounding, and formatting.
 - [ ] Decide whether users may enter multiple currencies; if yes, define the exchange-rate source, rate date, and conversion/rounding rules.
 - [ ] Validate numeric values at input and before saving; reject non-finite and out-of-range values.
-- [ ] Use decimal-safe arithmetic for currency totals where precision matters.
-- [ ] Add tests for empty data, decimal values, large values, invalid values, each request status, and currency formatting.
+- [x] Use cent-based arithmetic for currency totals.
+- [ ] Expand tests to cover large values and currency formatting; current tests cover empty data, decimal values, status inclusion/exclusion, and invalid values.
 - [ ] Define and test the Insights aggregation rules, including date-period ordering and treatment of duplicate or incomplete entries.
 
 ## 5. Fonts, images, and third-party assets

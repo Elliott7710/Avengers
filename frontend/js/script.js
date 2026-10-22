@@ -53,7 +53,13 @@ const MODULES = [
       {label: "Requests", fn: r => r.length},
       {label: "Awaiting approval", fn: r => r.filter(x => x.status === "Requested").length},
       {label: "Approved or booked", fn: r => r.filter(x => x.status === "Approved" || x.status === "Booked").length},
-      {label: "Estimated spend", fn: r => money(sum(r, "cost"))}
+      {label: "Estimated spend", fn: r => {
+        try {
+          return money(window.FlowGuardCalculations.sumEstimatedSpend(r));
+        } catch {
+          return "Check travel costs";
+        }
+      }}
     ]
   },
   {
@@ -104,7 +110,6 @@ let migrationNotice = "";
 const S = {mod: document.body.dataset.page, q: "", filter: "all", edit: null};
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
-const sum = (rows, k) => rows.reduce((t, r) => t + (parseFloat(r[k]) || 0), 0);
 const money = n => new Intl.NumberFormat("en-US", {style: "currency", currency: CURRENCY}).format(n);
 const fdate = d => d ? new Date(d + "T00:00").toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"}) : "—";
 const mod = () => MODULES.find(m => m.id === S.mod);
@@ -277,7 +282,10 @@ function toast(msg) {
 function cell(col, row) {
   const v = row[col.key];
   if (v === undefined || v === "") return "—";
-  if (col.type === "money") return money(parseFloat(v));
+  if (col.type === "money") {
+    const amount = Number(v);
+    return Number.isFinite(amount) && amount >= 0 ? money(amount) : "Invalid amount";
+  }
   if (col.type === "date") return fdate(v);
   if (col.type === "chip") return `<span class="chip c-${esc(String(v).toLowerCase().replace(/\s+/g, "-"))}">${esc(v)}</span>`;
   return esc(v);
@@ -354,8 +362,13 @@ async function saveRecord() {
   for (const f of m.fields) {
     const raw = document.querySelector(`#drawer [data-k="${f.key}"]`).value.trim();
     if (f.required && !raw) return ($("#err").textContent = `${f.label} is required.`);
-    if (f.type === "number" && raw !== "" && !(parseFloat(raw) >= 0)) return ($("#err").textContent = `${f.label} must be a number.`);
-    vals[f.key] = f.type === "number" && raw !== "" ? parseFloat(raw) : raw;
+    if (f.type === "number" && raw !== "") {
+      const amount = Number(raw);
+      if (!Number.isFinite(amount) || amount < 0) return ($("#err").textContent = `${f.label} must be a non-negative number.`);
+      vals[f.key] = amount;
+    } else {
+      vals[f.key] = raw;
+    }
   }
   const rec = S.edit.id ? rows().find(r => r.dbId === S.edit.id) : null;
   try {
