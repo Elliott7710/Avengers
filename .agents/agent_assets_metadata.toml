@@ -14,17 +14,3 @@ mtime_ms = 1792661476698
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:bbc3abc8-02b3-4ab0-8c99-6efbe5cfa5ae/625f653f-b067-4a63-a219-ed2a0d8307d8/56351df6-ec24-48cd-8d07-d23ae279a90f"
 storage_version_token = "1792661483466754"
 content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-[[outputs]]
-id = "Bv9H00aFdT2JCTP0Jpt7b"
-uri = "file://docs/FlowGuard-Project-Idea.docx"
-type = "word_document"
-title = "FlowGuard Project Idea"
-description = "A concise, shareable Word document describing the problem, FlowGuard today, a representative workflow, practical value, and clearly labeled future possibilities."
-logical_id = "bf47b867-a425-4bbc-83e3-4dabe16d05ab"
-content_hash = "sha256:d5f4bc1a4d225ed14e1b9390111289381aef7360ba4148d1388c0b5747edd616"
-size = 5439
-mtime_ms = 1792679754031
-storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:bbc3abc8-02b3-4ab0-8c99-6efbe5cfa5ae/bf47b867-a425-4bbc-83e3-4dabe16d05ab/a157ed02-ddd3-4187-8751-da610a7f946a"
-storage_version_token = "1792679773774755"
-content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
