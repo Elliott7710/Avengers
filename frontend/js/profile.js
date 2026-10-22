@@ -19,8 +19,6 @@ async function loadProfile() {
     }
 
     // 3. Fetch this user's profile from Supabase.
-    console.log("Signed-in user ID:", user.id);
-    console.log("Signed-in email:", user.email);
     const { data: profile, error: profileError } = await supabaseClient
       .from("profiles")
       .select("full_name, username, role")
@@ -41,8 +39,6 @@ async function loadProfile() {
     const normalizedRole = role.toLowerCase().trim();
 
     document.body.dataset.role = normalizedRole;
-
-    console.log("Current user role:", normalizedRole);
 
     const initial = name.trim().charAt(0).toUpperCase() || "U";
 

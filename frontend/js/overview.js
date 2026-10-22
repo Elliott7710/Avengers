@@ -66,10 +66,6 @@ async function loadOverview() {
       element.hidden = requiredRole !== role;
     });
 
-    // 7. Report successful initialization.
-    console.log("Overview loaded successfully.");
-    console.log("Signed-in user:", user.email);
-    console.log("Current role:", role);
   } catch (error) {
     console.error("Overview loading error:", error);
   }
