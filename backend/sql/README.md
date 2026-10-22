@@ -4,6 +4,19 @@ Run `profile-access-audit.sql` against staging before applying database permissi
 changes. It is read-only and inspects the existing `profiles` table, RLS state,
 policies, and grants; it does not modify the database.
 
+Apply `privacy_requests.sql` to staging before enabling the privacy-request form.
+Authenticated users can submit requests and read only their own request history.
+Customer workspace managers receive no access; FlowGuard operators process
+requests through trusted Supabase admin access. No request status can be changed
+from the browser. The table intentionally does not cascade-delete with an auth
+account so an account-deletion request remains available for processing. Set and
+document a retention period before launch.
+
+Run `tests/privacy_requests_rls_test.sql` in a disposable staging project with
+two employee accounts and one manager. It verifies anonymous denial, own-request
+access, cross-user isolation, manager isolation, and that users cannot change or
+delete requests. The test rolls back its test data.
+
 Apply `travel_insights.sql` to the existing Supabase project before using the
 Travel or Insights pages. It creates two FlowGuard module tables with RLS.
 Employees can access only records they own; accounts whose protected

@@ -182,6 +182,50 @@
               </p>
             </div>
 
+            <section class="profile-card privacy-card" aria-labelledby="privacy-title">
+              <h2 id="privacy-title">Privacy &amp; data requests</h2>
+              <p class="privacy-copy">
+                Submit an account deletion or other privacy request. FlowGuard
+                operators review requests; submitting one does not immediately
+                delete your account. Do not include passwords or other secrets.
+              </p>
+
+              <form id="privacy-request-form" class="privacy-request-form">
+                <div class="field">
+                  <label for="privacy-request-type">Request type</label>
+                  <select id="privacy-request-type" name="request_type" required>
+                    <option value="" selected disabled>Choose a request</option>
+                    <option value="deletion">Delete my account and associated data</option>
+                    <option value="access">Request access to my data</option>
+                    <option value="correction">Request a correction</option>
+                    <option value="other">Other privacy request</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="privacy-request-details">Details (optional)</label>
+                  <textarea
+                    id="privacy-request-details"
+                    name="details"
+                    maxlength="1000"
+                    rows="3"
+                    placeholder="Add only the information needed to understand your request."
+                  ></textarea>
+                </div>
+                <button class="run-btn" id="privacy-request-submit" type="submit">
+                  Submit privacy request
+                </button>
+                <p id="privacy-request-feedback" class="privacy-feedback" role="status" aria-live="polite"></p>
+              </form>
+
+              <div class="privacy-history">
+                <h3>Your submitted requests</h3>
+                <p id="privacy-request-history-message" class="privacy-copy" role="status" aria-live="polite">
+                  Loading requests…
+                </p>
+                <ul id="privacy-request-list" class="privacy-request-list"></ul>
+              </div>
+            </section>
+
             <a class="btn-ghost back-button" href="overview.html">
               Back to overview
             </a>

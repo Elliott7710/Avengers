@@ -6,7 +6,7 @@ This is a working product checklist based on the current repository review. It i
 
 - **Payments:** FlowGuard is planned to be free for now. There is no checkout or subscription flow in the project. Refund and billing terms are not launch requirements unless paid access is introduced.
 - **Audience and age:** The intended audience is small businesses worldwide, with an intended minimum age of 16+. Malaysia is the first operating country; jurisdiction-specific age requirements and additional markets still need review.
-- **Business identity and contact:** No legal entity is registered yet. A public support contact has not been selected; the chosen privacy-request channel is an in-app form, which is not implemented yet.
+- **Business identity and contact:** No legal entity is registered yet. A public support contact has not been selected. The in-app privacy-request form and staging-first SQL migration are drafted; they are not operational until the migration is applied and verified in staging.
 - **Database and files:** The app currently uses Supabase Auth and reads profile roles from `profiles`. Travel and Insights records are also stored in Supabase PostgreSQL tables. No Replit App Storage integration or user file-upload feature was found. Do not describe the database as registration-only.
 - **Browser-stored data:** The app still reads legacy Travel and Insights records from `localStorage` and keeps the source copy plus a migration marker after import. Account deletion must account for those copies on the user's browsers.
 - **Security and domain:** The frontend contains a Supabase publishable key, which is intended for browser use; private/service-role keys must never be exposed there. No custom domain is set up, so Cloudflare cannot yet be checked for domain/zone security configuration.
@@ -19,7 +19,8 @@ This is a working product checklist based on the current repository review. It i
 - [ ] Confirm Malaysia as the first operating country and identify which additional jurisdictions to support. The intended market is small businesses worldwide; obtain jurisdiction-specific review before offering globally.
 - [ ] Provide a public support contact.
 - [x] Choose an in-app form as the privacy/data-request channel.
-- [ ] Implement the form and ensure requests reach only authorized company management.
+- [x] Add the form and an owner-only request table; customer managers cannot read requests. FlowGuard operators process them through Supabase admin access.
+- [ ] Apply the migration and verify submission, owner-only history, and operator processing in staging.
 - [x] Set 16+ as the intended minimum age.
 - [ ] Verify that age requirement against applicable laws in each supported market and decide how reports of underage accounts will be handled.
 - [x] Current product is planned to be free, with no subscription, paid tier, checkout, or in-app purchase.
@@ -70,6 +71,8 @@ This is a working product checklist based on the current repository review. It i
 - [ ] Keep service-role keys, database passwords, and other private credentials in server-side secrets only; never put them in browser code or committed files.
 - [ ] Run the existing profile/RLS audit and isolation tests against a separate staging Supabase project with two employee accounts and a manager account before production changes.
 - [ ] Implement a user-facing account/data deletion request path and explain how to contact support/privacy.
+- [x] Add a request form that records account deletion requests; submitting a request does not automatically delete an account.
+- [ ] Apply and test the request flow in staging. Select and document a retention period for queued requests before launch.
 - [ ] Design deletion to remove the Auth account, profile, owned Travel/Insights rows, and any future stored files, subject to a documented legal retention exception.
 - [ ] Define the deletion completion timeline and confirmation message.
 - [ ] Provide clear instructions for removing legacy browser data. Decide whether the app should offer an explicit local-data cleanup/export action after successful migration.
