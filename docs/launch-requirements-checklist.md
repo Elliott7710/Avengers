@@ -5,8 +5,8 @@ This is a working product checklist based on the current repository review. It i
 ## Current scope and findings
 
 - **Payments:** FlowGuard is planned to be free for now. There is no checkout or subscription flow in the project. Refund and billing terms are not launch requirements unless paid access is introduced.
-- **Audience and age:** The intended audience is small businesses worldwide, with an intended minimum age of 16+. The operating country and jurisdiction-specific age requirements still need confirmation.
-- **Business identity and contact:** No legal entity is registered yet; “Asia” was given as the region, not a specific country. A public support/privacy contact has not been selected; “company management only” does not give users a request channel.
+- **Audience and age:** The intended audience is small businesses worldwide, with an intended minimum age of 16+. Malaysia is the first operating country; jurisdiction-specific age requirements and additional markets still need review.
+- **Business identity and contact:** No legal entity is registered yet. A public support contact has not been selected; the chosen privacy-request channel is an in-app form, which is not implemented yet.
 - **Database and files:** The app currently uses Supabase Auth and reads profile roles from `profiles`. Travel and Insights records are also stored in Supabase PostgreSQL tables. No Replit App Storage integration or user file-upload feature was found. Do not describe the database as registration-only.
 - **Browser-stored data:** The app still reads legacy Travel and Insights records from `localStorage` and keeps the source copy plus a migration marker after import. Account deletion must account for those copies on the user's browsers.
 - **Security and domain:** The frontend contains a Supabase publishable key, which is intended for browser use; private/service-role keys must never be exposed there. No custom domain is set up, so Cloudflare cannot yet be checked for domain/zone security configuration.
@@ -16,8 +16,9 @@ This is a working product checklist based on the current repository review. It i
 ## 1. Product, legal, and privacy decisions
 
 - [ ] Decide who will operate FlowGuard and register the legal entity before publication; provide its exact legal name, country, and public-facing brand name.
-- [ ] Confirm the first operating country and the jurisdictions to support. The intended market is small businesses worldwide; obtain jurisdiction-specific review before offering globally.
-- [ ] Provide a public support contact and a privacy/data-request channel.
+- [ ] Confirm Malaysia as the first operating country and identify which additional jurisdictions to support. The intended market is small businesses worldwide; obtain jurisdiction-specific review before offering globally.
+- [ ] Provide a public support contact.
+- [x] Choose an in-app form as the privacy/data-request channel; implement it and ensure requests reach authorized company management.
 - [ ] Adopt 16+ as the intended age floor, subject to checking applicable laws in each supported market; decide how reports of underage accounts will be handled.
 - [x] Current product is planned to be free, with no subscription, paid tier, checkout, or in-app purchase.
 - [ ] List the data FlowGuard collects and why: account details, profile/role, travel requests, costs, destinations, dates, insights, coaching notes, and any operational logs.
@@ -44,7 +45,7 @@ This is a working product checklist based on the current repository review. It i
 
 ## 4. Correct and test calculations
 
-- [ ] Define “Estimated spend”: whether it includes requested, approved, booked, and rejected travel requests, and whether cancelled trips should be excluded.
+- [ ] Define “Estimated spend”: choose which of requested, approved, booked, rejected, and cancelled travel requests count.
 - [ ] Define whether totals are estimates or actuals, whether costs may be zero/negative, and how missing or invalid values are handled.
 - [ ] Confirm the business currency (currently MYR) and expected display locale, decimal precision, rounding, and formatting.
 - [ ] Decide whether users may enter multiple currencies; if yes, define the exchange-rate source, rate date, and conversion/rounding rules.
