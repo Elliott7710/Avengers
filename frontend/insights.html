@@ -25,7 +25,7 @@
     <main class="main-area">
       <header class="topbar">
         <div class="breadcrumb"><a href="overview.html">Workspace</a> <span aria-hidden="true">/</span> Insights</div>
-        <div class="topbar-actions"><button class="help-link" type="button">Help</button><a class="account-button" href="profile.html" aria-label="Open User's profile"><span class="avatar" aria-hidden="true">U</span><span>User</span></a></div>
+        <div class="topbar-actions"><button class="notification-button" type="button" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="notification-label">Notifications</span><span class="notification-badge" aria-hidden="true" hidden></span></button><a class="account-button" href="profile.html" aria-label="Open User's profile"><span class="avatar" aria-hidden="true">U</span><span>User</span></a></div>
       </header>
       <div class="page-content">
         <section class="main">
@@ -46,6 +46,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/notifications-model.js"></script>
+  <script src="js/notifications.js"></script>
   <script src="js/calculations.js"></script>
   <script src="js/script.js"></script>
 </body>

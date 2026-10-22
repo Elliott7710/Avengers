@@ -107,7 +107,14 @@
           </div>
 
           <div class="topbar-actions">
-            <button class="help-link" type="button">Help</button>
+            <button class="notification-button" type="button" aria-label="Notifications">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+                <path d="M10 21h4" />
+              </svg>
+              <span class="notification-label">Notifications</span>
+              <span class="notification-badge" aria-hidden="true" hidden></span>
+            </button>
 
             <a
               class="account-button"
@@ -253,6 +260,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
+    <script src="js/notifications-model.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/roles.js"></script>
     <script src="js/profile.js"></script>
   </body>

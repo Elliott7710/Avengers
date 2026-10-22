@@ -107,7 +107,13 @@ let currentUser;
 let currentRole;
 let ready = false;
 let migrationNotice = "";
-const S = {mod: document.body.dataset.page, q: "", filter: "all", edit: null};
+const pageModule = MODULES.find(module => module.id === document.body.dataset.page);
+const requestedFilter = new URLSearchParams(window.location.search).get("status");
+const initialFilter = pageModule?.filter === "status" &&
+  pageModule.fields.find(field => field.key === pageModule.filter)?.options.includes(requestedFilter)
+  ? requestedFilter
+  : "all";
+const S = {mod: document.body.dataset.page, q: "", filter: initialFilter, edit: null};
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
 const money = n => new Intl.NumberFormat("en-US", {style: "currency", currency: CURRENCY}).format(n);
