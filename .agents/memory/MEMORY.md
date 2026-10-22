@@ -1,2 +1,3 @@
 - [FlowGuard product scope](flowguard-product-scope.md) — intended audience is small businesses worldwide, with a planned 16+ minimum age and free access initially.
 - [FlowGuard travel calculations](flowguard-calculations.md) — estimated spend includes requested, approved, and booked trips, but excludes rejected trips.
+- [FlowGuard file organization](flowguard-file-organization.md) — defer moving static routes until the user's planned frontend additions are ready.
