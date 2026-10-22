@@ -27,11 +27,11 @@ browser copy and store a per-browser migration marker so a second account on the
 same device cannot automatically claim the same records. If import fails or
 conflicts, the page reports the problem and leaves the original data in place.
 
-To verify isolation, apply `tests/travel_insights_rls_test.sql` with UUIDs for
-two employee accounts and one manager account. The script runs under the
-`authenticated` role, asserts that employees cannot see or change each other's
-records, and confirms a manager can read both records. Run it in a disposable
-test project because the transaction inserts temporary test rows before
-rolling back.
+To verify profile and module isolation, apply
+`tests/travel_insights_rls_test.sql` with UUIDs for two employee accounts and
+one manager account. It checks own-profile-only reads, rejects employee role
+self-assignment, verifies employee record isolation, and checks the configured
+manager access. Run it in a disposable staging project because the transaction
+inserts temporary test rows before rolling back.
 
 Do not store credentials or service-role keys in this folder.

@@ -1,4 +1,7 @@
 -- Manual policy verification for a disposable Supabase project.
+-- Requires the profiles own-read policy to be active, RLS enabled on
+-- public.profiles, and the role-protection trigger from travel_insights.sql.
+-- This test file does not create or change policies.
 -- Replace the three UUID placeholders with existing profiles/auth.users IDs:
 --   employee_a: role employee; employee_b: role employee; manager: role manager.
 -- Execute as a database administrator that can SET ROLE authenticated.
@@ -7,6 +10,59 @@
 begin;
 
 set local role authenticated;
+
+-- Profile reads are own-account only; the supplied policy grants no extra
+-- profile visibility to managers. Browser sessions must not assign roles.
+select set_config('request.jwt.claim.role', 'authenticated', true);
+select set_config('request.jwt.claim.sub', 'EMPLOYEE_A_UUID', true);
+do $$
+declare
+  profile_role text;
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid()) then
+    raise exception 'Profile access failure: employee A cannot read their own profile';
+  end if;
+  if exists (select 1 from public.profiles where id = 'EMPLOYEE_B_UUID') then
+    raise exception 'Profile isolation failure: employee A can read employee B profile';
+  end if;
+  if exists (select 1 from public.profiles where id = 'MANAGER_UUID') then
+    raise exception 'Profile isolation failure: employee A can read manager profile';
+  end if;
+
+  begin
+    update public.profiles
+    set role = 'manager'
+    where id = auth.uid();
+  exception
+    when insufficient_privilege then
+      null;
+    when raise_exception then
+      if sqlerrm <> 'Only trusted administrators can change account roles' then
+        raise;
+      end if;
+  end;
+
+  select role into profile_role
+  from public.profiles
+  where id = auth.uid();
+  if profile_role <> 'employee' then
+    raise exception 'Role protection failure: employee A changed their own role';
+  end if;
+end
+$$;
+
+select set_config('request.jwt.claim.sub', 'MANAGER_UUID', true);
+do $$
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid()) then
+    raise exception 'Profile access failure: manager cannot read their own profile';
+  end if;
+  if exists (select 1 from public.profiles where id = 'EMPLOYEE_A_UUID')
+     or exists (select 1 from public.profiles where id = 'EMPLOYEE_B_UUID') then
+    raise exception 'Profile isolation failure: manager can read another profile';
+  end if;
+end
+$$;
 
 -- Employee A creates one record in each table.
 select set_config('request.jwt.claim.sub', 'EMPLOYEE_A_UUID', true);
