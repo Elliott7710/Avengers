@@ -8,3 +8,9 @@ FlowGuard is intended for small businesses worldwide, with Malaysia as the first
 **Why:** These are product and business constraints supplied by the user; legal drafts and launch decisions must not invent them or treat them as final jurisdictional advice.
 
 **How to apply:** Use these facts when planning signup, policies, monetization, and launch readiness. Keep privacy requests separate from customer-manager access, apply/test the staging migration before launch, and review laws in Malaysia and every additional target market before finalizing legal text.
+
+The product idea centers on reducing the time managers spend searching across Gmail and other tools for client-related information, especially when work spans locations. FlowGuard currently brings Travel and manager-facing team Insights together. A broader client context view and email integrations are future possibilities, not existing functionality.
+
+**Why:** This is the user-stated product goal and an important boundary for accurate product descriptions.
+
+**How to apply:** Describe the current workspace as a focused starting point; label client-context consolidation and email connections as future direction unless those capabilities are implemented.
