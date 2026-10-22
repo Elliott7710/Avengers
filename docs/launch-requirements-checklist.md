@@ -5,6 +5,8 @@ This is a working product checklist based on the current repository review. It i
 ## Current scope and findings
 
 - **Payments:** FlowGuard is planned to be free for now. There is no checkout or subscription flow in the project. Refund and billing terms are not launch requirements unless paid access is introduced.
+- **Audience and age:** The intended audience is small businesses worldwide, with an intended minimum age of 16+. The operating country and jurisdiction-specific age requirements still need confirmation.
+- **Business identity and contact:** No legal entity is registered yet; “Asia” was given as the region, not a specific country. A public support/privacy contact has not been selected; “company management only” does not give users a request channel.
 - **Database and files:** The app currently uses Supabase Auth and reads profile roles from `profiles`. Travel and Insights records are also stored in Supabase PostgreSQL tables. No Replit App Storage integration or user file-upload feature was found. Do not describe the database as registration-only.
 - **Browser-stored data:** The app still reads legacy Travel and Insights records from `localStorage` and keeps the source copy plus a migration marker after import. Account deletion must account for those copies on the user's browsers.
 - **Security and domain:** The frontend contains a Supabase publishable key, which is intended for browser use; private/service-role keys must never be exposed there. No custom domain is set up, so Cloudflare cannot yet be checked for domain/zone security configuration.
@@ -13,11 +15,11 @@ This is a working product checklist based on the current repository review. It i
 
 ## 1. Product, legal, and privacy decisions
 
-- [ ] Confirm the registered legal entity name, country of incorporation, and public-facing brand name.
-- [ ] Confirm the countries where FlowGuard will be offered and the governing-law jurisdiction to use in legal drafts.
-- [ ] Provide a support contact and a privacy/data-request contact.
-- [ ] Set the minimum user age and decide how reports of underage accounts will be handled.
-- [ ] Confirm the current product is free, with no subscription, paid tier, checkout, or in-app purchase.
+- [ ] Decide who will operate FlowGuard and register the legal entity before publication; provide its exact legal name, country, and public-facing brand name.
+- [ ] Confirm the first operating country and the jurisdictions to support. The intended market is small businesses worldwide; obtain jurisdiction-specific review before offering globally.
+- [ ] Provide a public support contact and a privacy/data-request channel.
+- [ ] Adopt 16+ as the intended age floor, subject to checking applicable laws in each supported market; decide how reports of underage accounts will be handled.
+- [x] Current product is planned to be free, with no subscription, paid tier, checkout, or in-app purchase.
 - [ ] List the data FlowGuard collects and why: account details, profile/role, travel requests, costs, destinations, dates, insights, coaching notes, and any operational logs.
 - [ ] Confirm retention periods for account, travel, insight, and security data.
 - [ ] Confirm the full set of data processors and hosting locations, including Supabase, Replit hosting, the external image host, and the JavaScript CDN.

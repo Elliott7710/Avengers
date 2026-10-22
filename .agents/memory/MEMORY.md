@@ -1,0 +1,1 @@
+- [FlowGuard product scope](flowguard-product-scope.md) — intended audience is small businesses worldwide, with a planned 16+ minimum age and free access initially.
