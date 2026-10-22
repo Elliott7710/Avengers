@@ -1,5 +1,28 @@
 let privacyRequestUser = null;
 
+document.getElementById("profile-sign-out").addEventListener("click", async event => {
+  const button = event.currentTarget;
+  const feedback = document.getElementById("profile-sign-out-feedback");
+
+  if (button.disabled) return;
+
+  feedback.textContent = "";
+  button.disabled = true;
+  button.textContent = "Signing out…";
+
+  try {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) throw error;
+
+    window.location.replace("signin.html");
+  } catch (error) {
+    console.error("Profile sign-out error:", error);
+    feedback.textContent = "Unable to sign out. Please try again.";
+    button.disabled = false;
+    button.textContent = "Sign out";
+  }
+});
+
 async function loadProfile() {
   const caption = document.getElementById("profile-caption");
 
@@ -9,6 +32,11 @@ async function loadProfile() {
       data: { user },
       error: authError,
     } = await supabaseClient.auth.getUser();
+
+    if (authError?.name === "AuthSessionMissingError") {
+      window.location.replace("signin.html");
+      return;
+    }
 
     if (authError) {
       throw authError;
