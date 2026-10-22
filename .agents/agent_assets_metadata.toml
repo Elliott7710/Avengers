@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "HksrerVXA7A5qqhy7AMhB"
+uri = "file://docs/FlowGuard-chat-context-handoff.docx"
+type = "word_document"
+title = "FlowGuard chat context and project handoff"
+description = "A downloadable handoff summary of FlowGuard’s project decisions, current status, verification gaps, and next steps. It contains no secret values."
+logical_id = "625f653f-b067-4a63-a219-ed2a0d8307d8"
+content_hash = "sha256:35669b1130741ba31db049aee53ff1735abad06ac035795f07b99dc67387e26a"
+size = 5596
+mtime_ms = 1792661476698
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:bbc3abc8-02b3-4ab0-8c99-6efbe5cfa5ae/625f653f-b067-4a63-a219-ed2a0d8307d8/56351df6-ec24-48cd-8d07-d23ae279a90f"
+storage_version_token = "1792661483466754"
+content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
