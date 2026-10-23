@@ -1180,6 +1180,272 @@ tbody tr:hover {
   color: var(--muted);
 }
 
+/* Travel approvals: compact history and decision details, in the existing glass UI. */
+.setup-notice {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 193, 120, 0.48);
+  border-radius: 9px;
+  background: rgba(112, 65, 28, 0.3);
+  color: #ffe3bd;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.migration-notice {
+  width: 100%;
+  padding: 10px 12px;
+  border-left: 2px solid #e3b35e;
+  line-height: 1.55;
+}
+
+.activity-panel,
+.drawer-history,
+.request-summary,
+.decision-box {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.activity-heading,
+.history-top,
+.summary-status {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.activity-heading h2,
+.drawer-history h3,
+.decision-box h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.activity-heading p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.activity-heading .btn-ghost,
+.history-state .btn-ghost,
+.drawer-history .btn-ghost {
+  min-height: 31px;
+  padding: 0 10px;
+  font-size: 11px;
+}
+
+.history-list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-item {
+  min-width: 0;
+  padding: 10px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.history-top {
+  align-items: baseline;
+}
+
+.history-top strong {
+  color: #fff;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.history-top time,
+.history-meta {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 10px;
+}
+
+.history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 5px;
+}
+
+.history-item p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.history-state {
+  margin-top: 12px;
+  padding: 11px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.skeleton-line {
+  display: block;
+  width: 78%;
+  height: 9px;
+  margin: 4px 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.16);
+  animation: history-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.skeleton-line.short {
+  width: 46%;
+}
+
+@keyframes history-pulse {
+  to { opacity: 0.45; }
+}
+
+.request-summary {
+  margin: 0 0 17px;
+}
+
+.summary-status {
+  align-items: center;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.summary-rule {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.summary-rule strong {
+  font-size: 11px;
+}
+
+.summary-rule span,
+.summary-rule small,
+.next-step {
+  color: rgba(255, 255, 255, 0.77);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.summary-rule small {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.next-step {
+  margin: 11px 0 0;
+  color: #f3d29b;
+}
+
+.detail-field {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.detail-field span {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.detail-field strong {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.rule-preview {
+  display: grid;
+  gap: 4px;
+  margin: 4px 0 14px;
+  padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.rule-preview strong {
+  color: #fff;
+  font-size: 12px;
+}
+
+.rule-preview.high_budget {
+  border-color: rgba(255, 186, 112, 0.52);
+  background: rgba(112, 65, 28, 0.24);
+}
+
+.decision-box h3 {
+  margin-bottom: 10px;
+}
+
+.decision-box label {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.decision-box label span {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+}
+
+.decision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.decision-actions button {
+  flex: 1 1 105px;
+}
+
+.decision-reject {
+  border-color: rgba(255, 150, 150, 0.52);
+  background: rgba(135, 30, 30, 0.3);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+tbody tr:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+
 @media (max-width: 620px) {
   .privacy-request-item {
     grid-template-columns: minmax(0, 1fr) auto;

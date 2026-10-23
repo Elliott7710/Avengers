@@ -48,3 +48,18 @@ manager access. Run it in a disposable staging project because the transaction
 inserts temporary test rows before rolling back.
 
 Do not store credentials or service-role keys in this folder.
+
+## Travel approval workflow
+
+After `travel_insights.sql`, apply `travel_workflow.sql` in the same Supabase
+project as the frontend. Travel checks for workflow version 1 and blocks
+mutations until it is installed. The new triggers restrict pending edits to the
+owner, require an independent manager and a note for approvals/rejections/bookings,
+validate dates/costs, and write append-only activity atomically. Manager scope
+is still workspace-wide, not team-isolated.
+
+See `docs/travel-workflow-demo.md` for the illustrative MYR 1,000 flag, setup,
+legacy-record limitations, and the employee/manager rehearsal.
+`npm run test:workflow-db` uses a disposable local fixture and never uses your
+Supabase credentials. The older travel RLS test uses incomplete travel payloads;
+use the new `tests/travel_workflow_test.sql` via that command for the full workflow.
