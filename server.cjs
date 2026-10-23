@@ -3,6 +3,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 
 const root = path.join(__dirname, "frontend");
+const port = Number(process.env.PORT || 5000);
 const types = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -22,6 +23,42 @@ http.createServer(async (req, res) => {
 
   try {
     const pathname = decodeURIComponent(new URL(req.url, "http://server").pathname);
+    if (pathname === "/config/supabase.js") {
+      const projectUrl = process.env.FLOWGUARD_SUPABASE_URL || "";
+      const publishableKey = process.env.FLOWGUARD_SUPABASE_PUBLISHABLE_KEY || "";
+      let validUrl = false;
+      try {
+        const parsed = new URL(projectUrl);
+        validUrl = parsed.protocol === "https:" && Boolean(parsed.hostname) &&
+          !parsed.username && !parsed.password && !parsed.search && !parsed.hash &&
+          (parsed.pathname === "/" || parsed.pathname === "");
+      } catch {}
+      const validPublishableKey =
+        /^sb_publishable_[A-Za-z0-9_-]{16,}$/.test(publishableKey) ||
+        /^eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(publishableKey);
+      let serviceRoleKey = false;
+      if (publishableKey.startsWith("eyJ")) {
+        try {
+          const claims = JSON.parse(Buffer.from(publishableKey.split(".")[1], "base64url").toString("utf8"));
+          serviceRoleKey = claims.role === "service_role";
+        } catch {
+          // Malformed legacy keys are rejected below without echoing their value.
+        }
+      }
+      const config = validUrl && validPublishableKey && !serviceRoleKey
+        ? `window.FLOWGUARD_SUPABASE_CONFIG = ${JSON.stringify({
+            url: projectUrl.replace(/\/+$/, ""),
+            publishableKey,
+          }).replace(/</g, "\\u003c")};`
+        : "window.FLOWGUARD_SUPABASE_CONFIG_ERROR = true;";
+      res.writeHead(200, {
+        "Content-Type": "text/javascript; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+      });
+      return res.end(req.method === "HEAD" ? undefined : config);
+    }
     const file = path.resolve(root, `.${pathname === "/" ? "/index.html" : pathname}`);
     if (!file.startsWith(`${root}${path.sep}`)) {
       res.writeHead(403);
@@ -42,6 +79,6 @@ http.createServer(async (req, res) => {
     res.writeHead(status, { "Content-Type": "text/plain; charset=utf-8" });
     res.end(status === 400 ? "Bad request" : status === 404 ? "Not found" : "Server error");
   }
-}).listen(5000, "0.0.0.0", () => {
-  console.log("FlowGuard is listening on 0.0.0.0:5000");
+}).listen(port, "0.0.0.0", () => {
+  console.log(`FlowGuard is listening on 0.0.0.0:${port}`);
 });

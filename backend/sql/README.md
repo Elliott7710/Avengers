@@ -1,5 +1,40 @@
 # Database SQL
 
+## First install for a new FlowGuard Supabase project
+
+The project's browser-safe URL and publishable key are configured using Replit
+Secrets (`FLOWGUARD_SUPABASE_URL` and
+`FLOWGUARD_SUPABASE_PUBLISHABLE_KEY`). They connect the client but do not create
+database tables. The browser key is public by design; never place a Supabase
+service-role key or database password in frontend code or these files.
+
+The connected user's own Supabase project initially returned 404 for the
+profiles, travel, insights, and activity tables. No schema changes or records
+were written during that check. In the SQL editor of the intended Supabase
+project, apply these scripts in order:
+
+1. `profiles.sql` — profile table and safe employee profile creation at signup.
+2. `travel_insights.sql` — Travel and Insights tables, RLS, and role protection.
+3. `privacy_requests.sql` — optional privacy request intake used by the Profile
+   page; customer managers cannot read or update it.
+4. `travel_workflow.sql` — guarded travel approval and activity history.
+
+Each script contains transaction boundaries and may be rerun. Review the target
+project in the Supabase dashboard before executing them. Existing accounts are
+not backfilled or promoted by `profiles.sql`; this project's preflight found no
+FlowGuard tables, so no FlowGuard data was affected.
+
+New signups become employees. To create a manager for a synthetic demo, first
+sign up that account, then in Supabase SQL Editor set only that intended profile's
+role to `manager` using its verified auth user ID. Role assignment is trusted
+admin work and must never be made available as a browser form.
+
+After applying, verify the tables exist with the zero-row checks in
+`docs/travel-workflow-demo.md`. Sign up an employee and manager using synthetic
+data; verify email confirmation or disable it only for an isolated demo project.
+Configure the Supabase Auth Site URL and allowed redirect URL for the Replit
+preview/deployment host as appropriate.
+
 Run `profile-access-audit.sql` against staging before applying database permission
 changes. It is read-only and inspects the existing `profiles` table, RLS state,
 policies, and grants; it does not modify the database.

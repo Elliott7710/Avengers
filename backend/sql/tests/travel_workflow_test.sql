@@ -31,6 +31,9 @@ set local role authenticated;
 select set_config('request.jwt.claim.role','authenticated',true);
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',true);
 select fg_test.check_ok(public.flowguard_travel_workflow_version() = 1,'workflow version');
+select fg_test.check_ok((select role='employee' and full_name='Synthetic Employee A'
+  and username='employee_a' from public.profiles where id=auth.uid()),
+  'signup creates a protected employee profile');
 
 -- A synthetic employee submits; rule metadata is calculated, not trusted.
 insert into public.flowguard_travel_records (id,owner_id,record_id,data) values
@@ -58,7 +61,7 @@ select fg_test.denied($q$update public.flowguard_travel_records
  set data=data || '{"status":"Approved","decision_note":"I approve myself"}'
  where record_id='DEMO-APPROVE'$q$,'Only another manager');
 select fg_test.denied($q$update public.profiles set role='manager' where id=auth.uid()$q$,
- 'Only trusted administrators');
+ 'permission denied');
 select fg_test.denied($q$select public.flowguard_decide_travel(
  '10000000-0000-0000-0000-000000000001','approve','Self approval',now())$q$,'Manager access required');
 update public.flowguard_travel_records

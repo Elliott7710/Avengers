@@ -23,6 +23,9 @@ try {
   started = true;
   for (const file of [
     "tests/fixtures/supabase-workflow-stub.sql",
+    "backend/sql/profiles.sql",
+    "backend/sql/profiles.sql",
+    "tests/fixtures/supabase-workflow-users.sql",
     "backend/sql/travel_insights.sql",
     "backend/sql/travel_workflow.sql",
     "backend/sql/travel_workflow.sql", // prove the migration can safely be rerun

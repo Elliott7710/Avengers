@@ -26,3 +26,9 @@ The current deliverable is an assignment demo, not a public production launch. T
 **Why:** The user clarified the demo scope and supplied the Orbyte Smart SME Challenge assignment. Production-launch requirements are not the right measure of assignment progress.
 
 **How to apply:** Prioritize one complete SME automation journey—trigger, connected data, decision logic, role-appropriate human approval, visible outcome, and an activity record. Assess assignment readiness separately from production readiness; do not remove basic data protections just because it is a demo.
+
+The user wants the demo connected to their own Supabase project instead of a friend's project.
+
+**Why:** This is the user's explicit database-ownership and project-continuity decision.
+
+**How to apply:** Use only the user's own project configuration. Never reuse, migrate, or alter the friend's project's credentials or data.
