@@ -4,6 +4,8 @@
   const STORAGE_PREFIX = "flowguard-current-team-v1:";
   let contextPromise;
   let context = null;
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g,
+    (character) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
 
   function relationTeam(value) {
     return Array.isArray(value) ? value[0] || null : value || null;
@@ -11,6 +13,13 @@
 
   function teamStorageKey(userId) {
     return `${STORAGE_PREFIX}${userId}`;
+  }
+
+  function navigateToTeam(teamId) {
+    try { localStorage.setItem(teamStorageKey(context.user.id), teamId); } catch {}
+    const destination = new URL(window.location.href);
+    destination.searchParams.set("team", teamId);
+    window.location.assign(destination.href);
   }
 
   function showPanelMessage(message, isError = false) {
@@ -49,10 +58,7 @@
       select.append(option);
     }
     select.addEventListener("change", () => {
-      try {
-        localStorage.setItem(teamStorageKey(context.user.id), select.value);
-      } catch {}
-      window.location.reload();
+      navigateToTeam(select.value);
     });
     wrapper.append(select);
     actions.prepend(wrapper);
@@ -71,7 +77,7 @@
             <h2>Teams</h2>
             <p>Travel and Insights are visible only within teams you belong to.</p>
           </div>
-          <span class="team-current-role">${context?.currentTeam ? `${context.currentTeam.name} · ${context.currentTeam.role}` : "No team joined"}</span>
+          <span class="team-current-role">${context?.currentTeam ? `${escapeHtml(context.currentTeam.name)} · ${escapeHtml(context.currentTeam.role)}` : "No team joined"}</span>
         </div>
         <div class="team-panel-grid">
           <form id="team-join-form" class="team-form">
@@ -90,7 +96,7 @@
               </div>
             </form>
             <div class="team-form">
-              <label>Invite someone to ${context.currentTeam.name}</label>
+              <label>Invite someone to ${escapeHtml(context.currentTeam.name)}</label>
               <div class="team-form-row">
                 <button id="team-create-invite" class="btn-ghost" type="button">Create invite code</button>
                 <button id="team-copy-invite" class="btn-ghost" type="button" hidden>Copy code</button>
@@ -143,7 +149,8 @@
 
     let savedTeam = "";
     try { savedTeam = localStorage.getItem(teamStorageKey(user.id)) || ""; } catch {}
-    const currentTeam = memberships.find((membership) => membership.id === savedTeam) || memberships[0] || null;
+    const requestedTeam = new URL(window.location.href).searchParams.get("team") || savedTeam;
+    const currentTeam = memberships.find((membership) => membership.id === requestedTeam) || memberships[0] || null;
     context = { user, memberships, currentTeam };
     document.body.dataset.role = currentTeam?.role || "employee";
     if (currentTeam) document.body.dataset.teamId = currentTeam.id;
@@ -176,8 +183,7 @@
       const { data: teamId, error } = await supabaseClient.rpc("flowguard_join_team", { p_token: token });
       if (error) throw error;
       if (typeof teamId !== "string" || !teamId) throw new Error("Supabase returned an unexpected team response.");
-      localStorage.setItem(teamStorageKey(context.user.id), teamId);
-      window.location.reload();
+      navigateToTeam(teamId);
     } catch (error) {
       showPanelMessage(error.message || "Unable to join this team.", true);
     } finally {
@@ -197,8 +203,7 @@
       const { data: teamId, error } = await supabaseClient.rpc("flowguard_create_team", { p_name: name });
       if (error) throw error;
       if (typeof teamId !== "string" || !teamId) throw new Error("Supabase returned an unexpected team response.");
-      localStorage.setItem(teamStorageKey(context.user.id), teamId);
-      window.location.reload();
+      navigateToTeam(teamId);
     } catch (error) {
       showPanelMessage(error.message || "Unable to create this team.", true);
     } finally {

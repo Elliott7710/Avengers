@@ -39,6 +39,7 @@ do $$
 declare
   bootstrap_manager uuid;
   bootstrap_team constant uuid := 'c8e78974-51f2-4d77-8c63-0efc53d11d9e';
+  inserted_teams integer;
 begin
   select p.id into bootstrap_manager
   from public.profiles p
@@ -53,13 +54,16 @@ begin
   insert into public.flowguard_teams (id, name, created_by)
   values (bootstrap_team, 'FlowGuard Demo Team', bootstrap_manager)
   on conflict (id) do nothing;
+  get diagnostics inserted_teams = row_count;
 
-  insert into public.flowguard_team_members (team_id, user_id, role)
-  select bootstrap_team, p.id,
-    case when lower(trim(coalesce(p.role, 'employee'))) = 'manager'
-      then 'manager' else 'employee' end
-  from public.profiles p
-  on conflict (team_id, user_id) do nothing;
+  if inserted_teams > 0 then
+    insert into public.flowguard_team_members (team_id, user_id, role)
+    select bootstrap_team, p.id,
+      case when lower(trim(coalesce(p.role, 'employee'))) = 'manager'
+        then 'manager' else 'employee' end
+    from public.profiles p
+    on conflict (team_id, user_id) do nothing;
+  end if;
 end;
 $$;
 
@@ -70,6 +74,10 @@ alter table public.flowguard_insight_records
 alter table public.flowguard_travel_activity
   add column if not exists team_id uuid references public.flowguard_teams(id) on delete restrict;
 
+-- Backfilling scope is not a user edit or approval. Preserve details, timestamps
+-- and existing history; normal guards are restored in this same transaction.
+alter table public.flowguard_travel_records disable trigger user;
+alter table public.flowguard_insight_records disable trigger user;
 update public.flowguard_travel_records
 set team_id = 'c8e78974-51f2-4d77-8c63-0efc53d11d9e'
 where team_id is null;
@@ -79,6 +87,8 @@ where team_id is null;
 update public.flowguard_travel_activity
 set team_id = 'c8e78974-51f2-4d77-8c63-0efc53d11d9e'
 where team_id is null;
+alter table public.flowguard_travel_records enable trigger user;
+alter table public.flowguard_insight_records enable trigger user;
 
 alter table public.flowguard_travel_records alter column team_id set not null;
 alter table public.flowguard_insight_records alter column team_id set not null;

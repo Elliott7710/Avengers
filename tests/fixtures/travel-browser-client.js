@@ -1,12 +1,18 @@
 // Test-only, in-memory API simulator. Never loaded by the application.
 let testSession = {id: "employee-a", role: "employee"};
+window.FlowGuardTeams = {
+  ready: async () => ({
+    user: {id: testSession.id},
+    currentTeam: {id: "test-team", name: "Synthetic Team", role: testSession.role}
+  })
+};
 const testStore = {flowguard_travel_records: [], flowguard_insight_records: [], flowguard_travel_activity: []};
 let testSequence = 0;
 const testStamp = () => new Date(1800000000000 + ++testSequence).toISOString();
 const testClone = value => JSON.parse(JSON.stringify(value));
 function testLog(record, action, previous, note) {
   testStore.flowguard_travel_activity.unshift({
-    id: `event-${++testSequence}`, travel_id: record.id, owner_id: record.owner_id,
+    id: `event-${++testSequence}`, travel_id: record.id, owner_id: record.owner_id, team_id: record.team_id,
     record_id: record.record_id, actor_role: testSession.role, action,
     from_status: previous, to_status: action === "deleted" ? null : record.data.status,
     note, rule_code: record.data.rule_code, created_at: testStamp()
@@ -18,7 +24,7 @@ const supabaseClient = {
   auth: {getUser: async () => ({data: {user: {id: testSession.id, email: "synthetic@example.invalid"}}})},
   async rpc(name, args) {
     if (name === "flowguard_travel_workflow_version") {
-      return testWorkflowInstalled ? {data: 1} : {error: {message: "Test: migration absent"}};
+      return testWorkflowInstalled ? {data: 2} : {error: {message: "Test: migration absent"}};
     }
     if (name !== "flowguard_decide_travel") return {error: {message: "Unknown test RPC"}};
     testDecisions++;
@@ -56,7 +62,7 @@ const supabaseClient = {
             if (value === undefined) throw new Error("Undefined query filter");
             return row[key] === value;
           }));
-          if (testSession.role !== "manager") found = found.filter(row => row.owner_id === testSession.id);
+          if (table !== "flowguard_insight_records" && testSession.role !== "manager") found = found.filter(row => row.owner_id === testSession.id);
           if (this.operation === "insert") {
             const payloads = Array.isArray(this.payload) ? this.payload : [this.payload];
             found = payloads.map(payload => {

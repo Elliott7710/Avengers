@@ -1,7 +1,7 @@
 # FlowGuard travel approval demo
 
 This strengthens FlowGuard's existing Travel workspace; Insights remains a
-separate manager-facing workspace. It does not introduce a new product, email
+separate team-shared workspace. It does not introduce a new product, email
 integration, real booking service, or payment processing.
 
 ## Setup
@@ -14,11 +14,13 @@ integration, real booking service, or payment processing.
    The second script adds database-enforced approval rules and an activity table.
    It is transactional and can be rerun.
 3. Use **synthetic** employee and manager accounts. A trusted database
-   administrator assigns the manager role in `profiles`; browser users cannot
-   promote themselves. The manager must not be the requester.
-4. Reload Travel, or use its workflow refresh control. Until version 1 is
-   available, Travel remains readable but create/edit/delete/decision actions are
-   disabled. Insights does not depend on this migration.
+   administrator assigns the initial manager role in `profiles`, then applies
+   `backend/sql/teams.sql`. Existing accounts and records enter FlowGuard Demo
+   Team. Roles thereafter come from team membership, not the global profile.
+   The reviewing manager must not be the requester.
+4. Reload FlowGuard. Travel requires team-scoped workflow version 2 before
+   enabling mutations. Both modules require membership in the selected team.
+   See `docs/teams-demo.md` for invitations and multiple-team switching.
 
 Do not reapply old RLS test fixtures containing incomplete travel JSON after this
 migration: validation now requires traveller, destination, dates, purpose, cost,
@@ -48,9 +50,10 @@ and Requested status.
 - Optimistic timestamp checks reject stale edits/decisions. Decisions also lock
   the row while checking its current status.
 
-Manager visibility remains the existing **workspace-wide** scope. This is not a
-multi-company/team isolation implementation. Never load real customer data for
-this assignment demonstration.
+Manager visibility is limited to teams where the account is a manager. Employees
+see their own Travel requests and all Insights in their joined teams. Employees
+can edit only their own Insights; managers can manage Insights within their team.
+Keep using synthetic data for this assignment demonstration.
 
 ## Rehearsal (two browser sessions)
 

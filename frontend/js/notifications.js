@@ -126,13 +126,11 @@
     try {
       const teamContext = await window.FlowGuardTeams.ready();
       const user = teamContext?.user;
-      const authError = null;
-      if (authError?.name === "AuthSessionMissingError" || !user) {
+      if (!user) {
         setBadge(0);
-        summary.textContent = user ? "Join a team to view notifications." : "Sign in to view notifications.";
+        summary.textContent = "Sign in to view notifications.";
         return;
       }
-      if (authError) throw authError;
       if (!teamContext.currentTeam) {
         setBadge(0);
         summary.textContent = "Join a team to view notifications.";

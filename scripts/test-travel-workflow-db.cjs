@@ -29,8 +29,11 @@ try {
     "backend/sql/travel_insights.sql",
     "backend/sql/travel_workflow.sql",
     "backend/sql/travel_workflow.sql", // prove the migration can safely be rerun
+    "tests/fixtures/teams-existing-records.sql",
     "backend/sql/teams.sql",
+    "tests/fixtures/teams-new-user.sql",
     "backend/sql/teams.sql", // prove the team migration can safely be rerun
+    "backend/sql/tests/teams_backfill_test.sql",
     "backend/sql/tests/travel_workflow_test.sql",
     "backend/sql/tests/teams_test.sql"
   ]) {

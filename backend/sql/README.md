@@ -19,6 +19,26 @@ project, apply these scripts in order:
    page; customer managers cannot read or update it.
 4. `travel_workflow.sql` — guarded travel approval and activity history.
 
+Then create the synthetic employee and manager accounts and assign the initial
+manager's `profiles.role` through the trusted SQL Editor, as described below.
+Finally apply **`teams.sql`**. The current frontend requires this final migration;
+the earlier four scripts alone no longer enable team-scoped modules.
+
+### Existing demo upgrade: teams
+
+If the first four scripts are already installed and a manager account exists,
+run only `teams.sql` in that same project's SQL Editor. It creates an initial
+**FlowGuard Demo Team**, adds existing profiles to that team using their current
+employee/manager roles, and assigns all existing Travel, Insights, and activity
+records to it. It preserves record details, timestamps, and history. Existing
+Insights become readable by members of this initial team; do not run this
+bootstrap against unrelated real-company data.
+
+Afterward roles are team-specific; `profiles.role` is only a legacy/bootstrap
+value and no longer grants access across teams. Newly registered accounts must
+join using a manager-issued code. Rerunning the migration does not automatically
+add new accounts to the initial team. See `docs/teams-demo.md` for the UI flow.
+
 Each script contains transaction boundaries and may be rerun. Review the target
 project in the Supabase dashboard before executing them. Existing accounts are
 not backfilled or promoted by `profiles.sql`; this project's preflight found no
@@ -54,10 +74,11 @@ delete requests. The test rolls back its test data.
 
 Apply `travel_insights.sql` to the existing Supabase project before using the
 Travel or Insights pages. It creates two FlowGuard module tables with RLS.
-Employees can access only records they own; accounts whose protected
+Before `teams.sql`, employees can access only records they own; accounts whose protected
 `profiles.role` is `manager` can read, update, and delete records across this
-workspace. New records are always owned by the signed-in user. The project has
-no organization/team membership relation yet, so manager scope is workspace-wide.
+workspace. New records are always owned by the signed-in user. These
+baseline policies have workspace-wide manager scope. `teams.sql` replaces those
+policies with team membership checks; do not stop at the baseline migration.
 
 The module tables intentionally use separate names from any normalized
 `travel_requests`, `travel_approvals`, or `travel_bookings` tables already in the
@@ -75,23 +96,23 @@ browser copy and store a per-browser migration marker so a second account on the
 same device cannot automatically claim the same records. If import fails or
 conflicts, the page reports the problem and leaves the original data in place.
 
-To verify profile and module isolation, apply
-`tests/travel_insights_rls_test.sql` with UUIDs for two employee accounts and
-one manager account. It checks own-profile-only reads, rejects employee role
-self-assignment, verifies employee record isolation, and checks the configured
-manager access. Run it in a disposable staging project because the transaction
-inserts temporary test rows before rolling back.
+The older `tests/travel_insights_rls_test.sql` is for baseline, pre-team policies
+only. For the current schema, use `npm run test:workflow-db`: it tests the
+upgrade with existing records, reruns migrations, and checks team membership,
+shared Insights reads, author-only employee edits, and manager team isolation.
+It never connects to the linked Supabase project. Verify the installed project
+separately using synthetic accounts.
 
 Do not store credentials or service-role keys in this folder.
 
 ## Travel approval workflow
 
 After `travel_insights.sql`, apply `travel_workflow.sql` in the same Supabase
-project as the frontend. Travel checks for workflow version 1 and blocks
-mutations until it is installed. The new triggers restrict pending edits to the
+project as the frontend, then apply `teams.sql`. Travel checks for workflow
+version 2 and blocks mutations until the team migration is installed. The triggers restrict pending edits to the
 owner, require an independent manager and a note for approvals/rejections/bookings,
 validate dates/costs, and write append-only activity atomically. Manager scope
-is still workspace-wide, not team-isolated.
+is limited to the teams where the account has manager membership.
 
 See `docs/travel-workflow-demo.md` for the illustrative MYR 1,000 flag, setup,
 legacy-record limitations, and the employee/manager rehearsal.

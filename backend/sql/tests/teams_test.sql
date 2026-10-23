@@ -73,6 +73,10 @@ values(auth.uid(),'c8e78974-51f2-4d77-8c63-0efc53d11d9e','INSIGHT-TEAM-A-OTHER',
 insert into public.flowguard_insight_records(owner_id,team_id,record_id,data)
 values(auth.uid(),(select team_b from fg_teams_test_state),'INSIGHT-TEAM-B',
   '{"team":"Support","name":"Synthetic Team B","period":"2026-11-01","metric":"Resolved","value":4}');
+insert into public.flowguard_travel_records(id,owner_id,team_id,record_id,data)
+values('40000000-0000-0000-0000-000000000001',auth.uid(),
+  (select team_b from fg_teams_test_state),'TRAVEL-TEAM-B',
+  '{"traveller":"Synthetic Employee","destination":"Demo City","start":"2026-11-02","end":"2026-11-04","cost":100,"purpose":"Team B review","status":"Requested"}');
 select fg_test.check_ok(
   (select count(*) = 2 from public.flowguard_insight_records
    where team_id = 'c8e78974-51f2-4d77-8c63-0efc53d11d9e'),
@@ -101,8 +105,35 @@ select fg_test.check_ok(
    where team_id = (select team_b from fg_teams_test_state)),
   'manager cannot view another team’s Insights');
 select fg_test.check_ok(
+  (select count(*) = 0 from public.flowguard_travel_records where record_id='TRAVEL-TEAM-B'),
+  'manager cannot view another team’s Travel');
+select fg_test.check_ok(
+  (select count(*) = 0 from public.flowguard_travel_activity where record_id='TRAVEL-TEAM-B'),
+  'manager cannot view another team’s activity');
+select fg_test.denied(
+  $q$select public.flowguard_decide_travel('40000000-0000-0000-0000-000000000001','approve','Cross-team attempt',now())$q$,
+  'no longer available');
+select fg_test.check_ok(
   public.flowguard_travel_workflow_version() = 2,
   'team-scoped travel workflow version');
+
+-- New signups have no team until invited; joining never grants manager powers.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000005',true);
+select fg_test.check_ok((select count(*) = 0 from public.flowguard_teams),
+  'uninvited user cannot list teams');
+select fg_test.denied($q$select public.flowguard_create_team('Uninvited Team')$q$,
+  'Only a manager');
+select fg_test.denied(
+  $q$select public.flowguard_join_team('00000000-0000-0000-0000-000000000000')$q$,
+  'invalid or expired');
+select public.flowguard_join_team((select invite from fg_teams_test_state));
+select fg_test.check_ok(
+  (select count(*) = 1 from public.flowguard_team_members where role='employee'),
+  'new user joins only invited team as employee');
+select fg_test.denied('select * from public.flowguard_team_invites','permission denied');
+select fg_test.denied(
+  $q$update public.flowguard_team_members set role='manager' where user_id=auth.uid()$q$,
+  'permission denied');
 
 reset role;
 rollback;

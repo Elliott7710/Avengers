@@ -69,7 +69,7 @@ const MODULES = [
     icon: '<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',
     filter: "team",
     fields: [
-      {key: "team", label: "Team", type: "select", required: true, options: ["Call centre", "Online support", "Developers", "Testers"]},
+      {key: "team", label: "Workstream", type: "select", required: true, options: ["Call centre", "Online support", "Developers", "Testers"]},
       {key: "name", label: "Person or team name", type: "text", required: true, placeholder: "Who is this about?"},
       {key: "period", label: "Period start", type: "date", required: true},
       {key: "metric", label: "Metric", type: "text", required: true, placeholder: "e.g. Average call time (min)"},
@@ -78,7 +78,7 @@ const MODULES = [
     ],
     columns: [
       {key: "id", label: "Entry"},
-      {key: "team", label: "Team", type: "chip"},
+      {key: "team", label: "Workstream", type: "chip"},
       {key: "name", label: "Name"},
       {key: "period", label: "Period", type: "date"},
       {key: "metric", label: "Metric"},
@@ -87,7 +87,7 @@ const MODULES = [
     ],
     stats: [
       {label: "Entries", fn: r => r.length},
-      {label: "Teams covered", fn: r => new Set(r.map(x => x.team)).size},
+      {label: "Workstreams covered", fn: r => new Set(r.map(x => x.team)).size},
       {label: "People or teams", fn: r => new Set(r.map(x => x.name.toLowerCase())).size},
       {label: "Latest period", fn: r => r.length ? fdate(r.map(x => x.period).sort().pop()) : "—"}
     ]
@@ -647,7 +647,7 @@ async function saveRecord() {
   try {
     if (rec) {
       const updated = {...rec};
-      for (const key of ["id", "dbId", "ownerId", "updatedAt"]) delete updated[key];
+      for (const key of ["id", "dbId", "ownerId", "teamId", "updatedAt"]) delete updated[key];
       const nextData = {...updated, ...vals};
       let updateQuery = supabaseClient
         .from(tableFor(m.id))

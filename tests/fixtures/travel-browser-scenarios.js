@@ -107,7 +107,7 @@
     assert(document.querySelector("#newBtn").disabled, "Missing migration disables travel writes");
     assert(document.querySelector(".setup-notice"), "Missing migration shows setup guidance");
     S.mod = "insights";
-    await initialize();
+    await session("employee-a", "employee");
     click("#newBtn");
     fill("team", "Developers");
     fill("name", "Synthetic Team");
@@ -123,6 +123,10 @@
     click("[data-save]");
     await until(() => !busy && !S.edit, "insights edit");
     assert(insight.data.value === 4, "Insights edit works without travel migration");
+    await session("employee-other", "employee");
+    open(insight);
+    assert(document.querySelector("#drawer").textContent.includes("Synthetic Team"), "Employee can view another team member’s Insight");
+    assert(!document.querySelector("[data-save]") && !document.querySelector("[data-delete]"), "Employee cannot edit/delete another member’s Insight");
     document.body.dataset.testResult = "passed";
   } catch (error) {
     document.body.dataset.testResult = "failed";
