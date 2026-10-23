@@ -24,7 +24,7 @@ http.createServer(async (req, res) => {
 
   try {
     const pathname = decodeURIComponent(new URL(req.url, "http://server").pathname);
-    if (pathname === "/config/supabase.js") {
+    if (pathname === "/config/supabase.js" || pathname === "/api/config/supabase.js") {
       const projectUrl = process.env.FLOWGUARD_SUPABASE_URL || "";
       const publishableKey = process.env.FLOWGUARD_SUPABASE_PUBLISHABLE_KEY || "";
       let validUrl = false;

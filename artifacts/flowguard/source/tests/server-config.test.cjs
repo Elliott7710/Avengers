@@ -23,7 +23,7 @@ async function withServer(config, run) {
     let response;
     for (let attempt = 0; attempt < 80; attempt++) {
       try {
-        response = await fetch(`http://127.0.0.1:${port}/config/supabase.js`);
+      response = await fetch(`http://127.0.0.1:${port}/api/config/supabase.js`);
         break;
       } catch {
         if (child.exitCode !== null) throw new Error(`Test server exited with ${child.exitCode}`);
@@ -55,10 +55,10 @@ test("serves only valid browser-safe project config without caching", async () =
     assert.ok(body.includes(key));
     assert.doesNotMatch(body, /service_role|secret_fixture/i);
 
-    const head = await fetch(`http://127.0.0.1:${port}/config/supabase.js`, {method: "HEAD"});
+    const head = await fetch(`http://127.0.0.1:${port}/api/config/supabase.js`, {method: "HEAD"});
     assert.equal(head.status, 200);
     assert.equal(await head.text(), "");
-    const post = await fetch(`http://127.0.0.1:${port}/config/supabase.js`, {method: "POST"});
+    const post = await fetch(`http://127.0.0.1:${port}/api/config/supabase.js`, {method: "POST"});
     assert.equal(post.status, 405);
   });
 });
@@ -98,7 +98,7 @@ test("static files revalidate with ETags while runtime config remains uncached",
       const changed = await fetch(`http://127.0.0.1:${port}${file}`, {headers: {"If-None-Match": '"different-version"'}});
       assert.equal(changed.status, 200);
     }
-    const config = await fetch(`http://127.0.0.1:${port}/config/supabase.js`);
+    const config = await fetch(`http://127.0.0.1:${port}/api/config/supabase.js`);
     assert.equal(config.headers.get("cache-control"), "no-store");
     assert.equal(config.headers.get("etag"), null);
   });
@@ -109,8 +109,8 @@ test("all signed-in pages load runtime config before initializing the client", (
   const pages = ["signin", "registration", "overview", "travel", "insights", "profile"];
   for (const page of pages) {
     const html = fs.readFileSync(`frontend/${page}.html`, "utf8");
-    assert.ok(html.indexOf('/config/supabase.js') >= 0, `${page} loads runtime config`);
-    assert.ok(html.indexOf('/config/supabase.js') < html.indexOf('js/supabase.js'), `${page} loads config before client`);
+    assert.ok(html.indexOf('/api/config/supabase.js') >= 0, `${page} loads runtime config`);
+    assert.ok(html.indexOf('/api/config/supabase.js') < html.indexOf('js/supabase.js'), `${page} loads config before client`);
   }
   assert.doesNotMatch(fs.readFileSync("frontend/js/supabase.js", "utf8"), /supabase\.co|sb_publishable/);
 });
