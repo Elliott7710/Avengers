@@ -82,6 +82,28 @@ test("fails closed on missing, malformed, and privileged keys without echoing va
   }
 });
 
+test("static files revalidate with ETags while runtime config remains uncached", async () => {
+  await withServer({}, async (port) => {
+    for (const file of ["/overview.html", "/js/data-cache.js", "/css/style.css"]) {
+      const first = await fetch(`http://127.0.0.1:${port}${file}`);
+      assert.equal(first.status, 200);
+      assert.equal(first.headers.get("cache-control"), "public, no-cache");
+      const etag = first.headers.get("etag");
+      assert.ok(etag);
+      const second = await fetch(`http://127.0.0.1:${port}${file}`, {headers: {"If-None-Match": etag}});
+      assert.equal(second.status, 304);
+      assert.equal(await second.text(), "");
+      const weak = await fetch(`http://127.0.0.1:${port}${file}`, {headers: {"If-None-Match": `W/${etag}`}});
+      assert.equal(weak.status, 304);
+      const changed = await fetch(`http://127.0.0.1:${port}${file}`, {headers: {"If-None-Match": '"different-version"'}});
+      assert.equal(changed.status, 200);
+    }
+    const config = await fetch(`http://127.0.0.1:${port}/config/supabase.js`);
+    assert.equal(config.headers.get("cache-control"), "no-store");
+    assert.equal(config.headers.get("etag"), null);
+  });
+});
+
 test("all signed-in pages load runtime config before initializing the client", () => {
   const fs = require("node:fs");
   const pages = ["signin", "registration", "overview", "travel", "insights", "profile"];

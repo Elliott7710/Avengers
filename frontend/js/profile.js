@@ -31,7 +31,7 @@ async function loadProfile() {
     const {
       data: { user },
       error: authError,
-    } = await supabaseClient.auth.getUser();
+    } = await window.FlowGuardData.getUser();
 
     if (authError?.name === "AuthSessionMissingError") {
       window.location.replace("signin.html");

@@ -266,12 +266,8 @@ function pickTravelFields(data) {
 }
 
 async function loadRecords() {
-  for (const module of MODULES) {
-    let result = await supabaseClient
-      .from(tableFor(module.id))
-      .select(module.id === "travel" ? "id, owner_id, team_id, record_id, data, updated_at" : "id, owner_id, team_id, record_id, data")
-      .eq("team_id", currentTeam.id)
-      .order("created_at", {ascending: false});
+  for (const module of MODULES.filter(module => module.id === S.mod)) {
+    let result = await window.FlowGuardData.records(currentUser, currentTeam, module.id);
     if (module.id === "travel" && result.error && !workflowReady) {
       result = await supabaseClient.from(tableFor(module.id))
         .select("id, owner_id, team_id, record_id, data")
@@ -346,9 +342,10 @@ async function refreshWorkflow() {
   workflowRefreshError = "";
   renderPage();
   try {
-    await checkTravelWorkflow();
+    window.FlowGuardData.clear();
+    if (S.mod === "travel") await checkTravelWorkflow();
     await loadRecords();
-    await loadActivity();
+    if (S.mod === "travel") await loadActivity();
   } catch (error) {
     workflowRefreshError = error.message || "Could not refresh travel requests.";
   } finally {
@@ -371,7 +368,7 @@ async function initialize() {
   $("#newBtn").disabled = true;
   $("#table").textContent = "Loading records…";
   try {
-    const {data: {user}, error: authError} = await supabaseClient.auth.getUser();
+    const {data: {user}, error: authError} = await window.FlowGuardData.getUser();
     if (authError?.name === "AuthSessionMissingError") {
       window.location.replace("signin.html");
       return;
@@ -393,7 +390,7 @@ async function initialize() {
     if (!["employee", "manager"].includes(currentRole)) throw new Error("This account has an unsupported role.");
     document.body.dataset.role = currentRole;
 
-    await checkTravelWorkflow();
+    if (S.mod === "travel") await checkTravelWorkflow();
     try {
       await migrateLegacyData();
     } catch (error) {
@@ -677,6 +674,7 @@ async function saveRecord() {
     busy = false;
     lockMutations(false);
   }
+  window.FlowGuardData.invalidate();
   toast(rec ? "Changes saved" : `${m.label}: ${m.singular} added`);
   S.edit = null;
   S.drawerFocused = false;
@@ -843,6 +841,7 @@ async function decideTravel(action) {
       throw new Error("The decision response was unexpected. Refresh the request before continuing.");
     }
     decisionSaved = true;
+    window.FlowGuardData.invalidate();
     try {
       await Promise.all([loadRecords(), loadActivity(), loadActivity(record.dbId)]);
     } catch (error) {
@@ -882,6 +881,7 @@ async function deleteRecord() {
     busy = false;
     lockMutations(false);
   }
+  window.FlowGuardData.invalidate();
   DB[module.id] = rows().filter(row => row.dbId !== record.dbId);
   S.edit = null;
   S.drawerFocused = false;

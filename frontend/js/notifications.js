@@ -141,18 +141,11 @@
         throw new Error("Notifications are unavailable for this account role.");
       }
 
-      let query = supabaseClient
-        .from("flowguard_travel_records")
-        .select("id, owner_id, record_id, data, created_at")
-        .eq("team_id", teamContext.currentTeam.id)
-        .order("created_at", {ascending: false})
-        .limit(100);
-      if (role === "employee") query = query.eq("owner_id", user.id);
-
-      const {data: records, error: recordsError} = await query;
+      const limit = document.body.dataset.page === "travel" ? null : 100;
+      const {data: records, error: recordsError} = await window.FlowGuardData.records(user, teamContext.currentTeam, "travel", false, limit);
       if (recordsError) throw recordsError;
 
-      const items = model.buildNotifications(records || [], role, user.id);
+      const items = model.buildNotifications((records || []).slice(0, 100), role, user.id);
       const state = readState(user.id);
       if (!state.initialized) {
         // Existing requests form the initial baseline; only later changes are new.
@@ -222,5 +215,10 @@
     if (event.key === "Escape" && !panel.hidden) closePanel(true);
   });
 
+  let changeTimer;
+  window.addEventListener("flowguard:data-changed", () => {
+    clearTimeout(changeTimer);
+    changeTimer = setTimeout(() => refresh(), 100);
+  });
   refresh();
 })();

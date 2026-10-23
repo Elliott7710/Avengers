@@ -12,6 +12,7 @@ try {
   html = html.replace("</head>", `<style>${fs.readFileSync("frontend/css/style.css", "utf8")}</style></head>`);
   html = html.replace("</body>", [
     inline("tests/fixtures/travel-browser-client.js"),
+    inline("frontend/js/data-cache.js"),
     inline("frontend/js/calculations.js"),
     inline("frontend/js/travel-workflow.js"),
     inline("frontend/js/script.js"),

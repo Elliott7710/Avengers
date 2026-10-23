@@ -116,7 +116,7 @@
   }
 
   async function loadContext() {
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    const { data: { user }, error: authError } = await window.FlowGuardData.getUser();
     if (authError) throw authError;
     if (!user) {
       if (location.pathname.endsWith("profile.html") ||

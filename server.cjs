@@ -1,6 +1,7 @@
 const http = require("node:http");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const {createHash} = require("node:crypto");
 
 const root = path.join(__dirname, "frontend");
 const port = Number(process.env.PORT || 5000);
@@ -66,11 +67,19 @@ http.createServer(async (req, res) => {
     }
 
     const content = await fs.readFile(file);
-    res.writeHead(200, {
+    const etag = `"${createHash("sha256").update(content).digest("hex")}"`;
+    const headers = {
       "Content-Type": types[path.extname(file)] || "application/octet-stream",
-      "Cache-Control": "no-store",
+      "Cache-Control": "public, no-cache",
+      "ETag": etag,
       "X-Content-Type-Options": "nosniff",
-    });
+    };
+    // Revalidate on every visit so a new deployment never serves stale code.
+    if (req.headers["if-none-match"]?.split(",").some(value => value.trim().replace(/^W\//, "") === etag)) {
+      res.writeHead(304, headers);
+      return res.end();
+    }
+    res.writeHead(200, headers);
     res.end(req.method === "HEAD" ? undefined : content);
   } catch (error) {
     const status = error instanceof URIError ? 400

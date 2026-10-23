@@ -2,3 +2,4 @@
 - [FlowGuard travel calculations](flowguard-calculations.md) — estimated spend includes requested, approved, and booked trips, but excludes rejected trips.
 - [FlowGuard file organization](flowguard-file-organization.md) — defer moving static routes until the user's planned frontend additions are ready.
 - [FlowGuard team access](flowguard-team-access.md) — multiple private teams, manager-issued invitations, and team-shared Insights with employee author-only editing.
+- [FlowGuard caching](flowguard-caching.md) — faster reads must preserve live membership checks and avoid persistent copies of private team records.

@@ -15,6 +15,8 @@
   };
   try {
     const context = await window.FlowGuardTeams.ready();
+    // Let each document finish loading before starting another navigation.
+    await delay(100);
     const phase = localStorage.getItem("teams-test-phase") || "start";
     if (phase === "start") {
       assert(context.currentTeam.id === "team-a", "First available team selected");

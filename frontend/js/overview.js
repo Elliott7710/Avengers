@@ -5,7 +5,7 @@ async function loadOverview() {
     const {
       data: { user },
       error: authError,
-    } = await supabaseClient.auth.getUser();
+    } = await window.FlowGuardData.getUser();
 
     if (authError) throw authError;
 

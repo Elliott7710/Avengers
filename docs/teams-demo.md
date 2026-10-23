@@ -71,3 +71,22 @@ still needs the migration applied and synthetic signed-in sessions. Check that a
 manager who belongs only to Team A cannot view or approve Team B's records, that
 employees can view team Insights but cannot edit others' entries, and that an
 uninvited account sees no team data.
+
+## Loading and caching
+
+Page code and styles use ETag-based browser caching: unchanged files return 304
+instead of downloading again, but each visit revalidates so deployed edits are
+not hidden behind a long cache lifetime. Runtime Supabase configuration remains
+`no-store`.
+
+Within a page, concurrent sign-in checks share one request. Module records are
+cached in memory for up to 15 seconds and separated by account, team, role, and
+module. Travel and its notifications can share the same request; other pages
+limit notification reads to 100 records. Each module loads only its own records.
+
+Successful saves, deletions, and decisions invalidate cached results and notify
+other open tabs to discard their caches. Signing out clears the page cache.
+Travel's Refresh all and Insights' Refresh buttons bypass recent cached results.
+Errors are not cached, private rows are not persisted in browser storage, and
+team membership is fetched again on navigation. Privacy requests and audit
+history are not cached. No additional SQL migration is needed for caching.

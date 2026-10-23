@@ -23,6 +23,7 @@
   async function session(id, role) {
     S.edit = null;
     testSession = {id, role};
+    window.FlowGuardData.clear(); // Simulate the SDK's auth-state change.
     await initialize();
     await delay(60);
   }
