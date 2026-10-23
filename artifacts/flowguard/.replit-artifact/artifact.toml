@@ -1,0 +1,25 @@
+kind = "web"
+previewPath = "/"
+title = "FlowGuard"
+description = "A team coordination and travel workflow app for employee profiles, team management, travel requests, notifications, and insights."
+version = "1.0.0"
+id = "artifacts/flowguard"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25078
+
+[services.development]
+run = "pnpm --filter @workspace/flowguard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/flowguard", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/flowguard/dist/public"
+
+
+[services.env]
+PORT = "25078"
+BASE_PATH = "/"

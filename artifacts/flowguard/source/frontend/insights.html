@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2b2b2b">
+  <title>FlowGuard — Insights</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/teams.css">
+</head>
+<body data-page="insights">
+  <script src='https://www.noupe.com/embed/019a0c54b2d87bba989196f47dd991c831d4.js'></script>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="overview.html" aria-label="FlowGuard overview"><span class="brand-mark">FG</span><span>FlowGuard</span></a>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-btn" href="overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"/></svg>Overview</a>
+        <a class="nav-btn" href="travel.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 13.5 21 4l-4 16-5.5-5-3 3-.5-5Z"/><path d="m11.5 15 9.5-11"/></svg>Travel</a>
+        <a class="nav-btn active" href="insights.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Insights</a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-note"><strong>Workspace preview</strong>Your travel and insights tools are taking shape.</div>
+      <a class="profile profile-button" href="profile.html"><span class="avatar" aria-hidden="true">U</span><span class="profile-name">User<span>Workspace</span></span></a>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumb"><a href="overview.html">Workspace</a> <span aria-hidden="true">/</span> Insights</div>
+        <div class="topbar-actions"><button class="notification-button" type="button" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="notification-label">Notifications</span><span class="notification-badge" aria-hidden="true" hidden></span></button><a class="account-button" href="profile.html" aria-label="Open User's profile"><span class="avatar" aria-hidden="true">U</span><span>User</span></a></div>
+      </header>
+      <div class="page-content">
+        <section class="main">
+          <div class="module-heading">
+            <div><div class="eyebrow">Workspace module</div><h1>Insights</h1><p class="module-description">Team-level work trends and coaching prompts, not surveillance scores.</p></div>
+            <button type="button" class="btn-ghost" data-refresh-workflow>Refresh</button>
+            <button type="button" class="run-btn" id="newBtn">+ New entry</button>
+          </div>
+          <div class="scroll">
+            <div class="stats" id="stats"></div>
+            <div class="toolbar" id="toolbar"></div>
+            <div id="table"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <aside class="drawer" id="drawer" aria-label="Insights entry details"></aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/api/config/supabase.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/data-cache.js"></script>
+  <script src="js/teams.js"></script>
+  <script src="js/notifications-model.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/calculations.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

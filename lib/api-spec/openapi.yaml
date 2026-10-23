@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: config
+    description: Public browser configuration
 paths:
   /healthz:
     get:
@@ -24,6 +26,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /config/supabase.js:
+    get:
+      operationId: getSupabaseBrowserConfig
+      tags: [config]
+      summary: Get the public Supabase browser configuration
+      description: Returns a browser script containing only the Supabase project URL and publishable key.
+      responses:
+        "200":
+          description: Configuration script, or a browser-readable missing-configuration marker.
+          content:
+            text/javascript:
+              schema:
+                type: string
 components:
   schemas:
     HealthStatus:

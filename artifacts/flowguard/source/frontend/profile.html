@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2b2b2b" />
+    <title>FlowGuard — Profile</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/teams.css" />
+  </head>
+
+  <body data-page="profile">
+    <script src='https://www.noupe.com/embed/019a0c54b2d87bba989196f47dd991c831d4.js'></script>
+    <div class="app-shell">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <a class="brand" href="overview.html" aria-label="FlowGuard overview">
+          <span class="brand-mark">FG</span>
+          <span>FlowGuard</span>
+        </a>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a class="nav-btn" href="overview.html">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"
+              />
+            </svg>
+            Overview
+          </a>
+
+          <a class="nav-btn" href="travel.html">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M2.5 13.5 21 4l-4 16-5.5-5-3 3-.5-5Z" />
+              <path d="m11.5 15 9.5-11" />
+            </svg>
+            Travel
+          </a>
+
+          <a
+              class="nav-btn"
+            href="insights.html"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 20V10M10 20V4M16 20v-8M22 20H2" />
+            </svg>
+            Insights
+          </a>
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+
+        <div class="sidebar-note">
+          <strong>Workspace preview</strong>
+          Your travel and insights tools are taking shape.
+        </div>
+
+        <!-- Dynamic sidebar profile -->
+        <a
+          class="profile profile-button active"
+          href="profile.html"
+          aria-current="page"
+        >
+          <span class="avatar" id="sidebar-avatar" aria-hidden="true">U</span>
+
+          <span class="profile-name">
+            <span id="sidebar-name">Loading...</span>
+            <span id="sidebar-role">Employee</span>
+          </span>
+        </a>
+      </aside>
+
+      <!-- Main content -->
+      <main class="main-area">
+        <!-- Top navigation -->
+        <header class="topbar">
+          <div class="breadcrumb">
+            <a href="overview.html">Workspace</a>
+            <span aria-hidden="true">/</span>
+            Profile
+          </div>
+
+          <div class="topbar-actions">
+            <button class="notification-button" type="button" aria-label="Notifications">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+                <path d="M10 21h4" />
+              </svg>
+              <span class="notification-label">Notifications</span>
+              <span class="notification-badge" aria-hidden="true" hidden></span>
+            </button>
+
+            <a
+              class="account-button"
+              href="profile.html"
+              aria-label="Your profile"
+            >
+              <span class="avatar" id="topbar-avatar" aria-hidden="true"
+                >U</span
+              >
+
+              <span id="topbar-name">Loading...</span>
+            </a>
+          </div>
+        </header>
+
+        <!-- Page content -->
+        <div class="page-content">
+          <section aria-labelledby="page-title">
+            <div class="overview-heading">
+              <div class="eyebrow">Account</div>
+              <h1 id="page-title">Your profile</h1>
+              <p>View your profile and workspace information.</p>
+            </div>
+
+            <!-- Profile card -->
+            <div class="profile-card">
+              <div class="profile-hero">
+                <div
+                  class="avatar profile-avatar"
+                  id="profile-avatar"
+                  aria-hidden="true"
+                >
+                  U
+                </div>
+
+                <div>
+                  <h2 id="profile-name">Loading profile...</h2>
+                  <p id="profile-email">Loading email...</p>
+                </div>
+              </div>
+
+              <!-- Account details -->
+              <div class="profile-details">
+                <div>
+                  <span>Name</span>
+                  <strong id="detail-name">Loading...</strong>
+                </div>
+
+                <div>
+                  <span>Username</span>
+                  <strong id="detail-username">Loading...</strong>
+                </div>
+
+                <div>
+                  <span>Role</span>
+                  <strong id="detail-role">Loading...</strong>
+                </div>
+
+                <div>
+                  <span>Workspace</span>
+                  <strong id="detail-workspace">FlowGuard</strong>
+                </div>
+              </div>
+
+              <!-- Status and error messages -->
+              <p
+                class="profile-caption"
+                id="profile-caption"
+                role="status"
+                aria-live="polite"
+              >
+                Your profile information will appear here.
+              </p>
+
+              <div class="profile-actions">
+                <button
+                  class="profile-sign-out-button"
+                  id="profile-sign-out"
+                  type="button"
+                >
+                  Sign out
+                </button>
+                <p
+                  class="profile-sign-out-feedback"
+                  id="profile-sign-out-feedback"
+                  role="alert"
+                  aria-live="assertive"
+                ></p>
+              </div>
+            </div>
+
+            <section class="profile-card privacy-card" aria-labelledby="privacy-title">
+              <h2 id="privacy-title">Privacy &amp; data requests</h2>
+              <p class="privacy-copy">
+                Submit an account deletion or other privacy request. FlowGuard
+                operators review requests; submitting one does not immediately
+                delete your account. Do not include passwords or other secrets.
+              </p>
+
+              <form id="privacy-request-form" class="privacy-request-form">
+                <div class="field">
+                  <label for="privacy-request-type">Request type</label>
+                  <select id="privacy-request-type" name="request_type" required>
+                    <option value="" selected disabled>Choose a request</option>
+                    <option value="deletion">Delete my account and associated data</option>
+                    <option value="access">Request access to my data</option>
+                    <option value="correction">Request a correction</option>
+                    <option value="other">Other privacy request</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="privacy-request-details">Details (optional)</label>
+                  <textarea
+                    id="privacy-request-details"
+                    name="details"
+                    maxlength="1000"
+                    rows="3"
+                    placeholder="Add only the information needed to understand your request."
+                  ></textarea>
+                </div>
+                <button class="run-btn" id="privacy-request-submit" type="submit">
+                  Submit privacy request
+                </button>
+                <p id="privacy-request-feedback" class="privacy-feedback" role="status" aria-live="polite"></p>
+              </form>
+
+              <div class="privacy-history">
+                <h3>Your submitted requests</h3>
+                <p id="privacy-request-history-message" class="privacy-copy" role="status" aria-live="polite">
+                  Loading requests…
+                </p>
+                <ul id="privacy-request-list" class="privacy-request-list"></ul>
+              </div>
+            </section>
+
+            <a class="btn-ghost back-button" href="overview.html">
+              Back to overview
+            </a>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/api/config/supabase.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/data-cache.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/notifications-model.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/roles.js"></script>
+    <script src="js/profile.js"></script>
+  </body>
+</html>
