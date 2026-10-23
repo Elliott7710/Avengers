@@ -14,3 +14,9 @@ The product idea centers on reducing the time managers spend searching across Gm
 **Why:** This is the user-stated product goal and an important boundary for accurate product descriptions.
 
 **How to apply:** Describe the current workspace as a focused starting point; label client-context consolidation and email connections as future direction unless those capabilities are implemented.
+
+The current deliverable is an assignment demo, not a public production launch. The user is handling the privacy policy separately and does not want it to block demo completion. The assignment requires team-created synthetic data and a brief explanation of real-deployment privacy/PDPA handling; full authentication and RBAC may be simulated.
+
+**Why:** The user clarified the demo scope and supplied the Orbyte Smart SME Challenge assignment. Production-launch requirements are not the right measure of assignment progress.
+
+**How to apply:** Prioritize one complete SME automation journey—trigger, connected data, decision logic, role-appropriate human approval, visible outcome, and an activity record. Assess assignment readiness separately from production readiness; do not remove basic data protections just because it is a demo.
