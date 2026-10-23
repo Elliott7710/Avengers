@@ -2,6 +2,7 @@ modules = ["web", "nodejs-20", "python-base-3.13"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["python313Packages.pymupdf"]
 
 [agent]
 expertMode = true
