@@ -111,10 +111,10 @@
     actions.replaceChildren();
     if (role === "manager") {
       addAction("Review travel queue", "travel.html?status=Requested", "notification-action-primary");
-      addAction("Open insights", "insights.html", "notification-action-secondary");
     } else {
       addAction("View my travel requests", "travel.html", "notification-action-primary");
     }
+    addAction("Open team insights", "insights.html", "notification-action-secondary");
   }
 
   async function refresh(markRead = false) {
@@ -124,22 +124,21 @@
     actions.replaceChildren();
 
     try {
-      const {data: {user}, error: authError} = await supabaseClient.auth.getUser();
+      const teamContext = await window.FlowGuardTeams.ready();
+      const user = teamContext?.user;
+      const authError = null;
       if (authError?.name === "AuthSessionMissingError" || !user) {
         setBadge(0);
-        summary.textContent = "Sign in to view notifications.";
+        summary.textContent = user ? "Join a team to view notifications." : "Sign in to view notifications.";
         return;
       }
       if (authError) throw authError;
-
-      const {data: profile, error: profileError} = await supabaseClient
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-      if (profileError) throw profileError;
-
-      const role = String(profile.role || "employee").toLowerCase().trim();
+      if (!teamContext.currentTeam) {
+        setBadge(0);
+        summary.textContent = "Join a team to view notifications.";
+        return;
+      }
+      const role = teamContext.currentTeam.role;
       if (!["employee", "manager"].includes(role)) {
         throw new Error("Notifications are unavailable for this account role.");
       }
@@ -147,6 +146,7 @@
       let query = supabaseClient
         .from("flowguard_travel_records")
         .select("id, owner_id, record_id, data, created_at")
+        .eq("team_id", teamContext.currentTeam.id)
         .order("created_at", {ascending: false})
         .limit(100);
       if (role === "employee") query = query.eq("owner_id", user.id);

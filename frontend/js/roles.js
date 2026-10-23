@@ -1,26 +1,11 @@
 async function initializeRoleNavigation() {
   try {
-    const {
-      data: { user },
-      error: authError,
-    } = await supabaseClient.auth.getUser();
-
-    if (authError) throw authError;
-
-    if (!user) {
+    const teamContext = await window.FlowGuardTeams.ready();
+    if (!teamContext?.user) {
       window.location.replace("login.html");
       return;
     }
-
-    const { data: profile, error: profileError } = await supabaseClient
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profileError) throw profileError;
-
-    const role = (profile.role || "employee").toLowerCase().trim();
+    const role = teamContext.currentTeam?.role || "employee";
 
     // Only recognize roles explicitly supported by FlowGuard.
     if (!["employee", "manager"].includes(role)) {
@@ -35,7 +20,7 @@ async function initializeRoleNavigation() {
       element.hidden = role !== requiredRole;
     });
 
-    console.log("Role navigation initialized:", role);
+    console.log("Team role navigation initialized:", role);
   } catch (error) {
     console.error("Role navigation error:", error);
   }

@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#2b2b2b" />
     <title>FlowGuard — Overview</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/teams.css" />
   </head>
   <body data-page="overview">
     <script src='https://www.noupe.com/embed/019a0c54b2d87bba989196f47dd991c831d4.js'></script>
@@ -44,9 +45,8 @@
             >Travel</a
           >
           <a
-            class="nav-btn manager-only"
+            class="nav-btn"
             href="insights.html"
-            data-role-required="manager"
             ><svg
               viewBox="0 0 24 24"
               fill="none"
@@ -118,6 +118,7 @@
               </div>
               <div class="welcome-orb" aria-hidden="true">✦</div>
             </div>
+            <section class="team-management-section" id="team-management" aria-label="Team membership"></section>
             <div class="section-heading">
               <div>
                 <h2>Your modules</h2>
@@ -147,7 +148,6 @@
               <a
                 class="module-card"
                 href="insights.html"
-                data-role-required="manager"
               >
                 <span class="card-icon" aria-hidden="true"
                   ><svg
@@ -174,6 +174,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/config/supabase.js"></script>
     <script src="js/supabase.js"></script>
+    <script src="js/teams.js"></script>
     <script src="js/notifications-model.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/overview.js"></script>

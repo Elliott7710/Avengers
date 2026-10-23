@@ -105,6 +105,7 @@ const TABLES = {travel: "flowguard_travel_records", insights: "flowguard_insight
 const DB = {travel: [], insights: []};
 let currentUser;
 let currentRole;
+let currentTeam;
 let ready = false;
 let migrationNotice = "";
 let workflowReady = false;
@@ -214,7 +215,8 @@ async function migrateLegacyData() {
     const {data: existing, error: readError} = await supabaseClient
       .from(tableFor(module.id))
       .select("record_id, data")
-      .eq("owner_id", currentUser.id);
+      .eq("owner_id", currentUser.id)
+      .eq("team_id", currentTeam.id);
     if (readError) throw new Error(`Could not check existing ${module.label.toLowerCase()} before import: ${readError.message}`);
 
     const existingById = new Map((existing || []).map(record => [record.record_id, record.data]));
@@ -244,7 +246,7 @@ async function migrateLegacyData() {
         }
         continue;
       }
-      imports.push({owner_id: currentUser.id, record_id: recordId, data: recordData});
+      imports.push({owner_id: currentUser.id, team_id: currentTeam.id, record_id: recordId, data: recordData});
     }
 
     if (imports.length) {
@@ -267,11 +269,13 @@ async function loadRecords() {
   for (const module of MODULES) {
     let result = await supabaseClient
       .from(tableFor(module.id))
-      .select(module.id === "travel" ? "id, owner_id, record_id, data, updated_at" : "id, owner_id, record_id, data")
+      .select(module.id === "travel" ? "id, owner_id, team_id, record_id, data, updated_at" : "id, owner_id, team_id, record_id, data")
+      .eq("team_id", currentTeam.id)
       .order("created_at", {ascending: false});
     if (module.id === "travel" && result.error && !workflowReady) {
       result = await supabaseClient.from(tableFor(module.id))
-        .select("id, owner_id, record_id, data")
+        .select("id, owner_id, team_id, record_id, data")
+        .eq("team_id", currentTeam.id)
         .order("created_at", {ascending: false});
     }
     if (result.error) {
@@ -283,6 +287,7 @@ async function loadRecords() {
       id: record.record_id,
       dbId: record.id,
       ownerId: record.owner_id,
+      teamId: record.team_id,
       ...(module.id === "travel" && record.updated_at ? {updatedAt: record.updated_at} : {})
     }));
   }
@@ -291,12 +296,12 @@ async function loadRecords() {
 async function checkTravelWorkflow() {
   try {
     const {data, error} = await supabaseClient.rpc("flowguard_travel_workflow_version");
-    if (error || Number(data) !== 1) throw error || new Error("Workflow version 1 is not available.");
+    if (error || Number(data) !== 2) throw error || new Error("Team-scoped workflow version 2 is not available.");
     workflowReady = true;
     workflowMessage = "";
   } catch (error) {
     workflowReady = false;
-    workflowMessage = `Travel approvals are not set up yet. Ask your workspace administrator to apply the travel workflow migration (version 1). ${error?.message || ""}`.trim();
+    workflowMessage = `Travel approvals are not ready for team-scoped access. Ask a workspace manager to apply teams.sql. ${error?.message || ""}`.trim();
   }
 }
 
@@ -309,6 +314,7 @@ async function loadActivity(travelId = null) {
   try {
     let query = supabaseClient.from("flowguard_travel_activity")
       .select("id,travel_id,record_id,action,actor_role,from_status,to_status,note,rule_code,created_at")
+      .eq("team_id", currentTeam.id)
       .order("created_at", {ascending: false}).limit(100);
     if (travelId) query = query.eq("travel_id", travelId);
     const {data, error} = await query;
@@ -375,15 +381,15 @@ async function initialize() {
       window.location.replace("signin.html");
       return;
     }
-    currentUser = user;
-
-    const {data: profile, error: profileError} = await supabaseClient
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-    if (profileError) throw profileError;
-    currentRole = (profile.role || "employee").toLowerCase().trim();
+    const teamContext = await window.FlowGuardTeams.ready();
+    currentUser = teamContext?.user || user;
+    currentTeam = teamContext?.currentTeam || null;
+    if (!currentTeam) {
+      $("#newBtn").disabled = true;
+      $("#table").innerHTML = '<div class="card"><div class="empty">Join a team from <a href="overview.html#teams-panel">Overview</a> before opening this workspace.</div></div>';
+      return;
+    }
+    currentRole = currentTeam.role;
     if (!["employee", "manager"].includes(currentRole)) throw new Error("This account has an unsupported role.");
     document.body.dataset.role = currentRole;
 
@@ -581,15 +587,18 @@ function renderDrawer() {
     }
     return;
   }
+  const canWriteInsight = !rec || currentRole === "manager" || rec.ownerId === currentUser.id;
   el.innerHTML = `
     <div class="d-head"><h2>${rec ? esc(rec.id) : `New ${esc(m.singular)}`}</h2><button type="button" class="x-btn" data-close aria-label="Close">&times;</button></div>
     <div class="d-body">
-      ${m.fields.map(f => `<div class="field"><label>${esc(f.label)}</label>${inputFor(f, rec ? rec[f.key] : "")}</div>`).join("")}
+      ${m.fields.map(f => canWriteInsight
+        ? `<div class="field"><label>${esc(f.label)}</label>${inputFor(f, rec ? rec[f.key] : "")}</div>`
+        : `<div class="detail-field"><span>${esc(f.label)}</span><strong>${esc(rec?.[f.key] || "—")}</strong></div>`).join("")}
       <div class="err" id="err"></div>
     </div>
     <div class="d-foot">
-      ${rec ? '<button type="button" class="btn-ghost" data-delete>Delete</button>' : '<button type="button" class="btn-ghost" data-close>Cancel</button>'}
-      <button type="button" class="run-btn" data-save>${rec ? "Save changes" : `Add ${esc(m.singular)}`}</button>
+      ${rec ? (canWriteInsight ? '<button type="button" class="btn-ghost" data-delete>Delete</button>' : '<button type="button" class="btn-ghost" data-close>Close</button>') : '<button type="button" class="btn-ghost" data-close>Cancel</button>'}
+      ${canWriteInsight ? `<button type="button" class="run-btn" data-save>${rec ? "Save changes" : `Add ${esc(m.singular)}`}</button>` : ""}
     </div>`;
   el.classList.add("open");
   el.setAttribute("aria-hidden", "false");
@@ -615,6 +624,7 @@ async function saveRecord() {
   const m = mod(), vals = {};
   const rec = S.edit.id ? rows().find(r => r.dbId === S.edit.id) : null;
   if (m.id === "travel" && (!workflowReady || !FlowGuardTravelWorkflow.canEdit(rec, currentUser.id))) return;
+  if (m.id === "insights" && rec && currentRole !== "manager" && rec.ownerId !== currentUser.id) return;
   for (const f of m.fields) {
     const input = document.querySelector(`#drawer [data-k="${f.key}"]`);
     if (!input) continue;
@@ -645,20 +655,20 @@ async function saveRecord() {
         .eq("id", rec.dbId);
       if (m.id === "travel") updateQuery = updateQuery.eq("updated_at", rec.updatedAt);
       const {data, error} = await updateQuery
-        .select(m.id === "travel" ? "id, owner_id, record_id, data, updated_at" : "id, owner_id, record_id, data")
+        .select(m.id === "travel" ? "id, owner_id, team_id, record_id, data, updated_at" : "id, owner_id, team_id, record_id, data")
         .maybeSingle();
       if (error) throw error;
       if (!data) throw new Error("This request changed elsewhere or is no longer available. Refresh records and activity before trying again.");
-      Object.assign(rec, data.data || {}, {id: data.record_id, dbId: data.id, ownerId: data.owner_id, updatedAt: data.updated_at});
+      Object.assign(rec, data.data || {}, {id: data.record_id, dbId: data.id, ownerId: data.owner_id, teamId: data.team_id, updatedAt: data.updated_at});
     } else {
       const payload = m.id === "travel" ? {...vals, status: "Requested"} : vals;
       const {data, error} = await supabaseClient
         .from(tableFor(m.id))
-        .insert({owner_id: currentUser.id, record_id: nextId(m), data: payload})
-        .select(m.id === "travel" ? "id, owner_id, record_id, data, updated_at" : "id, owner_id, record_id, data")
+        .insert({owner_id: currentUser.id, team_id: currentTeam.id, record_id: nextId(m), data: payload})
+        .select(m.id === "travel" ? "id, owner_id, team_id, record_id, data, updated_at" : "id, owner_id, team_id, record_id, data")
         .single();
       if (error) throw error;
-      DB[m.id].unshift({...data.data, id: data.record_id, dbId: data.id, ownerId: data.owner_id, ...(m.id === "travel" ? {updatedAt: data.updated_at} : {})});
+      DB[m.id].unshift({...data.data, id: data.record_id, dbId: data.id, ownerId: data.owner_id, teamId: data.team_id, ...(m.id === "travel" ? {updatedAt: data.updated_at} : {})});
     }
   } catch (error) {
     showMutationError($("#err"), error);
@@ -856,6 +866,7 @@ async function deleteRecord() {
   const record = rows().find(row => row.dbId === S.edit.id);
   if (!record) return;
   if (module.id === "travel" && (!workflowReady || !FlowGuardTravelWorkflow.canEdit(record, currentUser.id) || busy)) return;
+  if (module.id === "insights" && currentRole !== "manager" && record.ownerId !== currentUser.id) return;
   busy = true;
   lockMutations(true);
   try {

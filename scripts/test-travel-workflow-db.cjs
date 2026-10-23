@@ -29,7 +29,10 @@ try {
     "backend/sql/travel_insights.sql",
     "backend/sql/travel_workflow.sql",
     "backend/sql/travel_workflow.sql", // prove the migration can safely be rerun
-    "backend/sql/tests/travel_workflow_test.sql"
+    "backend/sql/teams.sql",
+    "backend/sql/teams.sql", // prove the team migration can safely be rerun
+    "backend/sql/tests/travel_workflow_test.sql",
+    "backend/sql/tests/teams_test.sql"
   ]) {
     const result = run("psql", ["-X", "-v", "ON_ERROR_STOP=1", "-f", file]);
     console.log(`PASS ${file}`);

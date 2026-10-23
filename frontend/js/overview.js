@@ -1,5 +1,6 @@
 async function loadOverview() {
   try {
+    const teamContext = await window.FlowGuardTeams.ready();
     // 1. Check whether a user is signed in.
     const {
       data: { user },
@@ -16,7 +17,7 @@ async function loadOverview() {
     // 2. Fetch the signed-in user's profile.
     const { data: profile, error: profileError } = await supabaseClient
       .from("profiles")
-      .select("full_name, role")
+      .select("full_name")
       .eq("id", user.id)
       .single();
 
@@ -25,7 +26,7 @@ async function loadOverview() {
     // 3. Prepare the user's information.
     const name = profile.full_name || user.user_metadata?.full_name || "User";
 
-    const role = (profile.role || "employee").toLowerCase().trim();
+    const role = teamContext?.currentTeam?.role || "employee";
 
     // Only allow roles supported by this application.
     if (!["employee", "manager"].includes(role)) {

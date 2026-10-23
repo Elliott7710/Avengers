@@ -48,11 +48,12 @@ async function loadProfile() {
       return;
     }
     privacyRequestUser = user;
+    const teamContext = await window.FlowGuardTeams.ready();
 
     // 3. Fetch this user's profile from Supabase.
     const { data: profile, error: profileError } = await supabaseClient
       .from("profiles")
-      .select("full_name, username, role")
+      .select("full_name, username")
       .eq("id", user.id)
       .single();
 
@@ -65,9 +66,8 @@ async function loadProfile() {
 
     const username = profile.username || user.user_metadata?.username || "—";
 
-    const role = profile.role || "employee";
-    // Normalize the role for consistent comparisons.
-    const normalizedRole = role.toLowerCase().trim();
+    const role = teamContext?.currentTeam?.role || "No team joined";
+    const normalizedRole = teamContext?.currentTeam?.role || "employee";
 
     document.body.dataset.role = normalizedRole;
 
