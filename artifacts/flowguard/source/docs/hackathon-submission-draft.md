@@ -43,12 +43,16 @@ note. Status, edits, decisions, and booking actions are recorded in an
 append-only activity history. Supabase PostgreSQL policies and triggers enforce
 team membership, independent decisions, and permitted status changes.
 
-**This prototype does not currently use artificial intelligence.** Its
-validation and budget flag are deterministic rules, and it does not call a
-generative-AI API or use RunPod. Calling these rules “AI” would misrepresent the
-implementation. If the SDC form requires an AI component, the team must decide
-whether to add one within the rules and access available, or submit a different
-project concept; no AI feature is implied by this draft.
+The workspace includes an optional AI feature: a manager can request a concise
+draft summary of another employee's pending trip using Runpod's Qwen3 32B AWQ
+public endpoint. The request sends purpose, destination, dates, estimated cost,
+and the deterministic budget flag; it excludes names, claim references, and
+account IDs. A manager must confirm that the request is synthetic or approved
+for external processing. The output is temporary, advisory, and never approves
+or rejects a trip. The server-side Runpod key is not configured yet, so live
+inference and provider behavior must be verified before claiming a successful
+end-to-end AI demo. The validation and budget flag themselves remain
+deterministic, not AI.
 
 The current prototype uses plain HTML, CSS, and JavaScript, Replit hosting,
 Node.js runtime configuration, Supabase Auth and PostgreSQL, and the Supabase
@@ -65,14 +69,16 @@ used. No workshop or sponsor participation is asserted here.
 | Authentication | Supabase Auth |
 | Database/access control | Supabase PostgreSQL, row-level security, SQL functions and triggers |
 | Third-party library | Supabase JavaScript SDK 2.x; exact resolved version to confirm from lockfile |
-| AI / compute | None in the running product |
+| AI / compute | Optional Runpod Qwen3 32B AWQ public endpoint for manager-requested summaries; key and live test pending |
 | Hosting/development | Replit web artifact and API Server workflows |
 | Sponsor-provided GenAI API or cloud platform | [TEAM TO CONFIRM; none identified in the repository] |
 
-**Architecture:** browser → Replit-served frontend → Supabase Auth and PostgreSQL
-through the browser SDK. A Replit API endpoint returns the Supabase URL and
-publishable browser key from secrets; it does not expose a service-role key or
-database password. No RunPod endpoint or AI model is connected.
+**Architecture:** browser → Replit-served frontend → Supabase Auth and
+PostgreSQL through the browser SDK. For an explicitly requested manager summary,
+the Replit API Server verifies the Supabase session and team role, then sends
+minimized trip details to the Runpod public endpoint. The Supabase configuration
+endpoint returns only the URL and publishable browser key; no service-role key
+or database password is exposed.
 
 ## 3.2. Design-Thinking & Deployment Strategy — draft (under 200 words)
 

@@ -30,9 +30,13 @@ The approval rules, synthetic setup, and known edge cases are documented in
 
 - The SME coordination problem is a **hypothesis**; no customer interviews,
   field study, or timed comparison is claimed.
-- The running product does **not** call an AI model, use an AI API, or use
-  RunPod. Validation and budget flags are deterministic. Do not describe them
-  as AI-generated.
+- The workspace includes an optional, manager-triggered Runpod summary draft
+  using the Qwen3 32B AWQ public endpoint. It only runs after the server-side
+  key is configured and a manager confirms external processing for that request.
+  It does not approve or reject requests. Live inference still needs to be
+  verified with the team's Runpod account.
+- Validation and budget flags remain deterministic; do not describe them as
+  AI-generated.
 - The MYR 1,000 threshold is illustrative, not a business-approved policy.
 - Use synthetic accounts and records for a demonstration.
 - Live approval/team behavior needs the documented Supabase schema, access
@@ -52,13 +56,26 @@ workflow.
    `FLOWGUARD_SUPABASE_PUBLISHABLE_KEY` through Replit Secrets. The publishable
    key is intended for browser use; never add a service-role key or database
    password.
-3. Configure the Supabase Auth Site URL and allowed redirect URL for the Replit
+3. Optional AI summary setup: add `RUNPOD_API_KEY` through Replit Secrets. The
+   integration uses Runpod's pre-deployed `qwen3-32b-awq` public endpoint; no
+   custom GPU deployment is needed, but the Runpod account needs credits. The
+   endpoint's listed rate is currently $10 per 1 million tokens; check
+   [Runpod's endpoint page](https://docs.runpod.io/public-endpoints/models/qwen3-32b)
+   before use because pricing can change. A summary is only requested by a
+   manager, after an explicit confirmation in the UI. Use synthetic data unless
+   the organization has approved external processing.
+4. Configure the Supabase Auth Site URL and allowed redirect URL for the Replit
    preview/deployment origin.
-4. Apply the database setup in the intended Supabase project, following
+5. Apply the database setup in the intended Supabase project, following
    [`backend/sql/README.md`](backend/sql/README.md). Review the target before
    running SQL; use synthetic accounts and data.
-5. Sign in with separate synthetic employee and manager accounts and rehearse
+6. Sign in with separate synthetic employee and manager accounts and rehearse
    [`docs/travel-workflow-demo.md`](docs/travel-workflow-demo.md).
+
+The summary sends only trip purpose, destination, dates, estimated cost, and the
+budget flag. It excludes traveller names, claim references, and account IDs.
+The draft is displayed temporarily, is not saved to request history, and does
+not replace the manager's decision. The Runpod key must remain server-side.
 
 The workflow code will load without working Supabase configuration, but
 authenticated features require the project settings, schema, and policies.
@@ -79,7 +96,8 @@ Open `http://localhost:5000`. Keep real credentials in your local environment
 or a secrets manager; do not commit them. The local server serves the same
 browser-safe configuration at `/api/config/supabase.js` used by the pages.
 Database migrations and live authentication still require the intended
-Supabase project.
+Supabase project. The optional Runpod relay is provided by the Replit API Server
+workflow and is not included in this standalone preview server.
 
 ## Architecture
 
@@ -91,16 +109,20 @@ Browser
        └─ profiles, team membership, Travel, Insights, activity
 
 Replit API Server
-  └─ /api/config/supabase.js
-       └─ returns only the Supabase project URL and browser publishable key
-          from Replit Secrets (no database password or service-role key)
+  ├─ /api/config/supabase.js
+  │    └─ returns only the Supabase project URL and browser publishable key
+  └─ /api/travel/summary (manager-only, explicit request)
+       ├─ verifies the Supabase session, team role, and pending request
+       └─ sends minimized trip details to Runpod Qwen3 32B AWQ
 ```
 
 The static frontend is plain HTML/CSS/JavaScript. Node.js serves it in the
 standalone source project; in this Replit workspace, Vite serves the multi-page
 artifact and a separate API artifact supplies runtime configuration. Supabase
-provides hosted authentication and PostgreSQL with row-level security. There is
-no application AI model, RunPod workload, payment integration, or booking API.
+provides hosted authentication and PostgreSQL with row-level security. The
+optional Runpod integration drafts manager summaries only; it does not approve
+requests, process payments, or book travel. Live model use remains unverified
+until a Runpod key and credits are configured.
 The workspace also uses the Replit Agent for development assistance; this is
 not a runtime dependency of FlowGuard.
 

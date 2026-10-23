@@ -18,13 +18,13 @@ approval. **Draft** means material exists but must be confirmed by the team;
 | GitHub repository URL / judge access | Outstanding | No public GitHub remote or judge-access URL verified. Add the URL after confirming permissions and clean repository contents. |
 | Replit proof of use | Workspace evidence exists; official proof outstanding | Replit artifacts/workflows are configured in this workspace. Complete the organizer's Replit POU form with genuine screenshots/details; do not fabricate deployment proof. |
 | Replit live app and judge access | Outstanding | Workspace preview runs locally in Replit. Confirm a public deployment URL and test anonymous judge access if required. |
-| RunPod proof of use | Not used in current app; confirm organizer applicability | No RunPod code, endpoint, or credentials were found. Do not claim use. If the organizer requires it for all submissions, ask the team/organizer what N/A evidence is accepted. |
+| Runpod AI feature | Implemented in workspace; live test outstanding | Optional manager-requested Qwen3 32B AWQ summary is wired through the API Server. Add the key through Replit Secrets, confirm account credits and data-processing approval, then verify one synthetic request. Do not claim live inference until tested. |
 | Demo video / YouTube link | Outstanding | Record the flow with synthetic data, verify privacy/access, publish only with team approval, and paste the URL. No video has been published. |
 | Apache 2.0 license | File present; ownership needs confirmation | `LICENSE` exists. Confirm copyright holder and repository provenance before signing/distribution. |
 | Submission filenames and forms | Outstanding | Replace `TeamName` with the confirmed team name; complete the official Preliminary and TechDeclaration PDFs and any required POU forms. |
 | Team/domain/SDG/workshop eligibility | Outstanding | Team leader must confirm exact names, domain, track, workshop completion, number of members, and eligibility attestations. |
 | No secrets in repository | Check before public sharing | Review staged files, history, and screenshots; keep credentials only in Replit Secrets. |
-| Local checks | Partially verified | `npm test` passed 23 tests; `npm run test:workflow-db` and `npm run test:workflow-ui` passed; `npm run test:teams-ui` failed twice at different simulated navigation stages. Workspace `pnpm run typecheck` and FlowGuard build passed with required `PORT`/`BASE_PATH`. Investigate the team-switch test and report its status honestly. |
+| Local checks | Passed locally; live services unverified | `npm test` (23 tests), `npm run test:workflow-db`, `npm run test:workflow-ui`, and `npm run test:teams-ui` passed. Workspace typecheck and FlowGuard/API Server builds passed. These checks do not verify live Supabase access or a real Runpod inference. |
 | Staging auth, redirects, schema, and access policies | Outstanding / separate project task | Apply and verify only in the intended staging project with synthetic users. Do not treat offline tests as live proof. |
 
 ## Final go/no-go
@@ -33,4 +33,4 @@ Do not label the submission “complete” until the team has resolved the unkno
 official-form fields, set an evidence-based baseline and target (or obtained
 organizer approval for a transparent TBD), checked repository/deployment access,
 completed any required POU forms, and confirmed what evidence is accepted for
-RunPod when it is not used.
+Runpod proof-of-use requirements and whether organizers require live inference.

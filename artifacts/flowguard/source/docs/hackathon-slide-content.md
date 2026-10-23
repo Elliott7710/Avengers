@@ -52,11 +52,12 @@ record a baseline.
 - Supabase Auth and PostgreSQL for accounts and team-scoped records
 - Database policies and triggers enforce permissions and status transitions
 - Independent manager decisions require a reason; activity writes are append-only
+- Optional manager-requested Runpod draft summary; it is advisory and does not make decisions
 - Local unit, disposable-PostgreSQL, and simulated-browser tests are available
 
-**Architecture line:** Browser → Replit FlowGuard UI → Supabase Auth + PostgreSQL
+**Architecture line:** Browser → Replit FlowGuard UI → Supabase Auth + PostgreSQL; manager-requested summary → Replit API Server → Runpod Qwen3 32B AWQ
 
-**Truth-in-labeling callout:** The current product uses deterministic validation and budget rules. It has no AI model/API and no RunPod workload.
+**Truth-in-labeling callout:** Budget flags and validation are deterministic. The optional Runpod feature drafts a manager summary only; it cannot approve or reject. The Runpod key and live inference still need setup and testing.
 
 **Speaker note:** Replit is the development/hosting environment; Supabase provides
 authentication and the relational data service. The public deployment and
@@ -82,7 +83,7 @@ as the selected alignment. Source: [UN SDG Indicators metadata](https://unstats.
 **Headline:** The next milestone is evidence—not a bigger feature list
 
 - **Hardest risk:** We have not verified that the coordination problem is frequent or costly for the intended SMEs
-- **Technical dependency:** Live approval requires correctly configured Supabase schema, access policies, and Auth redirects
+- **Technical dependency:** Live approval needs Supabase schema, access policies, and Auth redirects; the optional summary also needs a Runpod key and credits
 - **Safe demo:** Use separate synthetic employee and manager accounts in staging
 - **Fallback:** If staging is not ready, label local tests as simulated; do not bypass authentication or permissions
 - **Before submission:** Confirm team details, baseline, public repository/Replit links, proof forms, and video
@@ -95,8 +96,8 @@ current process and validate the workflow with the intended users.
 - **Team/domain/SDG:** [TEAM TO CONFIRM]
 - **GitHub repository:** [PUBLIC LINK OR JUDGE-ACCESS LINK]
 - **Replit project/live demo:** [LINK; test anonymous judge access first]
-- **RunPod:** Not used by the current app; confirm whether the organizers require
-  an N/A statement or proof.
+- **Runpod:** Optional manager-only Qwen3 32B AWQ summary; verify one synthetic
+  end-to-end request and organizer proof requirements before claiming use.
 - **Demo video:** [YOUTUBE OR APPROVED HOST LINK AFTER RECORDING]
 - **Measured result:** [INSERT ONLY AFTER RUNNING THE TIMED COMPARISON; INCLUDE
   SAMPLE SIZE AND METHOD]

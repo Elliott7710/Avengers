@@ -6,4 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './flowGuardApiError';
 export * from './healthStatus';
+export * from './travelSummaryInput';
+export * from './travelSummaryResponse';

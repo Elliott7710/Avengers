@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: config
     description: Public browser configuration
+  - name: travel
+    description: Manager-only travel workflow assistance
 paths:
   /healthz:
     get:
@@ -39,7 +41,87 @@ paths:
             text/javascript:
               schema:
                 type: string
+  /travel/summary:
+    post:
+      operationId: generateTravelSummary
+      tags: [travel]
+      summary: Draft a factual summary of a pending travel request
+      description: Requires an authenticated manager in the request's team and explicit confirmation that selected request details may be sent to the external Runpod model. The summary is advisory and does not make an approval decision.
+      security:
+        - supabaseJwt: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelSummaryInput"
+      responses:
+        "200":
+          description: Advisory summary text
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TravelSummaryResponse"
+        "400":
+          description: Invalid request or missing external-processing confirmation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "401":
+          description: A valid Supabase session is required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "403":
+          description: Manager access to the team is required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "404":
+          description: The pending request is not available to this account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "409":
+          description: Only another employee's pending request can be summarized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "429":
+          description: Per-account summary rate limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "502":
+          description: The model provider did not return a usable summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "503":
+          description: Supabase or Runpod configuration is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
+        "504":
+          description: The model request timed out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowGuardApiError"
 components:
+  securitySchemes:
+    supabaseJwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     HealthStatus:
       type: object
@@ -48,4 +130,42 @@ components:
           type: string
       required:
         - status
+    TravelSummaryInput:
+      type: object
+      additionalProperties: false
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        teamId:
+          type: string
+          format: uuid
+        confirmExternalProcessing:
+          type: boolean
+      required:
+        - requestId
+        - teamId
+        - confirmExternalProcessing
+    TravelSummaryResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        summary:
+          type: string
+          minLength: 1
+          maxLength: 1200
+        model:
+          type: string
+      required:
+        - summary
+        - model
+    FlowGuardApiError:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          maxLength: 200
+      required:
+        - error
 

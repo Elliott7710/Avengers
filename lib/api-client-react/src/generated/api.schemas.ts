@@ -9,3 +9,23 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface TravelSummaryInput {
+  requestId: string;
+  teamId: string;
+  confirmExternalProcessing: boolean;
+}
+
+export interface TravelSummaryResponse {
+  /**
+     * @minLength 1
+     * @maxLength 1200
+     */
+  summary: string;
+  model: string;
+}
+
+export interface FlowGuardApiError {
+  /** @maxLength 200 */
+  error: string;
+}
+

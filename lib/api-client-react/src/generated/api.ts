@@ -6,21 +6,28 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
+  MutationFunction,
   QueryFunction,
   QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
-  HealthStatus
+  FlowGuardApiError,
+  HealthStatus,
+  TravelSummaryInput,
+  TravelSummaryResponse
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
-import type { ErrorType } from '../custom-fetch';
+import type { ErrorType , BodyType } from '../custom-fetch';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -201,4 +208,93 @@ export function useGetSupabaseBrowserConfig<TData = Awaited<ReturnType<typeof ge
 
 
 
+
+export const getGenerateTravelSummaryUrl = () => {
+
+
+
+
+  return `/api/travel/summary`
+}
+
+/**
+ * Requires an authenticated manager in the request's team and explicit confirmation that selected request details may be sent to the external Runpod model. The summary is advisory and does not make an approval decision.
+ * @summary Draft a factual summary of a pending travel request
+ */
+export const generateTravelSummary = async (travelSummaryInput: TravelSummaryInput, options?: Parameters<typeof customFetch>[1]): Promise<TravelSummaryResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<TravelSummaryResponse>(getGenerateTravelSummaryUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(travelSummaryInput)
+  }
+);}
+
+
+
+
+
+export const getGenerateTravelSummaryMutationKey = () => ['generateTravelSummary'] as const;
+
+export const getGenerateTravelSummaryMutationOptions = <TError = ErrorType<FlowGuardApiError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateTravelSummary>>, TError,GenerateTravelSummaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateTravelSummary>>, TError,GenerateTravelSummaryMutationVariables, TContext> => {
+
+const mutationKey = getGenerateTravelSummaryMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateTravelSummary>>, GenerateTravelSummaryMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  generateTravelSummary(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateTravelSummaryMutationResult = NonNullable<Awaited<ReturnType<typeof generateTravelSummary>>>
+    export type GenerateTravelSummaryMutationBody = BodyType<TravelSummaryInput>
+    export type GenerateTravelSummaryMutationError = ErrorType<FlowGuardApiError>
+    export type GenerateTravelSummaryMutationVariables = {data: BodyType<TravelSummaryInput>}
+
+    /**
+ * @summary Draft a factual summary of a pending travel request
+ */
+export const useGenerateTravelSummary = <TError = ErrorType<FlowGuardApiError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateTravelSummary>>, TError,GenerateTravelSummaryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generateTravelSummary>>,
+        TError,
+        GenerateTravelSummaryMutationVariables,
+        TContext
+      > => {
+      return useMutation(getGenerateTravelSummaryMutationOptions(options));
+    }
 

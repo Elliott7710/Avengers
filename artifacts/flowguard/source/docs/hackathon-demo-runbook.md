@@ -5,8 +5,9 @@
 Show a synthetic employee request moving through validation and an illustrative
 budget flag, an independent manager decision, a visible employee outcome, and a
 role-labelled activity history. This demonstrates workflow enforcement and
-human control. It does not demonstrate an AI model, real booking, accounting
-integration, customer validation, or measured time savings.
+human control. If the optional Runpod key is configured, it can also demonstrate
+a manager-requested AI summary draft. It does not demonstrate real booking,
+accounting integration, customer validation, or measured time savings.
 
 ## Readiness checks
 
@@ -21,9 +22,13 @@ integration, customer validation, or measured time savings.
    [`backend/sql/README.md`](../backend/sql/README.md).
 5. Create two synthetic accounts in the same demo team: one employee and one
    manager. The reviewer must be a different account from the request owner.
-6. Use synthetic data only. The illustrative threshold is MYR 1,000 and is not
+6. If demonstrating the AI summary, add `RUNPOD_API_KEY` through Replit Secrets
+   and ensure the Runpod account has credits. The current listed rate for the
+   Qwen3 32B AWQ endpoint is $10 per 1 million tokens; confirm current pricing.
+   Keep the key out of screenshots and logs.
+7. Use synthetic data only. The illustrative threshold is MYR 1,000 and is not
    an approved business policy.
-7. Keep a backup screen recording or static screenshots only if they contain no
+8. Keep a backup screen recording or static screenshots only if they contain no
    credentials, real personal data, or private invitation codes.
 
 **If staging setup is incomplete:** do not imply the signed-in journey was live.
@@ -40,10 +45,11 @@ permissions to make the demo work.
 | 3. Show validation/flag | Point out the `high_budget` flag because the illustrative threshold is over MYR 1,000. Explain it is not auto-approval or a confirmed policy. | Budget flag and still-pending request |
 | 4. Show initial activity | Open request history. | `Submitted` entry with actor/time |
 | 5. Demonstrate edit and recalculation (optional) | While still Requested, change cost to MYR 1,000 and save. The flag becomes standard; approval is still required. | Updated details/flag and `Edited` activity |
-| 6. Independent decision | In the manager session, refresh, open the request, enter a concise review reason, and Approve. | Manager decision; no self-approval; note required |
-| 7. Show employee outcome | Refresh employee session and show Approved, manager note, locked details, and next step. | Outcome is visible to requester; no real booking claimed |
-| 8. Optional booking | As manager, record a synthetic booking confirmation note and choose Mark booked. | Booked status and activity entry; no booking API |
-| 9. Close with history | Reopen activity history and recap submit → validation/flag → human decision → outcome → record. | Role-labelled chronological history |
+| 6. Optional Runpod summary | As manager, confirm external processing for the synthetic request and choose “Draft with Runpod.” Explain that only purpose, destination, dates, estimated cost, and the budget flag are sent. | Temporary draft appears; no employee name, claim reference, account ID, or approval action is sent |
+| 7. Independent decision | In the manager session, enter a concise review reason and choose Approve or Reject. The AI draft is only a reference. | Manager decision; no self-approval; note required |
+| 8. Show employee outcome | Refresh employee session and show the outcome, manager note, locked details, and next step. | Outcome is visible to requester; no real booking claimed |
+| 9. Optional booking | As manager, record a synthetic booking confirmation note and choose Mark booked. | Booked status and activity entry; no booking API |
+| 10. Close with history | Reopen activity history and recap submit → validation/flag → optional summary → human decision → outcome → record. | Role-labelled chronological history; summary is not stored in history |
 
 ### Optional alternate-path checks
 
@@ -69,10 +75,11 @@ claim a time saving in the demo.
 
 ## Likely judge question: “Where is the AI?”
 
-Answer accurately: “The current prototype has no AI component. Its date/field
-validation and illustrative MYR budget flag are deterministic rules, and every
-request still requires a manager's decision. We are not claiming that these
-rules are AI.”
+Answer accurately: “There is an optional Runpod Qwen3 32B AWQ feature that drafts
+a short summary for a manager after explicit confirmation. It does not approve
+or reject requests, and the budget flag and date/field validation are still
+deterministic rules. We have not verified live inference until the key is
+configured and a synthetic request is tested.”
 
 ## Fallbacks
 
@@ -81,6 +88,8 @@ rules are AI.”
   verification remains outstanding.
 - **Manager session cannot decide:** do not bypass permissions. Show the
   relevant local test and mark the live step unverified.
+- **Runpod key/credits are not ready:** skip the optional summary. Do not imply
+  that the AI request was live or use real employee data.
 - **Network unavailable:** use the prerecorded demo only if it is labeled
   clearly as a prior recording from the same build and contains synthetic data.
   Otherwise present the source code and test output as local evidence.

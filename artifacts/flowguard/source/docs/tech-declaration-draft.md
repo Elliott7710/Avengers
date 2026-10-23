@@ -25,10 +25,12 @@ service-role key. Supabase Auth provides account sessions. The browser client
 uses Supabase PostgreSQL tables, row-level security, and database functions and
 triggers for profiles, team membership, Travel, Insights, and travel activity.
 The travel workflow validates request details, displays an illustrative budget
-flag, and requires an independent manager decision. The current product does
-not call an AI model, use RunPod, process payments, or place bookings. The
-workspace uses Replit development workflows; public deployment and judge
-access remain unverified.
+flag, and requires an independent manager decision. An optional manager action
+can request a factual draft summary from the Runpod Qwen3 32B AWQ public
+endpoint. The summary never makes an approval decision. The key is not yet
+configured, so live inference remains unverified. The product does not process
+payments or place bookings. The workspace uses Replit development workflows;
+public deployment and judge access remain unverified.
 
 ## 2.2 Languages, frameworks, and libraries
 
@@ -48,11 +50,13 @@ third-party asset inventory before submission.
 | API / provider | Purpose | Access tier |
 |---|---|---|
 | Supabase Auth and PostgREST/RPC | Sign-in, profile/team data, Travel/Insights, guarded workflow actions | Supabase project plan: [TEAM TO CONFIRM] |
+| Runpod Public Endpoint | Optional manager-requested travel summary using Qwen3 32B AWQ; only minimized trip fields are sent after explicit UI confirmation | Usage-based; listed model rate currently $10 / 1M tokens; Runpod account and credits required |
 | jsDelivr CDN | Delivers the Supabase JS SDK to browser pages | Public CDN; access tier: [TEAM TO CONFIRM] |
 | External page embed on Travel page (`noupe.com`) | Present in source; exact purpose and data behavior are not yet audited | [INVESTIGATE BEFORE SIGNING] |
 
-No AI, maps, payment, email, or booking API was identified in the current
-application source. Confirm the actual deployed page's external requests.
+No maps, payment, email, or booking API is connected. Confirm the actual
+deployed page's external requests and verify live Runpod behavior before
+submission.
 
 ## 3.2 Cloud Platforms & Deployment
 
@@ -61,13 +65,19 @@ application source. Confirm the actual deployed page's external requests.
 | Replit | Development workspace; FlowGuard web and API Server workflows | [TEAM TO CONFIRM PLAN/REGION; public deployment unverified] |
 | Supabase | Hosted Auth and PostgreSQL | Project region/plan: [TEAM TO CONFIRM] |
 | jsDelivr | Browser SDK delivery | Public CDN |
-| RunPod | Not used or found in the current product source | Not applicable unless team used it separately |
+| Runpod | Optional Qwen3 32B AWQ Public Endpoint, invoked only by a manager for a summary | Usage-priced; current listed rate is $10 / 1M tokens; check provider pricing before use |
 
 ## 4.1 AI Models Used in the Solution
 
-**None in the running product.** The MYR threshold flag and form validation
-are deterministic rules. Do not list Replit Agent here as an embedded model;
-it is development assistance and belongs in section 4.3.
+**Runpod Qwen3 32B AWQ** (`qwen3-32b-awq`) through the Runpod Public Endpoint.
+It drafts a short summary only when a manager explicitly requests one for
+another employee's pending trip and confirms external processing. The prompt
+contains the trip purpose, destination, dates, estimated cost, and deterministic
+budget flag; it excludes names, claim references, and account IDs. The output is
+temporary, advisory, and does not approve or reject a request. The API key is
+not configured and live inference has not yet been tested. The MYR threshold
+flag and form validation remain deterministic rules. Replit Agent is
+development assistance, not an embedded model; list it in section 4.3 instead.
 
 ## 4.2 Datasets
 
@@ -107,29 +117,35 @@ travel activity. Travel fields can include names, destinations, dates, purpose,
 and a claim reference. Use synthetic accounts and records for the hackathon
 demo; do not use actual employee travel data. Supabase policies and database
 functions restrict records by user/team role, and the Replit API endpoint
-returns only the browser-safe project URL and publishable key. No AI service,
-RunPod workload, or file-upload storage is used by the current app. Data
-retention, hosting region, deployed cookie/auth behavior, and live privacy
-controls require team and staging verification before public submission.
+returns only the browser-safe project URL and publishable key. When a manager
+explicitly requests an AI summary, the server sends only trip purpose,
+destination, dates, estimated cost, and the budget flag to Runpod; names, claim
+references, and account IDs are excluded. The UI requires confirmation that the
+request is synthetic or approved for external processing. The summary is not
+saved. Do not use real employee data until the team reviews the provider's data
+handling terms and approves the use. Data retention, hosting region, deployed
+auth behavior, and live privacy controls require team and staging verification.
 
 ## 6.2 Known Limitations & Risks — draft (under 150 words)
 
-FlowGuard has no AI component; its budget threshold is illustrative and must
-not be treated as company policy. The SME coordination problem and any time
-saving remain unvalidated and unmeasured. Hosted authentication, team isolation,
-and database enforcement depend on correctly applied Supabase migrations and
-Auth redirect settings; offline tests do not prove live configuration. A
-third-party embed and remote assets in the source need a purpose, privacy, and
-license review. The prototype does not connect to an accounting/claims platform,
-book travel, or process payments. Use only synthetic data until access policies
-and privacy requirements are reviewed in the intended staging project.
+The AI summary is optional and advisory; its output may be wrong and cannot
+replace manager review. Runpod credentials and live inference are not yet
+verified. The budget threshold is illustrative and must not be treated as
+company policy. The SME coordination problem and any time saving remain
+unvalidated and unmeasured. Hosted authentication, team isolation, and database
+enforcement depend on correctly applied Supabase migrations and Auth redirect
+settings; offline tests do not prove live configuration. A third-party embed
+and remote assets in the source need a purpose, privacy, and license review.
+The prototype does not connect to an accounting/claims platform, book travel,
+or process payments. Use only synthetic data until access policies and privacy
+requirements are reviewed in the intended staging project.
 
 ## Final declaration checklist
 
 - [ ] Confirm the team and leader details, public URLs, repository access, and live prototype state.
 - [ ] Reconcile every service and library against the final source, lockfile, and browser network requests.
 - [ ] Confirm AI-development tools used by every team member.
-- [ ] Confirm sponsor resources, SDC workshop completion, and any RunPod activity with the team.
+- [ ] Confirm sponsor resources, SDC workshop completion, Runpod account use, and the current provider pricing with the team.
 - [ ] Confirm synthetic-only data for the demo and disclose personal-data fields.
 - [ ] Complete all official form sections, including checkboxes and signatures.
 - [ ] Ensure no keys, passwords, tokens, or credentials appear in submission files.

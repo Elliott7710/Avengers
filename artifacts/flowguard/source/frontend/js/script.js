@@ -118,6 +118,7 @@ let refreshingWorkflow = false;
 let workflowRefreshError = "";
 let drawerRenderedKey = null;
 let drawerDraft = null;
+let travelSummaryState = {requestId: null, summary: "", error: "", busy: false};
 const pageModule = MODULES.find(module => module.id === document.body.dataset.page);
 const requestedFilter = new URLSearchParams(window.location.search).get("status");
 const optionsForFilter = module => module?.id === "travel"
@@ -528,6 +529,9 @@ function renderDrawer() {
     : activeInside?.hasAttribute("data-refresh-drawer-history") ? "[data-refresh-drawer-history]" : null;
   const m = mod();
   const rec = S.edit.id ? rows().find(r => r.dbId === S.edit.id) : null;
+  if (travelSummaryState.requestId !== (rec?.dbId ?? null)) {
+    travelSummaryState = {requestId: rec?.dbId ?? null, summary: "", error: "", busy: false};
+  }
   if (m.id === "travel") {
     const canWrite = !busy && workflowReady && FlowGuardTravelWorkflow.canEdit(rec, currentUser.id);
     const isNew = !rec;
@@ -557,12 +561,21 @@ function renderDrawer() {
     }).join("");
     const decisionNote = drawerDraft?.key === draftKey ? drawerDraft.note || "" : "";
     const actionsMarkup = actions.length ? `<section class="decision-box"><h3>Manager decision</h3><label for="decisionNote">Decision note <span>(required, up to 1,000 characters)</span></label><textarea id="decisionNote" maxlength="1000" data-decision-note placeholder="Record the reason for this decision" ${busy ? "disabled" : ""}>${esc(decisionNote)}</textarea><div class="decision-actions">${actions.map(action => `<button type="button" class="${action === "reject" ? "btn-ghost decision-reject" : "run-btn"}" data-decision="${action}" ${busy ? "disabled" : ""}>${action === "approve" ? "Approve" : action === "reject" ? "Reject" : "Mark booked"}</button>`).join("")}</div><div class="err" id="decisionErr" role="alert"></div></section>` : "";
+    const summaryMarkup = actions.includes("approve") ? `<section class="decision-box ai-summary">
+      <h3>AI draft summary for manager</h3>
+      <p>Runpod receives the trip purpose, destination, dates, estimated cost, and budget flag. Names, claim references, and account IDs are excluded. The draft is not saved and cannot approve or reject a request.</p>
+      <label for="runpodExternalConsent"><input id="runpodExternalConsent" type="checkbox" ${travelSummaryState.busy ? "disabled" : ""}> I confirm this request is synthetic or approved for external AI processing.</label>
+      <div class="decision-actions"><button type="button" id="generateTravelSummary" class="btn-ghost" data-generate-summary disabled ${travelSummaryState.busy ? "disabled" : ""}>${travelSummaryState.busy ? "Drafting summary…" : "Draft with Runpod"}</button></div>
+      ${travelSummaryState.error ? `<p class="err" role="alert">${esc(travelSummaryState.error)}</p>` : ""}
+      ${travelSummaryState.summary ? `<div class="request-summary" aria-live="polite"><strong>AI-generated draft — verify every fact</strong><p>${esc(travelSummaryState.summary)}</p></div>` : ""}
+      <small>Optional, usage-priced. Runpod currently lists $10 per 1 million tokens; <a href="https://docs.runpod.io/public-endpoints/models/qwen3-32b" target="_blank" rel="noopener">check current pricing</a>. No request is sent until you draft. Review the result; the manager alone decides.</small>
+    </section>` : "";
     const footer = isEditable
       ? `<div class="d-foot">${rec ? `<button type="button" class="btn-ghost" data-delete ${canWrite ? "" : "disabled"}>Delete</button>` : `<button type="button" class="btn-ghost" data-close>Cancel</button>`}<button type="button" class="run-btn" data-save ${canWrite ? "" : "disabled"}>${isNew ? "Submit request" : "Save changes"}</button></div>`
       : `<div class="d-foot"><button type="button" class="btn-ghost" data-close>Close</button></div>`;
     const preview = isEditable ? `<div class="rule-preview" id="rulePreview" aria-live="polite">Enter valid trip details to preview the approval rule.</div>` : "";
     el.innerHTML = `<div class="d-head"><div><span class="eyebrow">${rec ? "Travel request" : "New request"}</span><h2>${rec ? esc(rec.id) : "Submit a travel request"}</h2></div><button type="button" class="x-btn" data-close aria-label="Close request details">&times;</button></div>
-      <div class="d-body">${workflowReady ? "" : `<div class="setup-notice" role="alert">${esc(workflowMessage)} Travel requests are read-only until setup is complete.</div>`}${statusPanel}${fields}${preview}${actionsMarkup}
+      <div class="d-body">${workflowReady ? "" : `<div class="setup-notice" role="alert">${esc(workflowMessage)} Travel requests are read-only until setup is complete.</div>`}${statusPanel}${fields}${preview}${summaryMarkup}${actionsMarkup}
       ${rec ? `<section class="drawer-history"><div class="activity-heading"><div><h3>Request history</h3><p>Activity attached to this request.</p></div><button type="button" class="btn-ghost" data-refresh-drawer-history>Refresh</button></div>${historyBody}</section>` : ""}
       <div class="err" id="err" role="alert"></div></div>${footer}`;
     el.classList.add("open");
@@ -738,11 +751,13 @@ document.addEventListener("click", e => {
     renderDrawer();
     return loadActivity(S.edit.id);
   }
+  if (t.closest("[data-generate-summary]")) return generateTravelSummary();
   if (t.closest("[data-close]")) {
     if (busy) return;
     S.edit = null;
     S.drawerFocused = false;
     drawerDraft = null;
+    travelSummaryState = {requestId: null, summary: "", error: "", busy: false};
     return render();
   }
   if (t.closest("[data-save]")) return saveRecord();
@@ -777,6 +792,65 @@ document.addEventListener("input", e => {
 document.addEventListener("change", e => {
   if (e.target.id === "filter") { S.filter = e.target.value; renderPage(); }
 });
+
+document.addEventListener("change", e => {
+  if (!(e.target instanceof Element) || !e.target.matches("#runpodExternalConsent")) return;
+  const button = document.querySelector("[data-generate-summary]");
+  if (button) button.disabled = !e.target.checked || travelSummaryState.busy;
+});
+
+async function generateTravelSummary() {
+  const consent = document.querySelector("#runpodExternalConsent");
+  if (!(consent instanceof HTMLInputElement) || !consent.checked || travelSummaryState.busy) return;
+  const record = rows().find(item => item.dbId === S.edit?.id);
+  if (
+    mod()?.id !== "travel" ||
+    !record ||
+    !workflowReady ||
+    !FlowGuardTravelWorkflow.availableActions(record, currentRole, currentUser.id).includes("approve")
+  ) return;
+  const currentTeam = window.FlowGuardTeams.current()?.currentTeam;
+  if (!currentTeam || currentTeam.id !== record.teamId) return;
+
+  const requestedRecordId = record.dbId;
+  const requestState = {requestId: requestedRecordId, summary: "", error: "", busy: true};
+  travelSummaryState = requestState;
+  renderDrawer();
+  try {
+    const {data, error} = await supabaseClient.auth.getSession();
+    const accessToken = data?.session?.access_token;
+    if (error || !accessToken) throw new Error("Your sign-in session is unavailable. Sign in again and retry.");
+    const response = await fetch("/api/travel/summary", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requestId: requestedRecordId,
+        teamId: record.teamId,
+        confirmExternalProcessing: true,
+      }),
+    });
+    const result = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(typeof result?.error === "string" ? result.error : "Could not draft a summary.");
+    }
+    if (typeof result?.summary !== "string" || !result.summary.trim()) {
+      throw new Error("Runpod returned no usable summary.");
+    }
+    requestState.summary = result.summary.slice(0, 1200);
+  } catch (error) {
+    requestState.error = error instanceof Error
+      ? error.message
+      : "Could not draft a summary.";
+  } finally {
+    requestState.busy = false;
+    if (travelSummaryState === requestState && S.edit?.id === requestedRecordId) {
+      renderDrawer();
+    }
+  }
+}
 
 document.addEventListener("keydown", e => {
   if (e.target.matches("[data-open]") && (e.key === "Enter" || e.key === " ")) {

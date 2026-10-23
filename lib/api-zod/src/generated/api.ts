@@ -24,3 +24,23 @@ export const HealthCheckResponse = zod.object({
 export const GetSupabaseBrowserConfigResponse = zod.unknown()
 
 
+/**
+ * Requires an authenticated manager in the request's team and explicit confirmation that selected request details may be sent to the external Runpod model. The summary is advisory and does not make an approval decision.
+ * @summary Draft a factual summary of a pending travel request
+ */
+export const GenerateTravelSummaryBody = zod.object({
+  "requestId": zod.string().uuid(),
+  "teamId": zod.string().uuid(),
+  "confirmExternalProcessing": zod.boolean()
+})
+
+export const generateTravelSummaryResponseSummaryMax = 1200;
+
+
+
+export const GenerateTravelSummaryResponse = zod.object({
+  "summary": zod.string().min(1).max(generateTravelSummaryResponseSummaryMax),
+  "model": zod.string()
+})
+
+
