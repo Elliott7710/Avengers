@@ -1,0 +1,29 @@
+kind = "video"
+videoAspectRatio = "16:9"
+previewPath = "/flowguard-workflow-animation/"
+title = "FlowGuard Workflow Animation"
+description = "A short animated workflow insert for the FlowGuard product demo, showing the employee travel request journey through human manager review and visible activity history."
+version = "1.0.0"
+id = "artifacts/flowguard-workflow-animation"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/flowguard-workflow-animation/" ]
+localPort = 20429
+
+[services.development]
+run = "pnpm --filter @workspace/flowguard-workflow-animation run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/flowguard-workflow-animation", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/flowguard-workflow-animation/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20429"
+BASE_PATH = "/flowguard-workflow-animation/"

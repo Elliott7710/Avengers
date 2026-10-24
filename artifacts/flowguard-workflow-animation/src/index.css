@@ -1,0 +1,131 @@
+@import 'tailwindcss';
+
+:root {
+  --color-primary: #17393b;
+  --color-secondary: #456466;
+  --color-accent: #a7d6bf;
+  --color-bg-light: #f2f1e9;
+  --color-bg-dark: #112d30;
+  --color-bg-muted: #dce7df;
+  --color-text-primary: #173638;
+  --color-text-secondary: #657a77;
+  --color-text-muted: #8b9a94;
+  --color-text-inverse: #f5f3e9;
+  --color-success: #6fb892;
+  --color-warning: #e5b45f;
+  --color-error: #c96c62;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-bg-light: var(--color-bg-light);
+  --color-bg-dark: var(--color-bg-dark);
+  --color-bg-muted: var(--color-bg-muted);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.film-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.065em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 1.75vmin;
+  line-height: 1.4;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.tiny {
+  font-size: 1.8vmin;
+  line-height: 1.35;
+}
+
+.form-paper {
+  background: #f4f2e9;
+  color: #173638;
+  border: 1px solid rgba(23, 54, 56, 0.12);
+  box-shadow: 0 2.3vmin 7vmin rgba(3, 22, 24, 0.22);
+}
+
+.paper-rule {
+  height: 1px;
+  background: rgba(23, 54, 56, 0.16);
+}
+
+.threshold-dash {
+  background-image: linear-gradient(to right, rgba(231, 239, 228, 0.22) 36%, transparent 0%);
+  background-size: 1.2vmin 1px;
+}
+
+.activity-rail {
+  background: linear-gradient(#86bca0, #86bca0) 0 0 / 1px 100% no-repeat;
+}
+
+.video-media-frame {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.video-media-frame > :is(img, video) {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+
+.video-media-frame[data-media-fit='contain'] > :is(img, video) {
+  object-fit: contain;
+}
