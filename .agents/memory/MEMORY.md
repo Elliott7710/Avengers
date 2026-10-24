@@ -1,1 +1,2 @@
 - [Supabase database TLS](supabase-database-tls.md) — direct admin connections may need the dashboard’s root certificate; do not bypass TLS verification.
+- [README delivery](readme-delivery.md) — provide FlowGuard README content in chat; the user updates GitHub.
