@@ -7,6 +7,14 @@ the impact-baseline fields are resolved, and the team completes the eligibility
 checklist in the official PDF. The template says the deadline is 25 October
 2026; confirm the organizer's current deadline.
 
+**Live workflow update (24 October 2026):** The project owner reported that the
+existing travel request was accessible in employee and manager sessions and that
+the approval check worked, including the employee-visible outcome, manager note,
+and activity history. The SQL result supplied by the owner showed one travel
+record assigned to a team. These are owner-reported checks, not an independent
+end-to-end audit. New-account signup, wider access-isolation cases, public judge
+access, and live Runpod inference are not established by those checks.
+
 **Originality / eligibility blocker:** This workspace was populated from an
 uploaded repository. The team must establish when that work was created, who
 owns it, and what was pre-existing before answering the prior-work question or
@@ -17,7 +25,7 @@ during the SDC 2026 hackathon period. Do not mark “No” without checking.
 
 - **Team Name:** Avengers
 - **Selected Domain:** Domain 2
-- **Selected SDG Track (1–17):** [NOT PROVIDED; confirm the exact official SDG track/sub-target]
+- **Selected SDG Track (1–17):** [PROPOSED, NOT YET CONFIRMED] SDG 8 — Decent Work and Economic Growth; target 8.2. Confirm that this choice matches the organizer's Domain 2 rules.
 - **Project / Solution Name:** FlowGuard
 - **Name (Leader):** Dayanitha [confirm; the supplied README roster separately names Soo Jun Hin as team lead]
 - **Email & Phone (Leader):** [TEAM TO COMPLETE IN THE OFFICIAL FORM]
@@ -92,34 +100,38 @@ or database password is exposed.
 
 ## 3.2. Design-Thinking & Deployment Strategy — draft (under 200 words)
 
-The current prototype is based on a problem hypothesis, not completed customer
-research. The implemented journey is deliberately narrow: an employee submits
-one travel request, a different manager reviews it, and both roles can see the
-result and activity history. Local unit, disposable-PostgreSQL, and simulated
-browser tests exercise validation, role boundaries, and status changes. These
-tests show implementation behavior, not user acceptance or deployment readiness.
-The team has not established a measured baseline or verified the workflow with
-target SMEs. For Phase 2, use synthetic accounts in an isolated staging project,
-confirm the SQL target and Auth redirects, then test employee/manager isolation.
-Run equivalent timed cases in the team's current process and FlowGuard; report
-the baseline, sample size, clarifications, and median without generalizing
-beyond the test. The optional Runpod summary must remain manager-reviewed and
-limited to synthetic or explicitly approved data.
+The prototype is based on a problem hypothesis, not completed customer research.
+Its narrow journey connects an employee travel request, an independent manager
+decision, and a visible outcome with activity history. The project owner reports
+that two existing accounts could access the request and that approval appeared
+for the employee with the manager note and history. This is a live owner check,
+not an independent audit or SME validation. Local unit, disposable-PostgreSQL,
+and simulated browser tests also exercise validation, role boundaries, and
+status changes.
+
+For Phase 2, measure equivalent synthetic review tasks using a manual process
+and FlowGuard. Record start-to-decision time, sample size, clarifications, and
+median results. A proposed goal, subject to team confirmation, is a 30% reduction
+in median review time relative to the measured manual baseline; no reduction is
+claimed yet. Broader signup and access-isolation checks and public judge access
+still need verification. Optional Runpod summaries must remain manager-reviewed
+and limited to synthetic or explicitly approved data.
 
 ## Impact baseline and KPI — required, unresolved
 
 The supplied form requests a specific SDG sub-target, numeric current baseline,
 core KPI, and percentage-based Phase 2 target. No measured baseline, applicable
 public benchmark, or validated environmental impact is established in the
-project. These required numeric fields are a submission blocker; do not replace
-them with an invented estimate.
+project. The required numeric baseline remains unresolved; do not replace it
+with an invented estimate. A future improvement target may be proposed without
+claiming it has already been achieved.
 
 | Form field | Defensible draft |
 |---|---|
 | Target SDG sub-target(s) | Candidate for team review: UN SDG target 8.2, “Achieve higher levels of economic productivity through diversification, technological upgrading and innovation.” Confirm the exact fit and selected SDC domain/track before claiming alignment. Source: [UN SDG Indicators metadata](https://unstats.un.org/sdgs/metadata?Goal=8&Text=). |
 | Current problem baseline | **TBD — not measured.** Time the same complete synthetic request in the team's current process and record start-to-decision time, including pauses/clarification requests. |
 | Core measurable KPI | Median elapsed minutes from a complete request being presented to a manager's recorded decision; separately record requests requiring clarification. |
-| Phase 2 impact target | **TBD — do not invent a percentage.** Set only after the baseline and feasibility are known; report actual comparison, sample size, and limitations. |
+| Phase 2 impact target | **PROPOSED — TEAM TO CONFIRM:** reduce median travel-request review time by 30% relative to a measured manual-process baseline. This is an unvalidated goal, not an achieved result. Reassess feasibility once the baseline is measured. |
 | Source/citation | No external baseline source is claimed in this draft. Add a credible citation only if the team uses published data. |
 
 Suggested low-cost measurement: have the same reviewers process a small,
@@ -127,6 +139,13 @@ predeclared set of equivalent synthetic cases in the current method and
 FlowGuard; record task start/end, clarifications, and completion. Report the
 sample size and median. This is a proposed measurement plan, not completed user
 research or evidence of time saving.
+
+Calculate the measured reduction as
+`(manual median − FlowGuard median) / manual median × 100`, using the same timing
+definition for both methods and a positive manual baseline. Use equivalent
+cases and counterbalance which method reviewers try first to reduce practice
+effects. A 30% target means FlowGuard's median should be at most 70% of the manual
+median; it does not supply the missing baseline.
 
 ## Third-party items for form section 6.2
 
@@ -147,8 +166,9 @@ research or evidence of time saving.
   members:** [TEAM TO VERIFY]
 - **Verified real-world problem mapped to UN SDGs:** [NOT VERIFIED; the SME pain
   point is currently a hypothesis]
-- **Functional, deployed application:** [Replit workspace preview and local
-  checks exist; public deployment and judge access are not verified]
+- **Functional, deployed application:** [Replit workspace preview, local checks,
+  and owner-reported live team access and approval checks exist; public deployment
+  and judge access are not verified]
 - **All fields completed within word limits:** [INCOMPLETE UNTIL THIS DRAFT IS
   RESOLVED AND TRANSFERRED TO OFFICIAL PDF]
 - **6.1 Pre-existing/prior-owned work:** [TEAM TO DECLARE; establish repository
