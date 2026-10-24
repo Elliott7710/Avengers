@@ -72,10 +72,12 @@ workflow.
 6. Sign in with separate synthetic employee and manager accounts and rehearse
    [`docs/travel-workflow-demo.md`](docs/travel-workflow-demo.md).
 
-The summary sends only trip purpose, destination, dates, estimated cost, and the
-budget flag. It excludes traveller names, claim references, and account IDs.
-The draft is displayed temporarily, is not saved to request history, and does
-not replace the manager's decision. The Runpod key must remain server-side.
+The summary sends only the free-text trip purpose, destination, dates, estimated
+cost, and budget flag. The separate traveller-name and claim-reference fields,
+plus account, team, and request IDs, are not sent; the purpose text could still
+contain personal details, so do not include names or identifiers there. The
+draft is displayed temporarily, is not saved to request history, and does not
+replace the manager's decision. The Runpod key must remain server-side.
 
 The workflow code will load without working Supabase configuration, but
 authenticated features require the project settings, schema, and policies.

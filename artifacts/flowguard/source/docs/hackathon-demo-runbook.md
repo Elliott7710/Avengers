@@ -22,8 +22,9 @@ accounting integration, customer validation, or measured time savings.
    [`backend/sql/README.md`](../backend/sql/README.md).
 5. Create two synthetic accounts in the same demo team: one employee and one
    manager. The reviewer must be a different account from the request owner.
-6. If demonstrating the AI summary, add `RUNPOD_API_KEY` through Replit Secrets
-   and ensure the Runpod account has credits. The current listed rate for the
+6. If demonstrating the AI summary, confirm `RUNPOD_API_KEY` is present in
+   Replit Secrets without copying it into notes, and ensure the Runpod account
+   has credits. The current listed rate for the
    Qwen3 32B AWQ endpoint is $10 per 1 million tokens; confirm current pricing.
    Keep the key out of screenshots and logs.
 7. Use synthetic data only. The illustrative threshold is MYR 1,000 and is not
@@ -88,7 +89,7 @@ configured and a synthetic request is tested.”
   verification remains outstanding.
 - **Manager session cannot decide:** do not bypass permissions. Show the
   relevant local test and mark the live step unverified.
-- **Runpod key/credits are not ready:** skip the optional summary. Do not imply
+- **Runpod credits or authenticated staging are not ready:** skip the optional summary. Do not imply
   that the AI request was live or use real employee data.
 - **Network unavailable:** use the prerecorded demo only if it is labeled
   clearly as a prior recording from the same build and contains synthetic data.
