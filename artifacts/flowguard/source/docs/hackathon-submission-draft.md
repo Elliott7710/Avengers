@@ -24,8 +24,8 @@ during the SDC 2026 hackathon period. Do not mark “No” without checking.
 ## Cover fields
 
 - **Team Name:** Avengers
-- **Selected Domain:** Domain 2
-- **Selected SDG Track (1–17):** [PROPOSED, NOT YET CONFIRMED] SDG 8 — Decent Work and Economic Growth; target 8.2. Confirm that this choice matches the organizer's Domain 2 rules.
+- **Selected Domain:** Domain 2 — Orbyte Smart SME Challenge
+- **Selected SDG Track (1–17):** [RECOMMENDED — TEAM TO CONFIRM] SDG 8 — Decent Work and Economic Growth; target 8.2, productivity through technological upgrading and innovation. The supplied Domain 2 brief requests a business benefit and SDG link without naming a specific SDG.
 - **Project / Solution Name:** FlowGuard
 - **Name (Leader):** Dayanitha [confirm; the supplied README roster separately names Soo Jun Hin as team lead]
 - **Email & Phone (Leader):** [TEAM TO COMPLETE IN THE OFFICIAL FORM]
@@ -36,6 +36,26 @@ during the SDC 2026 hackathon period. Do not mark “No” without checking.
 table, but its lower roster lists Soo Jun Hin as Team Lead and repeats that same
 person for three roles. Confirm the correct leader and complete five-member
 roster before signing.
+
+### Alignment with the supplied Domain 2 brief
+
+The organizer's brief asks for a reliable, easy-to-learn automation product for
+the Orbyte ecosystem that removes one recurring operational burden for micro
+and small businesses, improves accuracy and consistency, and keeps people in
+control.
+
+| Domain 2 must-have | FlowGuard mapping and evidence limit |
+|---|---|
+| One clear SME problem | Repeated coordination of employee travel requests and manager decisions. This remains a problem hypothesis until validated with target SMEs. |
+| Automated journey | Trigger: request submission → data: trip context and cost → logic: required-field/date checks and illustrative budget flag → approval: an independent manager's recorded decision → logged outcome: status, reason, and activity history. |
+| Human control | Validation and budget flags do not approve requests. Managers decide; optional AI summaries remain advisory. |
+| Orbyte fit and reuse | Proposed as a reusable, team-scoped travel-approval workflow for SMEs. No implemented Orbyte integration or verified Orbyte API compatibility is claimed. Confirm platform requirements with the organizer before claiming ecosystem compatibility. |
+| Business benefit and SDG link | Aim to reduce review effort and inconsistent records, linked to SDG 8.2's focus on productivity through technology and innovation. No measured productivity gain is claimed. |
+| Ease of learning | A focused request form, role-specific review actions, and visible history support the design intent. Measure task completion and assistance needed in a first-time-user test; usability is not yet validated. |
+
+This table is supporting material, not an additional official form section.
+Transfer relevant wording into the applicable fields without exceeding their
+word limits.
 
 ## 2.1. The Problem Context — draft (under 250 words)
 
