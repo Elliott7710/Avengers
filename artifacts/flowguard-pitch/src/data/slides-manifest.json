@@ -1,0 +1,66 @@
+[
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c01",
+    "position": 1,
+    "filepath": "src/pages/slides/FlowGuard.tsx",
+    "title": "FlowGuard",
+    "description": "Team Avengers' travel-approval prototype for the SDC 2026 Orbyte Smart SME Challenge.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c02",
+    "position": 2,
+    "filepath": "src/pages/slides/Problem.tsx",
+    "title": "One recurring SME burden: travel approvals",
+    "description": "Scattered request context, repeated clarification, and the need for customer validation.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c03",
+    "position": 3,
+    "filepath": "src/pages/slides/Workflow.tsx",
+    "title": "From request to logged outcome",
+    "description": "The five-stage journey from employee submission to a logged manager decision.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c04",
+    "position": 4,
+    "filepath": "src/pages/slides/Control.tsx",
+    "title": "Automate the checks. Keep people in control.",
+    "description": "Team access, independent decisions, illustrative budget checks, and database enforcement.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c05",
+    "position": 5,
+    "filepath": "src/pages/slides/Architecture.tsx",
+    "title": "A lightweight stack with optional AI assistance",
+    "description": "Frontend, Replit API, Supabase, and the unverified optional Runpod summary integration.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c06",
+    "position": 6,
+    "filepath": "src/pages/slides/Impact.tsx",
+    "title": "Domain 2 fit: productivity without losing control",
+    "description": "Proposed SDG 8.2 alignment, an unvalidated 30% review-time goal, and Orbyte compatibility limits.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c07",
+    "position": 7,
+    "filepath": "src/pages/slides/Evidence.tsx",
+    "title": "Working demo, with clear evidence limits",
+    "description": "Recorded local checks, owner-reported approval behavior, and remaining evidence gaps.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c2f4384f-0246-4b7a-9542-a900a46e3c08",
+    "position": 8,
+    "filepath": "src/pages/slides/NextSteps.tsx",
+    "title": "Next: validate the benefit and finish the evidence",
+    "description": "Publication rehearsal, submission proof, authorized Runpod verification, and SME evaluation.",
+    "speakerNotes": ""
+  }
+]

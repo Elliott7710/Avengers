@@ -1,0 +1,28 @@
+kind = "slides"
+previewPath = "/flowguard-pitch/"
+title = "FlowGuard — Hackathon Pitch"
+description = "An eight-slide SDC 2026 Domain 2 pitch for Team Avengers, covering the SME travel-approval workflow, human control, architecture, proposed impact, evidence limits, and next steps."
+version = "1.0.0"
+id = "artifacts/flowguard-pitch"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/flowguard-pitch/" ]
+localPort = 24447
+
+[services.development]
+run = "pnpm --filter @workspace/flowguard-pitch run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/flowguard-pitch", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/flowguard-pitch/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24447"
+BASE_PATH = "/flowguard-pitch/"
