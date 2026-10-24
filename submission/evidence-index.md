@@ -2,7 +2,7 @@
 
 **Team:** Avengers  
 **Project:** FlowGuard  
-**Last updated:** 24 October 2026
+**Last updated:** 25 October 2026
 
 This is an evidence index, not an official SDC proof-of-use form. Only items
 labelled as verified below have been checked. The organiser's supplied Replit
@@ -23,8 +23,8 @@ it is not an independent audit or proof of public-site access.
 
 The image also includes a written note about the direct RunPod test. For
 provider-side evidence, add a separate RunPod request/usage screenshot that
-matches the test below. Do not expose API keys, tokens, or private account
-information.
+matches the test below. The note is a team-authored description, not a provider
+record. Do not expose API keys, tokens, or private account information.
 
 ## Verified RunPod request
 
@@ -47,19 +47,20 @@ quality issue is addressed and retested.
 
 ### Replit evidence
 
-The FlowGuard app and API are configured as Replit workspace workflows. After
-the `RUNPOD_API_KEY` secret was updated, the API workflow rebuilt and started.
-The current image shows the app preview, not the Replit workspace itself.
+The FlowGuard app and API are configured as Replit workspace workflows. The
+current image shows the app preview, not the Replit workspace or its running
+workflow panel.
 
-**Still needed:** capture genuine screenshots of the Replit project/workspace
-and running workflows. If showing the Secrets page, show variable names only
-and conceal every secret value.
+**Still needed:** capture a genuine screenshot of the Replit workspace with the
+FlowGuard web and API workflows running. Follow
+[`evidence/proof-capture-guide.md`](evidence/proof-capture-guide.md). Do not
+show secret values.
 
 ## Evidence still to collect
 
 - A screenshot of the matching RunPod request and usage record from the
   RunPod dashboard, with credentials and private account details hidden.
-- Replit workspace and workflow screenshots for the official Replit proof.
+- A Replit workspace screenshot with the project and running workflows visible.
 - A fresh app capture from the final published URL, once public access is
   verified. The included composite is a Replit preview capture.
 - A verified end-to-end manager-to-RunPod test after the summary-quality issue
