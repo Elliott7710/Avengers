@@ -1,7 +1,5 @@
 import path from 'path';
 import { cpSync, readdirSync } from 'node:fs';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
@@ -39,8 +37,6 @@ const htmlPages = Object.fromEntries(
 export default defineConfig({
   base: basePath,
   plugins: [
-    react(),
-    tailwindcss(),
     runtimeErrorOverlay(),
     {
       name: 'copy-classic-frontend-scripts',
@@ -67,7 +63,6 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(import.meta.dirname, 'src'),
       '@assets': path.resolve(
         import.meta.dirname,
         '..',
@@ -75,7 +70,6 @@ export default defineConfig({
         'attached_assets',
       ),
     },
-    dedupe: ['react', 'react-dom'],
   },
   root: frontendRoot,
   build: {
