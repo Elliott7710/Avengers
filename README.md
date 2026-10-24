@@ -7,7 +7,7 @@
 | **Team Name** | Avengers |
 | **Team Domain** | Domain 2 — Orbyte Smart SME Challenge |
 | **SDG Track (1–17)** | Proposed: SDG 8 — Decent Work and Economic Growth, target 8.2 |
-| **Team Leader** | **Confirm before submission** |
+| **Team Leader** | Dayanitha |
 | **University** | Asia Pacific University (APU) |
 | **Number of Members** | 5 |
 The proposed SDG alignment relates to productivity through technological upgrading and innovation. The team must confirm the final SDG selection.
@@ -15,7 +15,7 @@ The proposed SDG alignment relates to productivity through technological upgradi
 | Resource | Link |
 |---|---|
 | GitHub Repository | https://github.com/Elliott7710/Avengers |
-| Live Demo | **Pending — add the final published URL** |
+| Live Demo | https://avengers-flowguard.replit.app |
 | RunPod Endpoint | https://api.runpod.ai/v2/qwen3-32b-awq/runsync |
 | Slide Deck | **Pending — add the submitted deck or accessible presentation link** |
 | Demo Video | **Pending — add the YouTube link** |
@@ -124,9 +124,9 @@ The summary API checks the user session, manager membership, and pending request
 2. Configure these settings through Replit Secrets:
    | Variable | Purpose |
    |---|---|
-   | `FLOWGUARD_SUPABASE_URL` | Supabase project URL |
-   | `FLOWGUARD_SUPABASE_PUBLISHABLE_KEY` | Browser-safe publishable key |
-   | `RUNPOD_API_KEY` | Optional server-side summary integration |
+   | `request from +60-16 306 0030` | Supabase project URL |
+   | `request from +60-16 306 0030` | Browser-safe publishable key |
+   | `request from +60-16 306 0030` | Optional server-side summary integration |
 3. Configure the database using:
    `artifacts/flowguard/source/backend/sql/README.md`
 4. For a new database, follow the documented order:
@@ -231,11 +231,13 @@ This is a proposed goal, not an achieved result. No baseline or measured time sa
 ---
 ## Team
 Complete and confirm all five members before submission.
-| Name        | Role                | GitHub                                   |
-| ----------- | ------------------- | ---------------------------------------- |
+| Name        | Role                | GitHub                                         |
+| ----------- | ------------------- | ---------------------------------------------- |
 | Soo Jun Hin | Team Lead / Backend | [@Elliott7710](https://github.com/Elliott7710) |
 | Soo Jun Hin | Frontend            | [@Elliott7710](https://github.com/Elliott7710) |
 | Soo Jun Hin | AI / RunPod         | [@Elliott7710](https://github.com/Elliott7710) |
+| Soo Jun Hin | Full Stack          | [@Elliott7710](https://github.com/Elliott7710) |
+
 Confirm the official team leader before completing the signed forms.
 ---
 ## Submission Checklist
