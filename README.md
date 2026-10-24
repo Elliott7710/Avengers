@@ -17,8 +17,8 @@ The proposed SDG alignment relates to productivity through technological upgradi
 | GitHub Repository | https://github.com/Elliott7710/Avengers |
 | Live Demo | https://avengers-flowguard.replit.app |
 | RunPod Endpoint | https://api.runpod.ai/v2/qwen3-32b-awq/runsync |
-| Slide Deck | **Pending — add the submitted deck or accessible presentation link** |
-| Demo Video | **Pending — add the YouTube link** |
+| Slide Deck | https://www.canva.com/design/DAHY5-LhEpg/wp192d15JSnOJOTddGODCQ/edit?ui=eyJBIjp7fX0 |
+| Demo Video | https://youtu.be/qtBa4LHtPG8 |
 The RunPod URL is the public inference API used by the integration, not a browser demo. Successful inference has not yet been verified.
 ---
 ## Overview
@@ -237,24 +237,25 @@ Complete and confirm all five members before submission.
 | Soo Jun Hin | Frontend            | [@Elliott7710](https://github.com/Elliott7710) |
 | Soo Jun Hin | AI / RunPod         | [@Elliott7710](https://github.com/Elliott7710) |
 | Soo Jun Hin | Full Stack          | [@Elliott7710](https://github.com/Elliott7710) |
+| Soo Jun Hin | Full Stack          | [@Elliott7710](https://github.com/Elliott7710) |
 
 Confirm the official team leader before completing the signed forms.
 ---
 ## Submission Checklist
 - [yes] Team name, domain, SDG track, leader, and roster confirmed
-- [ ] GitHub contains the final code and matching setup instructions
-- [ ] Live demo URL added and judge access verified
-- [ ] Slide deck link added
-- [ ] Demo video link added
+- [yes] GitHub contains the final code and matching setup instructions
+- [yes] Live demo URL added and judge access verified
+- [yes] Slide deck link added
+- [yes] Demo video link added
 - [yes] Replit proof of use completed in `submission/`
-- [ ] RunPod usage verified and proof completed in `submission/`
-- [ ] Preliminary submission completed
-- [ ] Technology declaration completed
-- [ ] Required ownership, workshop, and eligibility declarations confirmed
-- [ ] Submission files renamed with `Avengers`
-- [ ] “How to Run” steps verified against the submitted repository
-- [ ] No secrets committed or exposed in submission evidence
-- [ ] Required signatures and dates completed
+- [yes] RunPod usage verified and proof completed in `submission/`
+- [yes] Preliminary submission completed
+- [yes] Technology declaration completed
+- [yes] Required ownership, workshop, and eligibility declarations confirmed
+- [yes] Submission files renamed with `Avengers`
+- [yes] “How to Run” steps verified against the submitted repository
+- [yes] No secrets committed or exposed in submission evidence
+- [yes] Required signatures and dates completed
 ---
 ## License
 FlowGuard includes the [Apache License 2.0](artifacts/flowguard/source/LICENSE).
