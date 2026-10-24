@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "THkWs7RKjMtHoW66Q8aHK"
+uri = "file://.local/outputs/FlowGuard---Hackathon-Pitch.pptx"
+type = "slides"
+title = "FlowGuard — Hackathon Pitch.pptx"
