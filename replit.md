@@ -25,8 +25,13 @@ FlowGuard is a team coordination app for employee profiles, travel workflows, te
 
 ## Where things live
 
-- `artifacts/flowguard/source/frontend/` — imported FlowGuard pages and scripts
+- `artifacts/flowguard/source/frontend/` — multi-page FlowGuard interface
+- `artifacts/flowguard/source/frontend/styles/` — page stylesheets
+- `artifacts/flowguard/source/frontend/scripts/` — browser-side JavaScript
+- `artifacts/flowguard/source/frontend/assets/` — static frontend assets
+- `artifacts/flowguard/source/backend/server.cjs` — standalone imported-project server
 - `artifacts/flowguard/source/backend/sql/` — Supabase schema and policy scripts
+- `artifacts/api-server/src/routes/` and `src/lib/` — Express API routes and helpers
 - `artifacts/api-server/src/routes/supabase-config.ts` — runtime config endpoint
 - `lib/api-spec/openapi.yaml` — shared API contract
 
@@ -34,7 +39,7 @@ FlowGuard is a team coordination app for employee profiles, travel workflows, te
 
 - Supabase credentials are injected at runtime through Replit Secrets; never commit the publishable key or any privileged key.
 - Only a publishable key or legacy `anon` key may be returned to the browser. Service-role keys are not supported.
-- The app's existing multi-page HTML interface is preserved rather than rewritten.
+- Keep HTML page entry points in `source/frontend/` to preserve existing URLs; organize their styles, scripts, and static assets in the matching subfolders.
 
 ## Product
 

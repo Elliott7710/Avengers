@@ -39,10 +39,13 @@ export default defineConfig({
   plugins: [
     runtimeErrorOverlay(),
     {
-      name: 'copy-classic-frontend-scripts',
+      name: 'copy-static-frontend-assets',
       apply: 'build',
       closeBundle() {
-        cpSync(path.resolve(frontendRoot, 'js'), path.resolve(outputRoot, 'js'), {
+        cpSync(path.resolve(frontendRoot, 'scripts'), path.resolve(outputRoot, 'scripts'), {
+          recursive: true,
+        });
+        cpSync(path.resolve(frontendRoot, 'assets'), path.resolve(outputRoot, 'assets'), {
           recursive: true,
         });
       },

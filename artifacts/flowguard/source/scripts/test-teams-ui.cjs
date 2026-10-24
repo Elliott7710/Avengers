@@ -9,11 +9,11 @@ try {
   let html = fs.readFileSync("frontend/overview.html", "utf8")
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "")
     .replace(/<link[^>]+stylesheet[^>]*>/g, "");
-  html = html.replace("</head>", `<style>${fs.readFileSync("frontend/css/style.css", "utf8")}\n${fs.readFileSync("frontend/css/teams.css", "utf8")}</style></head>`);
+  html = html.replace("</head>", `<style>${fs.readFileSync("frontend/styles/style.css", "utf8")}\n${fs.readFileSync("frontend/styles/teams.css", "utf8")}</style></head>`);
   html = html.replace("</body>", [
     inline("tests/fixtures/team-browser-client.js"),
-    inline("frontend/js/data-cache.js"),
-    inline("frontend/js/teams.js"),
+    inline("frontend/scripts/data-cache.js"),
+    inline("frontend/scripts/teams.js"),
     inline("tests/fixtures/team-browser-scenarios.js"),
     "</body>"
   ].join("\n"));

@@ -14,7 +14,7 @@ async function withServer(config, run) {
     FLOWGUARD_SUPABASE_URL: config.url || "",
     FLOWGUARD_SUPABASE_PUBLISHABLE_KEY: config.key || ""
   };
-  const child = spawn(process.execPath, ["server.cjs"], {
+  const child = spawn(process.execPath, ["backend/server.cjs"], {
     cwd: path.resolve(__dirname, ".."),
     env,
     stdio: ["ignore", "ignore", "ignore"]
@@ -84,7 +84,7 @@ test("fails closed on missing, malformed, and privileged keys without echoing va
 
 test("static files revalidate with ETags while runtime config remains uncached", async () => {
   await withServer({}, async (port) => {
-    for (const file of ["/overview.html", "/js/data-cache.js", "/css/style.css"]) {
+    for (const file of ["/overview.html", "/scripts/data-cache.js", "/styles/style.css", "/assets/favicon.svg"]) {
       const first = await fetch(`http://127.0.0.1:${port}${file}`);
       assert.equal(first.status, 200);
       assert.equal(first.headers.get("cache-control"), "public, no-cache");
@@ -110,7 +110,7 @@ test("all signed-in pages load runtime config before initializing the client", (
   for (const page of pages) {
     const html = fs.readFileSync(`frontend/${page}.html`, "utf8");
     assert.ok(html.indexOf('/api/config/supabase.js') >= 0, `${page} loads runtime config`);
-    assert.ok(html.indexOf('/api/config/supabase.js') < html.indexOf('js/supabase.js'), `${page} loads config before client`);
+    assert.ok(html.indexOf('/api/config/supabase.js') < html.indexOf('scripts/supabase.js'), `${page} loads config before client`);
   }
-  assert.doesNotMatch(fs.readFileSync("frontend/js/supabase.js", "utf8"), /supabase\.co|sb_publishable/);
+  assert.doesNotMatch(fs.readFileSync("frontend/scripts/supabase.js", "utf8"), /supabase\.co|sb_publishable/);
 });

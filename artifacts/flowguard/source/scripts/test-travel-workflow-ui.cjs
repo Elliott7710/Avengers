@@ -9,13 +9,13 @@ try {
   let html = fs.readFileSync("frontend/travel.html", "utf8")
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "")
     .replace(/<link[^>]+stylesheet[^>]*>/g, "");
-  html = html.replace("</head>", `<style>${fs.readFileSync("frontend/css/style.css", "utf8")}</style></head>`);
+  html = html.replace("</head>", `<style>${fs.readFileSync("frontend/styles/style.css", "utf8")}</style></head>`);
   html = html.replace("</body>", [
     inline("tests/fixtures/travel-browser-client.js"),
-    inline("frontend/js/data-cache.js"),
-    inline("frontend/js/calculations.js"),
-    inline("frontend/js/travel-workflow.js"),
-    inline("frontend/js/script.js"),
+    inline("frontend/scripts/data-cache.js"),
+    inline("frontend/scripts/calculations.js"),
+    inline("frontend/scripts/travel-workflow.js"),
+    inline("frontend/scripts/script.js"),
     inline("tests/fixtures/travel-browser-scenarios.js"),
     "</body>"
   ].join("\n"));

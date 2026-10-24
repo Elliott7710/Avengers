@@ -3,7 +3,7 @@ const test = require("node:test");
 const {
   buildNotifications,
   getUnreadNotifications,
-} = require("../frontend/js/notifications-model.js");
+} = require("../frontend/scripts/notifications-model.js");
 
 const records = [
   {
@@ -78,7 +78,7 @@ test("each workspace page loads the shared notifications control", () => {
       "utf8",
     );
     assert.match(html, /class="notification-button"/, `${page}.html has the button`);
-    assert.match(html, /js\/notifications-model\.js/, `${page}.html loads the model`);
-    assert.match(html, /js\/notifications\.js/, `${page}.html loads the panel logic`);
+    assert.match(html, /scripts\/notifications-model\.js/, `${page}.html loads the model`);
+    assert.match(html, /scripts\/notifications\.js/, `${page}.html loads the panel logic`);
   }
 });

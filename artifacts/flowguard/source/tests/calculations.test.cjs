@@ -1,6 +1,6 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
-const {sumEstimatedSpend} = require("../frontend/js/calculations.js");
+const {sumEstimatedSpend} = require("../frontend/scripts/calculations.js");
 
 test("estimated spend includes requested, approved, and booked requests only", () => {
   const rows = [

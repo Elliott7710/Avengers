@@ -3,7 +3,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const {createHash} = require("node:crypto");
 
-const root = path.join(__dirname, "frontend");
+const root = path.join(__dirname, "..", "frontend");
 const port = Number(process.env.PORT || 5000);
 const types = {
   ".html": "text/html; charset=utf-8",

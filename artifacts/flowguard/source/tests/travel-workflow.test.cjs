@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const workflow = require("../frontend/js/travel-workflow.js");
+const workflow = require("../frontend/scripts/travel-workflow.js");
 const valid = () => ({
   traveller: "Demo Employee", destination: "Demo City",
   start: "2026-11-02", end: "2026-11-04", cost: 800,

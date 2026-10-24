@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const {createCache, createDataClient} = require("../frontend/js/data-cache.js");
+const {createCache, createDataClient} = require("../frontend/scripts/data-cache.js");
 
 test("cache coalesces concurrent requests, expires and supports forced refresh", async () => {
   let clock = 0, calls = 0;
