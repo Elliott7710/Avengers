@@ -224,6 +224,7 @@ export default function VideoWithControls() {
         loop
         paused={paused}
         muted={muted}
+        preview
         onSceneChange={onSceneChange}
       />
       <div

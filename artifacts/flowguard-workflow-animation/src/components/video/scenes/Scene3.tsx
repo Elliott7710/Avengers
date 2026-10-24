@@ -85,20 +85,6 @@ export function Scene3() {
         Still requires manager approval
         <span className="block mt-[.7vmin] text-[1.55vmin] text-white/42">Demo threshold only</span>
       </motion.div>
-      <motion.div
-        className="absolute inset-y-0 left-[59%] w-[41%] bg-[#f0efe5] origin-left"
-        initial={{ scaleX: 0, clipPath: 'polygon(0 0,100% 0,100% 100%,0 100%)' }}
-        animate={{ scaleX: 1, clipPath: 'polygon(6% 0,100% 0,100% 100%,0 100%)' }}
-        transition={{ delay: 3.98, duration: 0.42, ease: EASE }}
-      />
-      <motion.div
-        className="absolute right-[6%] top-[7%] eyebrow text-[#647b73]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 4.18, duration: 0.2 }}
-      >
-        HUMAN REVIEW
-      </motion.div>
     </motion.section>
   );
 }

@@ -105,20 +105,6 @@ export function Scene2() {
           Request remains with people
         </motion.div>
       </div>
-      <motion.div
-        className="absolute left-[62%] top-[50%] h-[.35vmin] bg-[#d1a354] origin-left"
-        initial={{ width: 0, rotate: -14 }}
-        animate={{ width: '31%', rotate: -14 }}
-        transition={{ delay: 3.25, duration: 0.65, ease: EASE }}
-      />
-      <motion.span
-        className="absolute left-[90%] top-[42%] text-[2vmin] text-[#f1ce89] mono"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3.55, duration: 0.3 }}
-      >
-        MYR
-      </motion.span>
       <div className="absolute bottom-[6%] right-[6%] eyebrow text-white/30">SYNTHETIC DEMO DATA</div>
     </motion.section>
   );

@@ -7,3 +7,17 @@ uri = "file://.local/outputs/FlowGuard---Hackathon-Pitch.pptx"
 type = "slides"
 title = "FlowGuard — Hackathon Pitch.pptx"
 logical_id = "4e2deaee-8166-4bc4-b192-7ca25dea554c"
+
+[[outputs]]
+id = "0XIUnPEXGW8FfzZTC6GnR"
+uri = "file://submission/FlowGuard_Proof_of_Use_Draft.docx"
+type = "word_document"
+title = "FlowGuard Proof of Use — Draft"
+description = "Word document with the seven timestamped demo sections, existing evidence image, and clear limits on what the Replit and RunPod evidence proves."
+logical_id = "d43fe2c3-ed23-4d94-b995-e4ccf0a02636"
+content_hash = "sha256:bfd8caf91199302f9ca9761eba348204f36bc1fb234d29f56c5343b923bf35b3"
+size = 311878
+mtime_ms = 1792859490408
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:53169f4d-238e-4f95-8fdb-814a55f40280/d43fe2c3-ed23-4d94-b995-e4ccf0a02636/7972d4f3-6886-40c2-a921-143d10fc5afb"
+storage_version_token = "1792859773100624"
+content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"

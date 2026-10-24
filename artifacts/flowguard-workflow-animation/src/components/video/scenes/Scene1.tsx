@@ -74,11 +74,13 @@ export function Scene1() {
             <span className="w-[1.3vmin] h-[1.3vmin] rounded-full bg-[#e5b45f]" />
           </div>
           <div className="absolute left-[9%] right-[9%] top-[32%] h-px bg-white/15" />
-          <div className="absolute left-[9%] bottom-[13%] text-white/50 mono text-[1.8vmin]">WAITING FOR ANOTHER PERSON</div>
+          <div className="absolute right-[6%] top-[55%] w-[24%] text-right text-white/65 mono text-[1.55vmin] leading-[1.35]">
+            WAITING FOR<br />ANOTHER PERSON
+          </div>
         </motion.div>
 
         <motion.div
-          className="absolute left-[4%] top-[27%] w-[76%] h-[52%] rounded-[1.7vmin] bg-[#f2f1e9] text-[#173638] shadow-[0_2vmin_7vmin_rgba(0,0,0,.26)]"
+          className="absolute left-[3%] top-[27%] w-[65%] h-[52%] rounded-[1.7vmin] bg-[#f2f1e9] text-[#173638] shadow-[0_2vmin_7vmin_rgba(0,0,0,.26)]"
           initial={{ x: 125, y: 18, rotateY: -18, rotateZ: -5, opacity: 0, scale: 0.84 }}
           animate={{ x: 0, y: 0, rotateY: 0, rotateZ: -2, opacity: 1, scale: 1 }}
           transition={{ duration: 0.88, delay: 0.54, ease: EASE }}
@@ -101,18 +103,11 @@ export function Scene1() {
         />
         <motion.span
           className="absolute left-[6%] top-[82%] w-[1.3vmin] h-[1.3vmin] -translate-y-1/2 rounded-full border border-[#a7d6bf] bg-[#15383a]"
-          animate={{ scale: [1, 1.18, 1] }}
-          transition={{ duration: 1.4, delay: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.35, delay: 1.5, ease: EASE }}
         />
       </div>
-      <motion.div
-        className="absolute right-[31%] top-[47%] z-20 rounded-full px-[1.15vmin] py-[.65vmin] bg-[#17393b] border border-[#a7d6bf]/55 mono text-[1.55vmin] text-[#d9eadb]"
-        initial={{ scale: 0.6, opacity: 0 }}
-        animate={{ scale: [0.6, 1.12, 1], opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1.45, ease: EASE }}
-      >
-        TRV-014
-      </motion.div>
     </motion.section>
   );
 }

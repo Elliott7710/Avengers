@@ -12,6 +12,14 @@ forms and evidence requirements with the organiser.
 
 ## Evidence included
 
+### Draft proof-of-use summary
+
+[`FlowGuard_Proof_of_Use_Draft.docx`](FlowGuard_Proof_of_Use_Draft.docx)
+
+This draft includes the supplied demo timestamps and the existing composite
+image. It clearly marks the missing Replit workspace capture and RunPod
+provider-side usage record; it is not the official SDC form.
+
 ### App workflow screenshots
 
 [`evidence/flowguard-demo-and-runpod-note.png`](evidence/flowguard-demo-and-runpod-note.png)

@@ -16,9 +16,11 @@ export interface SceneDetails {
 }
 
 export const SCENE_DETAILS: Record<string, SceneDetails> = {
-  hook: { title: 'The handoff', filePath: 'src/components/video/scenes/Scene1.tsx' },
-  request: { title: 'Submit a request', filePath: 'src/components/video/scenes/Scene2.tsx' },
-  rule: { title: 'Illustrative budget flag', filePath: 'src/components/video/scenes/Scene3.tsx' },
+  introduction: { title: 'Introduction', filePath: 'src/components/video/scenes/Scene1.tsx' },
+  request: { title: 'The Request', filePath: 'src/components/video/scenes/Scene2.tsx' },
+  reviewFlag: { title: 'The Review Flag', filePath: 'src/components/video/scenes/Scene3.tsx' },
   decision: { title: 'Independent manager review', filePath: 'src/components/video/scenes/Scene4.tsx' },
-  history: { title: 'Outcome and recording cue', filePath: 'src/components/video/scenes/Scene5.tsx' },
+  outcome: { title: 'The Outcome', filePath: 'src/components/video/scenes/Scene5.tsx' },
+  activityHistory: { title: 'The Activity History', filePath: 'src/components/video/scenes/Scene6.tsx' },
+  closing: { title: 'Closing', filePath: 'src/components/video/scenes/Scene7.tsx' },
 };
