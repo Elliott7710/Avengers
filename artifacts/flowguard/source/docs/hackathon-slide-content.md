@@ -57,7 +57,7 @@ record a baseline.
 
 **Architecture line:** Browser → Replit FlowGuard UI → Supabase Auth + PostgreSQL; manager-requested summary → Replit API Server → Runpod Qwen3 32B AWQ
 
-**Truth-in-labeling callout:** Budget flags and validation are deterministic. The optional Runpod feature drafts a manager summary only; it cannot approve or reject. The key is stored in Replit Secrets; live inference still needs a synthetic end-to-end test.
+**Truth-in-labeling callout:** Budget flags and validation are deterministic. The optional Runpod feature is wired to draft a manager summary only; it cannot approve or reject. The key is stored in Replit Secrets, but SDC-provided Runpod credits are unredeemed and no inference test has been made.
 
 **Speaker note:** Replit is the development/hosting environment; Supabase provides
 authentication and the relational data service. The public deployment and
@@ -83,7 +83,7 @@ as the selected alignment. Source: [UN SDG Indicators metadata](https://unstats.
 **Headline:** The next milestone is evidence—not a bigger feature list
 
 - **Hardest risk:** We have not verified that the coordination problem is frequent or costly for the intended SMEs
-- **Technical dependency:** Live approval needs Supabase schema, access policies, and Auth redirects; the optional summary needs Runpod credits and a synthetic end-to-end test
+- **Technical dependency:** Live approval needs Supabase schema, access policies, and Auth redirects; the optional summary needs redeemed Runpod credits and a synthetic end-to-end test
 - **Safe demo:** Use separate synthetic employee and manager accounts in staging
 - **Fallback:** If staging is not ready, label local tests as simulated; do not bypass authentication or permissions
 - **Before submission:** Confirm team details, baseline, public repository/Replit links, proof forms, and video

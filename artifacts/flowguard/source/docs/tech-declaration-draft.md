@@ -8,12 +8,12 @@ appropriate rather than leaving a field blank.
 
 ## Cover fields — team to complete
 
-- **Team Name:** [TEAM TO CONFIRM]
+- **Team Name:** Avengers
 - **Project / Solution Name:** FlowGuard
-- **Leader / email / phone:** [TEAM TO COMPLETE IN OFFICIAL FORM]
-- **University affiliation(s):** [TEAM TO CONFIRM]
+- **Leader / email / phone:** Dayanitha [confirm leader; supplied roster also names Soo Jun Hin as Team Lead; complete contact details in official PDF]
+- **University affiliation(s):** Asia Pacific University (APU)
 - **Live Prototype URL:** [ADD ONLY AFTER PUBLIC DEPLOYMENT AND JUDGE ACCESS ARE VERIFIED]
-- **Code Repository URL:** [ADD PUBLIC/GRANTED-ACCESS URL; NOT VERIFIED]
+- **Code Repository URL:** https://github.com/Elliott7710/Avengers [provided by team; verify public/judge access and repository contents]
 
 ## 2.1 System Architecture Overview — draft (under 200 words)
 
@@ -56,7 +56,7 @@ third-party asset inventory before submission.
 | API / provider | Purpose | Access tier |
 |---|---|---|
 | Supabase Auth and PostgREST/RPC | Sign-in, profile/team data, Travel/Insights, guarded workflow actions | Supabase project plan: [TEAM TO CONFIRM] |
-| Runpod Public Endpoint (`qwen3-32b-awq`) | Optional manager-requested travel summary; integration is configured but no model request has been made | Paid, usage-based; the model page currently lists $10 / 1M tokens. Check current pricing; account credits required |
+| Runpod Public Endpoint (`qwen3-32b-awq`) | Optional manager-requested travel summary; integration is configured but no model request has been made | SDC-provided Runpod credits are unredeemed. Current model page lists $10 / 1M tokens; verify pricing and credit eligibility before any request |
 | jsDelivr CDN | Delivers the Supabase JS SDK to browser pages | Public CDN; access tier: [TEAM TO CONFIRM] |
 
 No maps, payment, email, or booking API is connected. The source also loads a
@@ -68,15 +68,15 @@ inspect or remove them before signing. Confirm actual deployed-page requests.
 
 | Service / provider | Purpose | Plan / region |
 |---|---|---|
-| Replit | Development workspace; FlowGuard web and API Server workflows | [TEAM TO CONFIRM PLAN/REGION; public deployment unverified] |
+| Replit | Development workspace; FlowGuard web and API Server workflows | SDC provided Replit credits; redemption status not stated. Confirm plan/region; public deployment unverified |
 | Supabase | Hosted Auth and PostgreSQL | Project region/plan: [TEAM TO CONFIRM] |
-| Runpod | Optional Qwen3 32B AWQ Public Endpoint; no custom GPU deployment is required | Usage-priced; current listed rate is $10 / 1M tokens; check provider pricing before use |
+| Runpod | Optional Qwen3 32B AWQ Public Endpoint; no custom GPU deployment is required; integration has not made a request | SDC credits supplied but not redeemed; no inference or credit consumption is claimed. Verify current pricing before use |
 
 ## 4.1 AI Models Used in the Solution
 
 | Model & version | Source / provider | Usage | License / terms |
 |---|---|---|---|
-| Qwen3 32B AWQ (`qwen3-32b-awq`) | Runpod Public Endpoint; [provider model page](https://docs.runpod.io/public-endpoints/models/qwen3-32b) | Pre-trained; optional manager-requested draft summary of another employee's pending trip | Confirm upstream model license and Runpod endpoint terms before signing; do not infer from the API endpoint name |
+| Qwen3 32B AWQ (`qwen3-32b-awq`) | Runpod Public Endpoint; [provider model page](https://docs.runpod.io/public-endpoints/models/qwen3-32b) | Pre-trained model configured for an optional manager-requested draft summary; no live request has been made | Confirm upstream model license and Runpod endpoint terms before signing; do not infer from the API endpoint name |
 
 The feature is wired and the server-side key is stored in Replit Secrets, but
 no paid inference has been made. Provider authentication and live output remain
@@ -114,14 +114,16 @@ team leader remains responsible for the final submission.
 
 ## SDC sponsor resources
 
-- **Did the project use an official SDC sponsor resource?** [TEAM TO CONFIRM
-  Yes/No. The Runpod key is configured, but the team must confirm whether the
-  account, credits, or endpoint were supplied by an official SDC sponsor.]
-- **If yes, sponsor/resource/use:** [COMPLETE ONLY WITH VERIFIED DETAILS]
-- **Essential or replaceable (under 100 words):** The Runpod summary is optional
-  and replaceable; core travel requests, approvals, and activity history work
-  without it. Confirm whether the Runpod resource was sponsor-provided before
-  describing it as such.
+- **Did the project use an official SDC sponsor resource?** Yes. The team
+  reports SDC supplied Replit and Runpod credits; the Replit workspace is used
+  for development. Confirm whether Replit credits were redeemed.
+- **Sponsor/resource/use:** Replit workspace: used for the project. Runpod
+  credits: supplied but not redeemed; the summary integration is configured,
+  but no model request, inference, or credit usage is claimed.
+- **Essential or replaceable (under 100 words):** Replit was the development
+  workspace. The Runpod summary is optional and replaceable; core travel
+  requests, approvals, and activity history work without it. Runpod credits
+  remain unredeemed, so do not claim Runpod inference or proof of credit use.
 
 ## 6.1 Data Handling & Privacy — draft (under 150 words)
 
@@ -156,7 +158,7 @@ process payments.
 - [ ] Confirm the team and leader details, public URLs, repository access, and live prototype state.
 - [ ] Reconcile every service and library against the final source, lockfile, and browser network requests; investigate the Noupe embed and CodingStella image.
 - [ ] Confirm AI-development tools used by every team member and review generated output.
-- [ ] Confirm sponsor resources, SDC workshop completion, Runpod account source, and current provider pricing.
+- [ ] Confirm SDC workshop completion and current Runpod pricing/terms. SDC-provided Runpod credits are unredeemed; do not claim inference or credit use.
 - [ ] Confirm synthetic-only demo data, disclose possible personal data in free-text purpose, and review Runpod terms.
 - [ ] Verify Supabase staging/auth/team access and make one explicitly requested synthetic Runpod test before claiming live behavior.
 - [ ] Complete every official form field, checklist item, signature, and date.

@@ -15,14 +15,19 @@ during the SDC 2026 hackathon period. Do not mark “No” without checking.
 
 ## Cover fields
 
-- **Team Name:** [TEAM TO CONFIRM]
-- **Selected Domain:** [SELECT ONE OFFICIAL DOMAIN]
-- **Selected SDG Track (1–17):** [TEAM TO CONFIRM; candidate 8, if justified]
+- **Team Name:** Avengers
+- **Selected Domain:** Domain 2
+- **Selected SDG Track (1–17):** [NOT PROVIDED; confirm the exact official SDG track/sub-target]
 - **Project / Solution Name:** FlowGuard
-- **Name (Leader):** [TEAM TO CONFIRM]
+- **Name (Leader):** Dayanitha [confirm; the supplied README roster separately names Soo Jun Hin as team lead]
 - **Email & Phone (Leader):** [TEAM TO COMPLETE IN THE OFFICIAL FORM]
-- **University Affiliation(s):** [TEAM TO CONFIRM]
-- **Number of Team Members:** [TEAM TO CONFIRM]
+- **University Affiliation(s):** Asia Pacific University (APU)
+- **Number of Team Members:** 5
+
+**Roster check:** The supplied information names Dayanitha as leader in the team
+table, but its lower roster lists Soo Jun Hin as Team Lead and repeats that same
+person for three roles. Confirm the correct leader and complete five-member
+roster before signing.
 
 ## 2.1. The Problem Context — draft (under 250 words)
 
@@ -48,8 +53,8 @@ approved request can be marked Booked with a note. Supabase policies and
 triggers enforce team membership, independent decisions, status changes, and
 append-only activity history.
 
-The optional AI feature uses Runpod's Qwen3 32B AWQ public endpoint to draft a
-summary for a manager reviewing another employee's pending trip. It sends
+The optional AI integration is configured for Runpod's Qwen3 32B AWQ public
+endpoint to draft a summary for a manager reviewing another employee's pending trip. It would send
 free-text purpose, destination, dates, estimated cost, and budget flag. Separate
 traveller-name and claim-reference fields and account/team/request IDs are
 omitted, but free text could still identify someone. The manager confirms
@@ -59,10 +64,10 @@ inference has been made, so live provider behavior is unverified. Validation
 and budget rules remain deterministic.
 
 The stack is vanilla HTML/CSS/JavaScript, Node/Express, Replit, and Supabase
-Auth/PostgreSQL/JS SDK. **Workshop text to complete:** name only Phase 1
-workshops actually completed by members; relevant areas include GenAI API
-integration, database architecture/row-level security, and cloud deployment.
-Confirm any official sponsor resources with the team.
+Auth/PostgreSQL/JS SDK. The team reports that SDC provided Replit and Runpod
+credits; Replit is used for this workspace, while the Runpod credits have not
+been redeemed and no model request has been made. **Workshop text to complete:**
+name only Phase 1 workshops actually completed by members.
 
 ## 3.1. Conceptual Tech Stack
 
@@ -76,7 +81,7 @@ Confirm any official sponsor resources with the team.
 | Third-party library | Supabase JavaScript SDK 2.118.0 in the source lockfile; browser pages load the floating jsDelivr `@2` URL |
 | AI / compute | Optional Runpod Qwen3 32B AWQ public endpoint for manager-requested summaries; server-side key is stored in Replit Secrets, but no live inference has been made |
 | Hosting/development | Replit web artifact and API Server workflows |
-| Sponsor-provided GenAI API or cloud platform | Runpod is used by the optional summary feature; confirm whether the account, credits, or endpoint came from an official SDC sponsor resource before answering Yes |
+| Sponsor-provided GenAI API or cloud platform | SDC provided Replit and Runpod credits. Replit is used for this workspace; Replit credit redemption status is not stated. Runpod credits are unredeemed; no model inference or Runpod credit usage is claimed. |
 
 **Architecture:** browser → Replit-served frontend → Supabase Auth and
 PostgreSQL through the browser SDK. For an explicitly requested manager summary,
