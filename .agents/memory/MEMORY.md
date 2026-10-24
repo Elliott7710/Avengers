@@ -1,0 +1,1 @@
+- [Supabase database TLS](supabase-database-tls.md) — direct admin connections may need the dashboard’s root certificate; do not bypass TLS verification.
