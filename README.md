@@ -237,7 +237,8 @@ Complete and confirm all five members before submission.
 | Soo Jun Hin | Frontend            | [@Elliott7710](https://github.com/Elliott7710) |
 | Soo Jun Hin | AI / RunPod         | [@Elliott7710](https://github.com/Elliott7710) |
 | Soo Jun Hin | Full Stack          | [@Elliott7710](https://github.com/Elliott7710) |
-| Soo Jun Hin | Full Stack          | [@Elliott7710](https://github.com/Elliott7710) |
+| Soo Jun Hin | Video Demo          | [@Elliott7710](https://github.com/Elliott7710) |
+| Quah Yu Qi  | Slides              | [@Iquyi11](https://github.com/Iquyi11)         |
 
 Confirm the official team leader before completing the signed forms.
 ---
