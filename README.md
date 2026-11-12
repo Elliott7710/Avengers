@@ -1,102 +1,63 @@
 # FlowGuard
+ 
 > A team-based travel-request and approval workspace that connects employee requests, human decisions, and activity history for small businesses.
----
-## Team Information
-| Field | Details |
-|---|---|
-| **Team Name** | Avengers |
-| **Team Domain** | Domain 2 — Orbyte Smart SME Challenge |
-| **SDG Track (1–17)** | Proposed: SDG 8 — Decent Work and Economic Growth, target 8.2 |
-| **Team Leader** | Dayanitha |
-| **University** | Asia Pacific University (APU) |
-| **Number of Members** | 5 |
-The proposed SDG alignment relates to productivity through technological upgrading and innovation. The team must confirm the final SDG selection.
+ 
+Built by **Team Avengers** (Asia Pacific University) for the Orbyte Smart SME Challenge, Domain 2. Proposed SDG alignment: SDG 8, Decent Work and Economic Growth (target 8.2).
+ 
 ## Links
+ 
 | Resource | Link |
 |---|---|
-| GitHub Repository | https://github.com/Elliott7710/Avengers |
-| Live Demo | https://avengers-flowguard.replit.app |
-| RunPod Endpoint | https://api.runpod.ai/v2/qwen3-32b-awq/runsync |
-| Slide Deck | https://www.canva.com/design/DAHY5-LhEpg/wp192d15JSnOJOTddGODCQ/edit?ui=eyJBIjp7fX0 |
-| Demo Video | https://youtu.be/qtBa4LHtPG8 |
-The RunPod URL is the public inference API used by the integration, not a browser demo. Successful inference has not yet been verified.
----
+| Live demo | https://avengers-flowguard.replit.app |
+| Demo video | https://youtu.be/qtBa4LHtPG8 |
+| Slide deck | https://www.canva.com/design/DAHY5-LhEpg/wp192d15JSnOJOTddGODCQ/edit?ui=eyJBIjp7fX0 |
+ 
 ## Overview
+ 
 ### Problem
-Small businesses may coordinate travel requests through messages, spreadsheets, and informal approvals. This can separate trip details, estimated costs, manager decisions, and later status updates.
-FlowGuard explores whether a shared workflow can reduce repeated clarification and make decisions easier to follow. This problem hypothesis has not yet been validated through customer research or a measured baseline.
+ 
+Small businesses often coordinate travel requests through messages, spreadsheets and informal approvals. Trip details, estimated costs, manager decisions and status updates end up in different places. FlowGuard explores whether one shared workflow can reduce repeated clarification and make decisions easier to follow. This is a hypothesis and has not yet been validated with customer research.
+ 
 ### Solution
-FlowGuard connects one operational journey:
+ 
+FlowGuard connects one journey:
+ 
 **Employee request → trip data → validation and budget flag → manager approval → logged outcome**
-Employees submit travel requests, and a different manager records an approval or rejection with a reason. Both roles can see the outcome and activity history.
-An optional RunPod integration is implemented to draft a trip summary for manager review. The summary is advisory and cannot approve, reject, or book travel. Live inference remains unverified.
+ 
+Employees submit travel requests, and a different manager approves or rejects with a reason. Both roles can see the outcome and the activity history.
+ 
 ### Key Features
-- **Travel requests** — Capture traveller, destination, dates, purpose, estimated cost, and an optional claim reference.
-- **Validation** — Check required information and valid dates.
-- **Budget-review flag** — Apply an illustrative MYR 1,000 threshold without automatically approving or rejecting requests.
-- **Independent manager decisions** — Require a different manager to approve or reject with a note.
-- **Activity history** — Record submission, edits, decisions, booking-status changes, and deletion events.
-- **Team-scoped access** — Use Supabase policies and database logic to enforce membership and permissions.
-- **Team Insights** — Provide a separate team-scoped workspace module.
-- **Optional AI summary** — Generate an advisory draft after manager confirmation of external processing.
-Booking-status notes do not purchase tickets or make external bookings. The claim-reference field is not an accounting or claims-system integration.
-### Tech Stack
+ 
+- **Travel requests:** traveller, destination, dates, purpose, estimated cost and an optional claim reference
+- **Validation:** checks required fields and valid dates
+- **Budget-review flag:** an illustrative MYR 1,000 threshold that flags a request for review but never approves or rejects it automatically
+- **Independent manager decisions:** a different manager must approve or reject, with a note
+- **Activity history:** records submission, edits, decisions, booking-status changes and deletions
+- **Team-scoped access:** Supabase policies and database logic enforce membership and permissions
+- **Team Insights:** a separate team-scoped workspace module
+- **Optional AI summary:** an advisory trip summary drafted after a manager confirms external processing. It cannot approve, reject or book travel.
+Booking-status notes do not purchase tickets or make external bookings, and the claim-reference field is not an accounting integration.
+ 
+## Tech Stack
+ 
 | Layer | Technology |
 |---|---|
-| Frontend | HTML, CSS, vanilla JavaScript; Vite for workspace serving/builds |
-| Backend | Node.js and Express |
+| Frontend | HTML, CSS, vanilla JavaScript, Vite |
+| Backend | Node.js, Express |
 | Database | Supabase PostgreSQL |
 | Authentication | Supabase Auth |
-| Access Control | Row Level Security, SQL functions, and triggers |
-| AI / Compute | Optional RunPod Qwen3 32B AWQ public endpoint |
-| Hosting / Dev | Replit |
-| Testing | Node.js tests, disposable PostgreSQL tests, and simulated Chromium rehearsals |
----
-## Project Structure
-The current Replit workspace uses this structure. GitHub should contain the matching files for these paths and commands to apply.
-```text
-.
-├── artifacts/
-│   ├── flowguard/
-│   │   ├── source/
-│   │   │   ├── frontend/          # HTML pages, CSS, JavaScript
-│   │   │   ├── backend/
-│   │   │   │   └── sql/           # Schema, policies, database tests
-│   │   │   ├── docs/              # Submission drafts and demo guides
-│   │   │   ├── scripts/           # Test and maintenance scripts
-│   │   │   ├── tests/             # Unit tests and test fixtures
-│   │   │   ├── server.cjs         # Standalone preview server
-│   │   │   ├── package.json
-│   │   │   └── LICENSE
-│   │   ├── SETUP.md
-│   │   └── vite.config.ts
-│   ├── api-server/                # Config and optional summary API
-│   ├── flowguard-pitch/            # Eight-slide presentation
-│   └── mockup-sandbox/             # Separate design preview
-├── lib/                           # Shared workspace libraries
-├── scripts/                       # Workspace utilities
-├── .gitignore
-├── .replit
-├── package.json
-├── pnpm-lock.yaml
-├── pnpm-workspace.yaml
-└── README.md
-```
-Add the completed official documents under:
-```text
-submission/
-├── SDC2026_Avengers_Preliminary.pdf
-├── SDC2026_Avengers_TechDeclaration.pdf
-├── SDC2026_Avengers_Replit_POU.pdf
-└── SDC2026_Avengers_Runpod_POU.pdf
-```
-These are required submission destinations, not a claim that the completed PDFs already exist.
-### Architecture
+| Access control | Row Level Security, SQL functions and triggers |
+| AI (optional) | RunPod Qwen3 32B AWQ public endpoint |
+| Hosting | Replit |
+| Testing | Node.js tests, disposable PostgreSQL tests, simulated Chromium rehearsals |
+ 
+## Architecture
+ 
 ```text
 User
   │
   ▼
-FlowGuard frontend on Replit
+FlowGuard frontend (Replit)
   │
   ├──► Supabase Auth
   │
@@ -106,158 +67,110 @@ FlowGuard frontend on Replit
   │      ├── Insights
   │      └── Activity history
   │
-  └──► Replit Express API
+  └──► Express API (Replit)
          ├── Browser-safe Supabase configuration
          └── Optional manager-requested summary
                 │
                 ▼
-         RunPod Qwen3 32B AWQ
-                │
-                ▼
-         Advisory summary for the manager
+         RunPod Qwen3 32B AWQ → advisory summary for the manager
 ```
-The summary API checks the user session, manager membership, and pending request before contacting RunPod.
----
+ 
+The summary API checks the user's session, manager membership and the pending request before contacting RunPod.
+ 
+## Project Structure
+ 
+```text
+.
+├── artifacts/
+│   ├── flowguard/
+│   │   ├── source/
+│   │   │   ├── frontend/      # HTML pages, CSS, JavaScript
+│   │   │   ├── backend/sql/   # Schema, policies, database tests
+│   │   │   ├── docs/          # Demo guides
+│   │   │   ├── scripts/       # Test and maintenance scripts
+│   │   │   ├── tests/         # Unit tests and fixtures
+│   │   │   └── server.cjs     # Standalone preview server
+│   │   └── SETUP.md
+│   ├── api-server/            # Config and optional summary API
+│   ├── flowguard-pitch/       # Eight-slide presentation
+│   └── mockup-sandbox/        # Design preview
+├── lib/                       # Shared libraries
+└── scripts/                   # Workspace utilities
+```
+ 
 ## How to Run
-### Option 1 — Run on Replit (Recommended)
-1. Open the existing FlowGuard Replit workspace.
-2. Configure these settings through Replit Secrets:
-   | Variable | Purpose |
-   |---|---|
-   | `request from +60-16 306 0030` | Supabase project URL |
-   | `request from +60-16 306 0030` | Browser-safe publishable key |
-   | `request from +60-16 306 0030` | Optional server-side summary integration |
-3. Configure the database using:
-   `artifacts/flowguard/source/backend/sql/README.md`
-4. For a new database, follow the documented order:
-   - `profiles.sql`
-   - `travel_insights.sql`
-   - `privacy_requests.sql` if demonstrating privacy-request intake
-   - `travel_workflow.sql`
-   - Establish the trusted initial manager profile
-   - `teams.sql`
-5. Configure Supabase Auth Site URL and allowed redirect URLs for the host being used.
-6. Start the configured FlowGuard web and API Server workflows.
-7. Sign in using separate employee and manager demo accounts.
-**Database warning:** the teams bootstrap groups existing profiles and records into one initial demo team. Do not apply it to unrelated company data. Do not rerun earlier baseline policy scripts after installing team isolation.
-The app uses the `qwen3-32b-awq` public endpoint by default. A custom `RUNPOD_ENDPOINT_ID` and Python handler are not required by this implementation.
-### Option 2 — Run Locally
-Requirements: Node.js 20 or later and npm.
-For the workspace layout shown above:
+ 
+### On Replit
+ 
+1. Open the FlowGuard Replit workspace.
+2. Add your Supabase URL, Supabase publishable key and (optionally) `RUNPOD_API_KEY` through Replit Secrets. Exact variable names are in `artifacts/flowguard/SETUP.md`.
+3. Set up the database using `artifacts/flowguard/source/backend/sql/README.md`. For a new database, run the scripts in this order: `profiles.sql`, `travel_insights.sql`, `privacy_requests.sql` (optional), `travel_workflow.sql`, set up the initial manager profile, then `teams.sql`.
+4. In Supabase Auth, set the Site URL and allowed redirect URLs for your host.
+5. Start the FlowGuard web and API Server workflows, then sign in with separate employee and manager demo accounts.
+> **Warning:** the `teams.sql` bootstrap groups all existing profiles and records into one demo team. Do not apply it to unrelated data, and do not rerun earlier baseline policy scripts after installing team isolation.
+ 
+### Locally
+ 
+Requires Node.js 20 or later.
+ 
 ```bash
 git clone https://github.com/Elliott7710/Avengers.git
 cd Avengers/artifacts/flowguard/source
 npm ci
-```
-Set the Supabase variables in your local environment or secret manager, then run:
-```bash
 npm start
 ```
-Open:
-```text
-http://localhost:5000
-```
-Do not commit real environment values.
-The standalone server serves the frontend and browser-safe Supabase configuration. It does not include the optional Express RunPod relay from `artifacts/api-server/`.
-If the GitHub repository contains only the standalone source files at its root, run the commands from that root instead.
-### Run Tests
-From the source directory containing `server.cjs`:
+ 
+Set the Supabase variables in your environment first, then open `http://localhost:5000`. Never commit real keys. The standalone server does not include the optional RunPod relay from `artifacts/api-server/`.
+ 
+### Tests
+ 
+From the folder containing `server.cjs`:
+ 
 ```bash
-npm test
-npm run test:workflow-db
-npm run test:workflow-ui
-npm run test:teams-ui
+npm test                  # workflow rules, calculations, notifications, config
+npm run test:workflow-db  # needs PostgreSQL tools
+npm run test:workflow-ui  # needs Chromium
+npm run test:teams-ui     # needs Chromium
 ```
-- `npm test` checks workflow rules, calculations, notifications, caching, and runtime configuration.
-- Database tests require PostgreSQL tools and use a disposable local database.
-- Browser rehearsals require Chromium and use simulated Supabase clients.
-- These tests do not establish that the hosted database or published site is configured correctly.
-At the latest recorded cleanup check:
-- All 23 unit tests passed.
-- Workspace typechecking passed.
-- The FlowGuard production build passed.
-- The restarted landing page loaded successfully.
-The project owner also reported successful live employee/manager access and approval, including the employee-visible note and history. This covers the stated demo flow, not a complete security audit.
----
-## How We Use Replit *(Required)*
-- **Development:** The application is developed and maintained in a Replit workspace.
-- **Runtime:** Separate configured workflows run the FlowGuard frontend and Express API.
-- **Configuration:** Runtime settings are supplied through Replit Secrets.
-- **Verification:** The workspace is used to run tests, typechecking, builds, and preview checks.
-- **Presentation:** The eight-slide project deck is maintained as a separate presentation artifact.
-The final published URL and public judge access must be checked before submission.
-**Proof of use:** complete and upload  
-`submission/SDC2026_Avengers_Replit_POU.pdf`
-Capture the project and running application without exposing secrets, personal data, or private invitation codes.
-## How We Use RunPod *(Required)*
-**Current status: integration implemented; successful live usage not yet verified.**
-- **Intended workload:** Draft a concise trip summary for a human manager.
-- **Model endpoint:** RunPod's Qwen3 32B AWQ public endpoint.
-- **Integration:** The Express API sends an authenticated server-side request to the provider.
-- **Human control:** The manager explicitly requests the summary and confirms external processing.
-- **Output:** Temporary advisory text; it does not change approval state or become part of request history.
-Provider endpoint:
-```text
-POST https://api.runpod.ai/v2/qwen3-32b-awq/runsync
-```
-The server uses `RUNPOD_API_KEY`. No custom Python handler or team-deployed GPU pod is part of the current implementation.
-The payload includes trip purpose, destination, dates, estimated cost, and budget flag. Separate traveller-name, claim-reference, and internal identifier fields are omitted, but free text could still contain identifying information.
-Use synthetic data unless external processing has been approved. Requests may incur provider charges.
-The team reports that SDC provided Replit and RunPod credits. At the latest report, RunPod credits had not been redeemed.
-**Proof of use:** after a successful authorised request, capture the actual response and corresponding provider usage evidence, then complete  
-`submission/SDC2026_Avengers_Runpod_POU.pdf`
-Do not mark RunPod proof complete based only on a key, available credits, or integration code.
----
+ 
+The database and browser tests use a disposable local database and simulated Supabase clients, so they do not prove the hosted site is configured correctly.
+ 
+## AI Summary (Optional)
+ 
+- **Purpose:** draft a concise trip summary for a human manager
+- **Model:** RunPod Qwen3 32B AWQ public endpoint
+- **Flow:** the manager requests the summary and confirms external processing, then the Express API sends an authenticated server-side request
+- **Data sent:** trip purpose, destination, dates, estimated cost and budget flag. Traveller name, claim reference and internal IDs are left out, but free-text fields could still contain identifying details, so use synthetic data for demos.
+- **Output:** temporary advisory text that never changes approval state or request history
+- **Status:** integration implemented; live inference has not yet been verified.
 ## Challenges & Learnings
-- **Preserving the existing interface:** The original HTML/CSS/JavaScript application was retained rather than unnecessarily rewritten.
-- **Enforcing team boundaries:** Access rules needed database enforcement, not only role-specific buttons.
-- **Connecting both sides of approval:** The employee must see the manager's decision, note, and activity history after refresh.
-- **Separating checks from decisions:** Validation and budget flags must not become automatic approval.
-- **Handling configuration safely:** Public browser configuration and private server credentials require different treatment.
-- **Reporting evidence accurately:** Unit tests, simulated browser tests, live checks, and provider usage are different forms of evidence.
-
+ 
+- **Keeping the existing interface:** we kept the original HTML/CSS/JS app rather than rewriting it.
+- **Enforcing team boundaries:** access rules had to be enforced in the database, not just by hiding buttons.
+- **Connecting both sides of approval:** the employee must see the manager's decision, note and history after a refresh.
+- **Separating checks from decisions:** validation and budget flags must never become automatic approval.
+- **Handling configuration safely:** public browser config and private server credentials need different treatment.
+- **Reporting evidence accurately:** unit tests, simulated browser tests, live checks and provider usage are different kinds of evidence.
 ## Future Improvements
-- [ ] Verify published-site access and authentication.
-- [ ] Complete RunPod verification and accepted proof of use.
-- [ ] Test broader signup, access-isolation, and workflow cases.
-- [ ] Measure the manual-process baseline and FlowGuard review time.
-- [ ] Validate the workflow with intended SME users.
-- [ ] Confirm Orbyte compatibility and integration requirements.
-- [ ] Review third-party asset licenses and privacy implications.
-- [ ] Complete official submission forms and public links.
-### Proposed Phase 2 Impact Target
-Reduce median travel-request review time by 30% compared with a measured manual-process baseline.
-This is a proposed goal, not an achieved result. No baseline or measured time saving is currently claimed.
----
+ 
+- [ ] Verify published-site access and authentication
+- [ ] Verify live RunPod inference
+- [ ] Test broader signup, access-isolation and workflow cases
+- [ ] Measure the manual-process baseline against FlowGuard review time
+- [ ] Validate the workflow with real SME users
+- [ ] Review third-party asset licences and privacy implications
+**Proposed impact target:** reduce median travel-request review time by 30% against a measured manual baseline. This is a goal, not an achieved result.
+ 
 ## Team
-Complete and confirm all five members before submission.
-| Name        | Role                | GitHub                                         |
-| ----------- | ------------------- | ---------------------------------------------- |
-| Soo Jun Hin | Team Lead / Backend | [@Elliott7710](https://github.com/Elliott7710) |
-| Soo Jun Hin | Frontend            | [@Elliott7710](https://github.com/Elliott7710) |
-| Soo Jun Hin | AI / RunPod         | [@Elliott7710](https://github.com/Elliott7710) |
-| Soo Jun Hin | Full Stack          | [@Elliott7710](https://github.com/Elliott7710) |
-| Soo Jun Hin | Video Demo          | [@Elliott7710](https://github.com/Elliott7710) |
-| Quah Yu Qi  | Slides              | [@Iquyi11](https://github.com/Iquyi11)         |
-
-Confirm the official team leader before completing the signed forms.
----
-## Submission Checklist
-- [yes] Team name, domain, SDG track, leader, and roster confirmed
-- [yes] GitHub contains the final code and matching setup instructions
-- [yes] Live demo URL added and judge access verified
-- [yes] Slide deck link added
-- [yes] Demo video link added
-- [yes] Replit proof of use completed in `submission/`
-- [yes] RunPod usage verified and proof completed in `submission/`
-- [yes] Preliminary submission completed
-- [yes] Technology declaration completed
-- [yes] Required ownership, workshop, and eligibility declarations confirmed
-- [yes] Submission files renamed with `Avengers`
-- [yes] “How to Run” steps verified against the submitted repository
-- [yes] No secrets committed or exposed in submission evidence
-- [yes] Required signatures and dates completed
----
+ 
+| Name | Role | GitHub |
+|---|---|---|
+| Soo Jun Hin | Backend, frontend, AI integration, demo video | [@Elliott7710](https://github.com/Elliott7710) |
+| Quah Yu Qi | Slides | [@Iquyi11](https://github.com/Iquyi11) |
+| *(add remaining members)* | | |
+ 
+Team leader: Dayanitha
+ 
 ## License
-FlowGuard includes the [Apache License 2.0](artifacts/flowguard/source/LICENSE).
-Confirm copyright ownership and attribution before submission. Third-party libraries, remote assets, and models remain subject to their own licenses and terms.
+ 
+Apache License 2.0. See [LICENSE](artifacts/flowguard/source/LICENSE). Third-party libraries, assets and models remain subject to their own licences.
