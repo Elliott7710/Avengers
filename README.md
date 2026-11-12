@@ -19,7 +19,6 @@ The proposed SDG alignment relates to productivity through technological upgradi
 | RunPod Endpoint | https://api.runpod.ai/v2/qwen3-32b-awq/runsync |
 | Slide Deck | https://www.canva.com/design/DAHY5-LhEpg/wp192d15JSnOJOTddGODCQ/edit?ui=eyJBIjp7fX0 |
 | Demo Video | https://youtu.be/qtBa4LHtPG8 |
-The RunPod URL is the public inference API used by the integration, not a browser demo. Successful inference has not yet been verified.
 ---
 ## Overview
 ### Problem
@@ -38,7 +37,6 @@ An optional RunPod integration is implemented to draft a trip summary for manage
 - **Activity history** — Record submission, edits, decisions, booking-status changes, and deletion events.
 - **Team-scoped access** — Use Supabase policies and database logic to enforce membership and permissions.
 - **Team Insights** — Provide a separate team-scoped workspace module.
-- **Optional AI summary** — Generate an advisory draft after manager confirmation of external processing.
 Booking-status notes do not purchase tickets or make external bookings. The claim-reference field is not an accounting or claims-system integration.
 ### Tech Stack
 | Layer | Technology |
